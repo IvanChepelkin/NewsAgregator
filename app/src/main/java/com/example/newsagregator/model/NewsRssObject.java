@@ -7,13 +7,16 @@ import java.util.List;
 
 public class NewsRssObject {
 
-    @SerializedName("status")
-    @Expose
     private String status;
+    private Feed feed;
 
-    @SerializedName("items")
-    @Expose
     private List<Item> items = null;
+
+    public NewsRssObject(String status, Feed feed, List<Item> items) {
+        this.status = status;
+        this.feed = feed;
+        this.items = items;
+    }
 
     public String getStatus() {
         return status;
@@ -21,6 +24,14 @@ public class NewsRssObject {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Feed getFeed() {
+        return feed;
+    }
+
+    public void setFeed(Feed feed) {
+        this.feed = feed;
     }
 
 

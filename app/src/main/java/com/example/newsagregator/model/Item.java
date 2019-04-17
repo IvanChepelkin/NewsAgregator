@@ -4,31 +4,16 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Item {
-
-    @SerializedName("title")
-    @Expose
     private String title;
-    @SerializedName("pubDate")
-    @Expose
     private String pubDate;
-    @SerializedName("link")
-    @Expose
     private String link;
-    @SerializedName("guid")
-    @Expose
     private String guid;
-    @SerializedName("author")
-    @Expose
     private String author;
-    @SerializedName("thumbnail")
-    @Expose
     private String thumbnail;
-    @SerializedName("description")
-    @Expose
     private String description;
-    @SerializedName("content")
-    @Expose
     private String content;
+
+    private Enclosure enclosure;
 
     public String getTitle() {
         return title;
@@ -93,6 +78,12 @@ public class Item {
     public void setContent(String content) {
         this.content = content;
     }
+    public Enclosure getEnclosure() {
+        return enclosure;
+    }
 
+    public void setEnclosure(Enclosure enclosure) {
+        this.enclosure = enclosure;
+    }
 
 }

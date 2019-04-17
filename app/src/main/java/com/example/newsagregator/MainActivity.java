@@ -1,14 +1,17 @@
 package com.example.newsagregator;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.newsagregator.model.NewsRssObject;
 import com.example.newsagregator.service.TestHTTPConnection;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView textView;
     NewsRssObject newsRssObject;
     private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
     private final String RSS_to_GSON = " https://api.rss2json.com/v1/api.json?rss_url=";
@@ -18,10 +21,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadRSS();
+        textView = findViewById(R.id.testText);
     }
 
     private void loadRSS() {
-        AsyncTask<String, String, String> loadData = new AsyncTask<String, String, String>() {
+        @SuppressLint("StaticFieldLeak") AsyncTask<String, String, String> loadData = new AsyncTask<String, String, String>() {
 
             @Override
             protected String doInBackground(String... strings) {
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String s) {
                 newsRssObject = new Gson().fromJson(s,NewsRssObject.class);
-
+                textView.setText(newsRssObject.getStatus());
             }
         };
         StringBuilder url_get_data = new StringBuilder(RSS_to_GSON);
