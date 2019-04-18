@@ -4,24 +4,31 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.newsagregator.model.NewsRssObject;
 import com.example.newsagregator.service.TestHTTPConnection;
+import com.example.newsagregator.view.NewsAdapter;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView textView;
     NewsRssObject newsRssObject;
+    RecyclerView recViewNews;
     private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
-    private final String RSS_to_GSON = " https://api.rss2json.com/v1/api.json?rss_url=";
+    private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initViews();
         loadRSS();
-        textView = findViewById(R.id.testText);
+    }
+
+    private void initViews() {
+        recViewNews = findViewById(R.id.recViewNews);
+        recViewNews.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void loadRSS() {
@@ -37,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String s) {
-                newsRssObject = new Gson().fromJson(s,NewsRssObject.class);
-                textView.setText(newsRssObject.getStatus());
+                newsRssObject = new Gson().fromJson(s, NewsRssObject.class);
+
+                recViewNews.setHasFixedSize(false);
+                NewsAdapter newsAdapter = new NewsAdapter(newsRssObject);
+                recViewNews.setAdapter(newsAdapter);
             }
         };
         StringBuilder url_get_data = new StringBuilder(RSS_to_GSON);
