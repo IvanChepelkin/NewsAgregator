@@ -1,7 +1,6 @@
 package com.example.newsagregator.view;
 
 import com.example.newsagregator.presenter.model_view.ModelView;
-
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

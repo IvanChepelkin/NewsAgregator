@@ -1,6 +1,4 @@
 package com.example.newsagregator.presenter;
-
-import com.example.newsagregator.model.network.models.NewsRssObject;
 import com.example.newsagregator.presenter.model_view.ModelView;
 
 import java.util.List;

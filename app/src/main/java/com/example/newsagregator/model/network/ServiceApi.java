@@ -3,7 +3,6 @@ package com.example.newsagregator.model.network;
 import android.os.AsyncTask;
 
 import com.example.newsagregator.model.network.models.NewsRssObject;
-import com.example.newsagregator.service.TestHTTPConnection;
 import com.google.gson.Gson;
 
 public class ServiceApi extends AsyncTask<String, String, String> implements IGetNoticeService {
@@ -15,7 +14,7 @@ public class ServiceApi extends AsyncTask<String, String, String> implements IGe
     @Override
     protected String doInBackground(String... strings) {
         String result;
-        TestHTTPConnection testHTTPConnection = new TestHTTPConnection();
+        HTTPConnection testHTTPConnection = new HTTPConnection();
         result = testHTTPConnection.getHTTPData(strings[0]);
         return result;
     }

@@ -1,4 +1,4 @@
-package com.example.newsagregator.service;
+package com.example.newsagregator.model.network;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -9,15 +9,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import retrofit2.http.Url;
 
-public class TestHTTPConnection {
-    String stream = null;
+class HTTPConnection {
+    private String stream = null;
 
-    public TestHTTPConnection() {
+    HTTPConnection() {
     }
 
-    public String getHTTPData(String urlString) {
+    String getHTTPData(String urlString) {
         try {
             URL url = new URL(urlString);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

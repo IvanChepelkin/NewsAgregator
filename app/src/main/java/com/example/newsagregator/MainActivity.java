@@ -1,20 +1,13 @@
 package com.example.newsagregator;
-
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import com.example.newsagregator.model.DataManager;
-import com.example.newsagregator.model.network.models.NewsRssObject;
 import com.example.newsagregator.presenter.INewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.model_view.ModelView;
-import com.example.newsagregator.service.TestHTTPConnection;
 import com.example.newsagregator.view.NewsAdapter;
-import com.google.gson.Gson;
 
 import java.util.List;
 
