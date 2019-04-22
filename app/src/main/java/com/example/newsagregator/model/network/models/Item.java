@@ -1,7 +1,4 @@
-package com.example.newsagregator.model;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.example.newsagregator.model.network.models;
 
 public class Item {
     private String title;

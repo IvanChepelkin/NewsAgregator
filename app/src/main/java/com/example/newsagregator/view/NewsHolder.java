@@ -1,6 +1,5 @@
 package com.example.newsagregator.view;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,11 +9,12 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.newsagregator.R;
-import com.example.newsagregator.model.NewsRssObject;
+import com.example.newsagregator.model.network.models.NewsRssObject;
+import com.example.newsagregator.presenter.model_view.ModelView;
 
 class NewsHolder extends RecyclerView.ViewHolder {
     private int id;
-    private NewsRssObject newsRssObject;
+    private ModelView modelView;
     private View root;
     private TextView textTitle;
     private TextView textContent;
@@ -30,18 +30,16 @@ class NewsHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 webViewContent.getSettings().setJavaScriptEnabled(true);
-                webViewContent.loadUrl(newsRssObject.getItems().get(id).getGuid());
+                webViewContent.loadUrl(modelView.getGuide());
             }
         });
-
-
     }
 
-    void bind(NewsRssObject newsRssObject, int id) {
+    void bind(ModelView modelView) {
         this.id = id;
-        this.newsRssObject = newsRssObject;
-        textTitle.setText(newsRssObject.getItems().get(id).getTitle());
-        textContent.setText(newsRssObject.getItems().get(id).getContent());
+        this.modelView = modelView;
+        textTitle.setText(modelView.getTitle());
+        textContent.setText(modelView.getContent());
 
     }
 

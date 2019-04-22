@@ -7,22 +7,27 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.newsagregator.model.NewsRssObject;
+import com.example.newsagregator.model.DataManager;
+import com.example.newsagregator.model.network.models.NewsRssObject;
+import com.example.newsagregator.presenter.INewsView;
+import com.example.newsagregator.presenter.NewsPresenter;
+import com.example.newsagregator.presenter.model_view.ModelView;
 import com.example.newsagregator.service.TestHTTPConnection;
 import com.example.newsagregator.view.NewsAdapter;
 import com.google.gson.Gson;
 
-public class MainActivity extends AppCompatActivity {
-    NewsRssObject newsRssObject;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements INewsView {
+    NewsPresenter newsPresenter;
     RecyclerView recViewNews;
-    private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
-    private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        newsPresenter = new NewsPresenter(this, new DataManager());
         loadRSS();
     }
 
@@ -32,28 +37,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadRSS() {
-        @SuppressLint("StaticFieldLeak") AsyncTask<String, String, String> loadData = new AsyncTask<String, String, String>() {
+      newsPresenter.getDataForView();
+    }
 
-            @Override
-            protected String doInBackground(String... strings) {
-                String result;
-                TestHTTPConnection testHTTPConnection = new TestHTTPConnection();
-                result = testHTTPConnection.getHTTPData(strings[0]);
-                return result;
-            }
+    @Override
+    public void loadModelView(List<ModelView> listModelView) {
 
-            @Override
-            protected void onPostExecute(String s) {
-                newsRssObject = new Gson().fromJson(s, NewsRssObject.class);
-
-                recViewNews.setHasFixedSize(false);
-                NewsAdapter newsAdapter = new NewsAdapter(newsRssObject);
-                recViewNews.setAdapter(newsAdapter);
-            }
-        };
-        StringBuilder url_get_data = new StringBuilder(RSS_to_GSON);
-        url_get_data.append(RSS_link);
-        loadData.execute(url_get_data.toString());
-
+        recViewNews.setHasFixedSize(false);
+        NewsAdapter newsAdapter = new NewsAdapter(listModelView);
+        recViewNews.setAdapter(newsAdapter);
     }
 }
