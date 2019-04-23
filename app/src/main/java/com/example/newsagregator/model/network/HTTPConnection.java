@@ -1,5 +1,9 @@
 package com.example.newsagregator.model.network;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +27,7 @@ class HTTPConnection {
             if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                StringBuilder sbuilder = new StringBuilder();
+                StringBuilder sbuilder = new StringBuilder(1024);
                 String line;
                 while ((line = reader.readLine()) != null) {
                     sbuilder.append(line);

@@ -33,10 +33,8 @@ public class DataManager implements INewsData, IGetNoticeService.CallBackApi {
     @Override
     public void getData(FinishedListener finishedListener) {
         this.finishedListener = finishedListener;
-        StringBuilder url_get_data = new StringBuilder(RSS_to_GSON);
-        url_get_data.append(RSS_link);
         ServiceApi.getServiceApiInstance().setSubcriber(this);
-        ServiceApi.getServiceApiInstance().execute(url_get_data.toString());
+        ServiceApi.getServiceApiInstance().execute(RSS_to_GSON + RSS_link);
     }
 
     private void setListModelView(NewsRssObject rssObject) {

@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 
 import com.example.newsagregator.model.network.models.NewsRssObject;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 public class ServiceApi extends AsyncTask<String, String, String> implements IGetNoticeService {
 
@@ -22,6 +25,7 @@ public class ServiceApi extends AsyncTask<String, String, String> implements IGe
     @Override
     protected void onPostExecute(String s) {
         newsRssObject = new Gson().fromJson(s, NewsRssObject.class);
+        //JSONObject jsonObject = new JSONObject(s.toString());
         callBackApi.onCompleted(newsRssObject);
     }
 
