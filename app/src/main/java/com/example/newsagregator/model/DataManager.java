@@ -2,7 +2,6 @@ package com.example.newsagregator.model;
 
 import com.example.newsagregator.model.network.IGetNoticeService;
 import com.example.newsagregator.model.network.ServiceApi;
-import com.example.newsagregator.model.network.models.NewsRssObject;
 import com.example.newsagregator.presenter.INewsData;
 import com.example.newsagregator.presenter.model_view.ModelView;
 
@@ -56,8 +55,6 @@ public class DataManager implements INewsData, IGetNoticeService.CallBackApi {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
 }

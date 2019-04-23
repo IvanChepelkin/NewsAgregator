@@ -15,12 +15,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-class HTTPConnection {
+public class HTTPConnection {
     private JSONObject stream = null;
     private static final String RESPONSE = "status";
     private static final String ALL_GOOD = "ok";
 
-    HTTPConnection() {
+    public HTTPConnection() {
     }
 
     JSONObject getHTTPData(String urlString) {

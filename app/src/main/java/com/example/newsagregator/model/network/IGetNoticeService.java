@@ -1,7 +1,5 @@
 package com.example.newsagregator.model.network;
 
-import com.example.newsagregator.model.network.models.NewsRssObject;
-
 import org.json.JSONObject;
 
 public interface IGetNoticeService {

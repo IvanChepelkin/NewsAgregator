@@ -1,12 +1,20 @@
 package com.example.newsagregator.model.network;
 
 import android.os.AsyncTask;
+
 import org.json.JSONObject;
 
 
 public class ServiceApi extends AsyncTask<String, String, JSONObject> implements IGetNoticeService {
     private IGetNoticeService.CallBackApi callBackApi;
     private static ServiceApi ServiceApiInstance;
+
+    public static ServiceApi getServiceApiInstance() {
+        if (ServiceApiInstance == null) {
+            ServiceApiInstance = new ServiceApi();
+        }
+        return ServiceApiInstance;
+    }
 
     @Override
     protected JSONObject doInBackground(String... strings) {
@@ -20,13 +28,6 @@ public class ServiceApi extends AsyncTask<String, String, JSONObject> implements
     protected void onPostExecute(JSONObject jsonObjectNews) {
         callBackApi.onCompleted(jsonObjectNews);
 
-    }
-
-    public static ServiceApi getServiceApiInstance() {
-        if (ServiceApiInstance == null) {
-            ServiceApiInstance = new ServiceApi();
-        }
-        return ServiceApiInstance;
     }
 
     @Override
