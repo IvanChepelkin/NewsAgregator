@@ -17,7 +17,6 @@ public class DataManager implements INewsData, IGetNoticeService.CallBackApi {
 
     private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
-
     public List<ModelView> listModelView = new ArrayList<>();
     private FinishedListener finishedListener;
 
