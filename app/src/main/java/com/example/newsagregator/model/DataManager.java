@@ -6,6 +6,10 @@ import com.example.newsagregator.model.network.models.NewsRssObject;
 import com.example.newsagregator.presenter.INewsData;
 import com.example.newsagregator.presenter.model_view.ModelView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +25,8 @@ public class DataManager implements INewsData, IGetNoticeService.CallBackApi {
     }
 
     @Override
-    public void onCompleted(NewsRssObject rssObject) {
-        setListModelView(rssObject);
+    public void onCompleted(JSONObject jsonObjectNews) {
+        setListModelView(jsonObjectNews);
         finishedListener.setData(listModelView);
     }
 
@@ -37,15 +41,24 @@ public class DataManager implements INewsData, IGetNoticeService.CallBackApi {
         ServiceApi.getServiceApiInstance().execute(RSS_to_GSON + RSS_link);
     }
 
-    private void setListModelView(NewsRssObject rssObject) {
+    private void setListModelView(JSONObject jsonObjectNews) {
 
-        for (int i = 0; i < rssObject.getItems().size(); i++) {
-            listModelView.add(new ModelView(
-                    rssObject.getItems().get(i).getTitle(),
-                    rssObject.getItems().get(i).getGuid(),
-                    rssObject.getItems().get(i).getContent()));
+        try {
+            JSONArray jsonArray = jsonObjectNews.getJSONArray("items");
+            for (int i = 0; i < jsonArray.length(); i++) {
 
+                listModelView.add(new ModelView(
+                        jsonArray.getJSONObject(i).getString("title"),
+                        jsonArray.getJSONObject(i).getString("guid"),
+                        jsonArray.getJSONObject(i).getString("content")));
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+
     }
 
 }
