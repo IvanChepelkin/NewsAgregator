@@ -1,5 +1,6 @@
 package com.example.newsagregator;
 
+import com.example.newsagregator.model.ConverterJGONObjectInListData;
 import com.example.newsagregator.model.DataManager;
 import com.example.newsagregator.model.db.DataBaseSource;
 import com.example.newsagregator.model.network.DataRemoteSource;
@@ -27,6 +28,11 @@ public class Factory {
             dataBaseSourceInstance = new DataBaseSource(ApplicationContextSingleton.getContext());
         }
         return dataBaseSourceInstance;
+    }
+
+    public static ConverterJGONObjectInListData createObjectConverterJGONObjectInListData()
+    {
+        return new ConverterJGONObjectInListData();
     }
 
     public static DataManager createObjectDataManager() {
