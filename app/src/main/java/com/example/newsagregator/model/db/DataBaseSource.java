@@ -12,7 +12,8 @@ import com.example.newsagregator.presenter.model_view.ModelView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+
+public class DataBaseSource extends SQLiteOpenHelper implements IGetSetNewsDataBase {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "newsManager@";
@@ -22,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String KEY_GUIDE = "guide";
     private static final String KEY_CONTENT = "content";
 
-    public DataBaseHelper(Context context) {
+    public DataBaseSource(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -43,7 +44,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addContact(List<ModelView> modelViewList) {
+
+    public void addNewsInDataBase(List<ModelView> modelViewList) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         for (int i = 0; i < modelViewList.size(); i++) {
@@ -56,7 +58,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<ModelView> getAllmodelView() {
+
+    public List<ModelView> getNewsFromDataBase() {
         List<ModelView> modelViewList = new ArrayList<ModelView>();
         String selectQuery = "SELECT  * FROM " + TABLE_NEWS;
 

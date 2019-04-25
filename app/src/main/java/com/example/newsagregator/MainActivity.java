@@ -3,7 +3,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import com.example.newsagregator.model.DataManager;
+
 import com.example.newsagregator.presenter.INewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.model_view.ModelView;
@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity implements INewsView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        newsPresenter = new NewsPresenter(this, new DataManager());
+        ApplicationContextSingleton.setContext(this);
+        newsPresenter = new NewsPresenter(this, Factory.createObjectDataManager());
         loadRSS();
     }
 

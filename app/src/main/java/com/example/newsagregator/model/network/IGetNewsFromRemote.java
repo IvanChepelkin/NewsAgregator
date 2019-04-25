@@ -1,7 +1,8 @@
 package com.example.newsagregator.model.network;
+
 import org.json.JSONObject;
 
-public interface IGetNoticeService {
+public interface IGetNewsFromRemote {
 
     void setSubcriber(CallBackApi callBackApi);
 
@@ -11,5 +12,4 @@ public interface IGetNoticeService {
 
         void onError(Throwable t);
     }
-
 }
