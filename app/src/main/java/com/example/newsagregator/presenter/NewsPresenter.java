@@ -1,15 +1,15 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.presenter.model_view.ModelView;
+import com.example.newsagregator.model.domain.NewsEmptity;
 
 import java.util.List;
 
 public class NewsPresenter implements IRepoNews.FinishedListener {
-    private INewsView inewsView;
+    private INewsView newsViewImpl;
     private IRepoNews iRepoNews;
 
-    public NewsPresenter(INewsView inewsView, IRepoNews iRepoNews) {
-        this.inewsView = inewsView;
+    public NewsPresenter(INewsView newsViewImpl, IRepoNews iRepoNews) {
+        this.newsViewImpl = newsViewImpl;
         this.iRepoNews = iRepoNews;
     }
 
@@ -18,8 +18,8 @@ public class NewsPresenter implements IRepoNews.FinishedListener {
     }
 
     @Override
-    public void setData(List<ModelView> listModelView) {
-        inewsView.loadModelView(listModelView);
+    public void setData(List<NewsEmptity> listNewsEmptity) {
+        newsViewImpl.showNews(listNewsEmptity);
 
     }
 }

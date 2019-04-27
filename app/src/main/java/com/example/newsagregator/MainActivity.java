@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.newsagregator.di.ApplicationContextSingleton;
+import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.presenter.INewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
-import com.example.newsagregator.presenter.model_view.ModelView;
+import com.example.newsagregator.model.domain.NewsEmptity;
 import com.example.newsagregator.view.NewsAdapter;
 
 import java.util.List;
@@ -35,10 +37,10 @@ public class MainActivity extends AppCompatActivity implements INewsView {
     }
 
     @Override
-    public void loadModelView(List<ModelView> listModelView) {
+    public void showNews(List<NewsEmptity> listNewsEmptity) {
 
         recViewNews.setHasFixedSize(false);
-        NewsAdapter newsAdapter = new NewsAdapter(listModelView);
+        NewsAdapter newsAdapter = new NewsAdapter(listNewsEmptity);
         recViewNews.setAdapter(newsAdapter);
     }
 }

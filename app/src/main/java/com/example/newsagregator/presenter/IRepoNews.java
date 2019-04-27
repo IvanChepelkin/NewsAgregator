@@ -1,6 +1,6 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.presenter.model_view.ModelView;
+import com.example.newsagregator.model.domain.NewsEmptity;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ public interface IRepoNews {
 
     interface FinishedListener {
 
-        void setData(List<ModelView> listModelView);
+        void setData(List<NewsEmptity> listNewsEmptity);
     }
 }

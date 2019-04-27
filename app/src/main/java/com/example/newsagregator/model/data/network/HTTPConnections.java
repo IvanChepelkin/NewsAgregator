@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.network;
+package com.example.newsagregator.model.data.network;
 
 import com.google.gson.JsonObject;
 

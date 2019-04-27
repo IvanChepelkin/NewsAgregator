@@ -9,11 +9,11 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.newsagregator.R;
-import com.example.newsagregator.presenter.model_view.ModelView;
+import com.example.newsagregator.model.domain.NewsEmptity;
 
 class NewsHolder extends RecyclerView.ViewHolder {
     private int id;
-    private ModelView modelView;
+    private NewsEmptity newsEmptity;
     private View root;
     private TextView textTitle;
     private TextView textContent;
@@ -29,16 +29,16 @@ class NewsHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 webViewContent.getSettings().setJavaScriptEnabled(true);
-                webViewContent.loadUrl(modelView.getGuide());
+                webViewContent.loadUrl(newsEmptity.getGuide());
             }
         });
     }
 
-    void bind(ModelView modelView) {
+    void bind(NewsEmptity newsEmptity) {
         this.id = id;
-        this.modelView = modelView;
-        textTitle.setText(modelView.getTitle());
-        textContent.setText(modelView.getContent());
+        this.newsEmptity = newsEmptity;
+        textTitle.setText(newsEmptity.getTitle());
+        textContent.setText(newsEmptity.getContent());
 
     }
 

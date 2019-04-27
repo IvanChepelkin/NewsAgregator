@@ -1,8 +1,8 @@
-package com.example.newsagregator.model.network;
+package com.example.newsagregator.model.data.network;
 
 import org.json.JSONObject;
 
-public interface IGetNewsFromRemote {
+public interface RemoteNewsDataSource {
 
     void setSubcriber(CallBackApi callBackApi);
 

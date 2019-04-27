@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.db;
+package com.example.newsagregator.model.data.db;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -7,13 +7,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.newsagregator.presenter.model_view.ModelView;
+import com.example.newsagregator.model.domain.NewsEmptity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataBaseSource extends SQLiteOpenHelper implements IGetSetNewsDataBase {
+public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBaseNewsSource
+{
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "newsManager@";
@@ -23,7 +24,7 @@ public class DataBaseSource extends SQLiteOpenHelper implements IGetSetNewsDataB
     private static final String KEY_GUIDE = "guide";
     private static final String KEY_CONTENT = "content";
 
-    public DataBaseSource(Context context) {
+    public DataBaseNewsSourceImpl(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -45,13 +46,13 @@ public class DataBaseSource extends SQLiteOpenHelper implements IGetSetNewsDataB
     }
 
 
-    public void addNewsInDataBase(List<ModelView> modelViewList) {
+    public void addNewsInDataBase(List<NewsEmptity> newsEmptityList) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        for (int i = 0; i < modelViewList.size(); i++) {
-            values.put(KEY_TITLE, modelViewList.get(i).getTitle());
-            values.put(KEY_GUIDE, modelViewList.get(i).getGuide());
-            values.put(KEY_CONTENT, modelViewList.get(i).getContent());
+        for (int i = 0; i < newsEmptityList.size(); i++) {
+            values.put(KEY_TITLE, newsEmptityList.get(i).getTitle());
+            values.put(KEY_GUIDE, newsEmptityList.get(i).getGuide());
+            values.put(KEY_CONTENT, newsEmptityList.get(i).getContent());
         }
 
         db.insert(TABLE_NEWS, null, values);
@@ -59,8 +60,8 @@ public class DataBaseSource extends SQLiteOpenHelper implements IGetSetNewsDataB
     }
 
 
-    public List<ModelView> getNewsFromDataBase() {
-        List<ModelView> modelViewList = new ArrayList<ModelView>();
+    public List<NewsEmptity> getNewsFromDataBase() {
+        List<NewsEmptity> newsEmptityList = new ArrayList<NewsEmptity>();
         String selectQuery = "SELECT  * FROM " + TABLE_NEWS;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -69,16 +70,16 @@ public class DataBaseSource extends SQLiteOpenHelper implements IGetSetNewsDataB
 
         if (cursor.moveToFirst()) {
             do {
-                ModelView modelView = new ModelView(
+                NewsEmptity newsEmptity = new NewsEmptity(
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3));
 
-                modelViewList.add(modelView);
+                newsEmptityList.add(newsEmptity);
             } while (cursor.moveToNext());
         }
 
-        return modelViewList;
+        return newsEmptityList;
     }
 
 }

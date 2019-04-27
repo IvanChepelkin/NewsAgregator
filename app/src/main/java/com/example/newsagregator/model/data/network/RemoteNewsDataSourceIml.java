@@ -1,17 +1,17 @@
-package com.example.newsagregator.model.network;
+package com.example.newsagregator.model.data.network;
 
 import android.os.AsyncTask;
 
-import com.example.newsagregator.Factory;
+import com.example.newsagregator.di.Factory;
 
 import org.json.JSONObject;
 
 
-public class DataRemoteSource extends AsyncTask<String, String, JSONObject> implements IGetNewsFromRemote {
+public class RemoteNewsDataSourceIml extends AsyncTask<String, String, JSONObject> implements RemoteNewsDataSource {
     private HTTPConnections httpConnections;
     private CallBackApi callBackApi;
 
-    public DataRemoteSource(HTTPConnections httpConnections){
+    public RemoteNewsDataSourceIml(HTTPConnections httpConnections){
         this.httpConnections = httpConnections;
     }
 
