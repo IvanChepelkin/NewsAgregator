@@ -1,20 +1,21 @@
 package com.example.newsagregator.presenter;
 
+import com.example.newsagregator.model.domain.GetNewsUseCase;
 import com.example.newsagregator.model.domain.NewsEmptity;
 
 import java.util.List;
 
-public class NewsPresenter implements IRepoNews.FinishedListener {
+public class NewsPresenter implements GetNewsUseCase.PresenterListener {
     private INewsView newsViewImpl;
-    private IRepoNews iRepoNews;
+    private GetNewsUseCase getNewsUseCase;
 
-    public NewsPresenter(INewsView newsViewImpl, IRepoNews iRepoNews) {
+    public NewsPresenter(INewsView newsViewImpl, GetNewsUseCase getNewsUseCase) {
         this.newsViewImpl = newsViewImpl;
-        this.iRepoNews = iRepoNews;
+        this.getNewsUseCase = getNewsUseCase;
     }
 
     public void getDataForView() {
-       iRepoNews.getData(this);
+       getNewsUseCase.getData(this);
     }
 
     @Override

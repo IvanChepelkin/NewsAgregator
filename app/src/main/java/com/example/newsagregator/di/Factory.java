@@ -5,6 +5,7 @@ import com.example.newsagregator.model.data.DataManager;
 import com.example.newsagregator.model.data.db.DataBaseNewsSourceImpl;
 import com.example.newsagregator.model.data.network.RemoteNewsDataSourceIml;
 import com.example.newsagregator.model.data.network.HTTPConnections;
+import com.example.newsagregator.model.domain.GetNewsUseCaseImpl;
 
 public class Factory {
 
@@ -30,15 +31,18 @@ public class Factory {
         return dataBaseSourceInstance;
     }
 
-    public static ConverterJGONObjectInListData createObjectConverterJGONObjectInListData()
-    {
+    public static ConverterJGONObjectInListData createObjectConverterJGONObjectInListData() {
         return new ConverterJGONObjectInListData();
     }
 
     public static DataManager createObjectDataManager() {
         return new DataManager(
-                Factory.createObjectDataRemoteSource(),Factory.createObjectDataBaseNewsSource(),
+                Factory.createObjectDataRemoteSource(), Factory.createObjectDataBaseNewsSource(),
                 createObjectConverterJGONObjectInListData());
+    }
+
+    public static GetNewsUseCaseImpl createGetUseCaseImpl() {
+        return new GetNewsUseCaseImpl(Factory.createObjectDataManager());
     }
 
 }

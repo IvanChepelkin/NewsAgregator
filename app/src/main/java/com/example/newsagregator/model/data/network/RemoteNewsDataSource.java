@@ -5,6 +5,7 @@ import org.json.JSONObject;
 public interface RemoteNewsDataSource {
 
     void setSubcriber(CallBackApi callBackApi);
+    void loadData();
 
     interface CallBackApi {
 

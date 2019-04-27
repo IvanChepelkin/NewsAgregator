@@ -8,10 +8,13 @@ import org.json.JSONObject;
 
 
 public class RemoteNewsDataSourceIml extends AsyncTask<String, String, JSONObject> implements RemoteNewsDataSource {
+
+    private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
+    private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
     private HTTPConnections httpConnections;
     private CallBackApi callBackApi;
 
-    public RemoteNewsDataSourceIml(HTTPConnections httpConnections){
+    public RemoteNewsDataSourceIml(HTTPConnections httpConnections) {
         this.httpConnections = httpConnections;
     }
 
@@ -34,4 +37,10 @@ public class RemoteNewsDataSourceIml extends AsyncTask<String, String, JSONObjec
     public void setSubcriber(CallBackApi callBackApi) {
         this.callBackApi = callBackApi;
     }
+
+    @Override
+    public void loadData() {
+        Factory.createObjectDataRemoteSource().execute(RSS_to_GSON + RSS_link);
+    }
+
 }
