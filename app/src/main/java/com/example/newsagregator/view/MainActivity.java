@@ -1,9 +1,10 @@
-package com.example.newsagregator;
+package com.example.newsagregator.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.presenter.INewsView;

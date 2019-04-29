@@ -17,7 +17,7 @@ public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBase
 {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "newsManager@";
+    private static final String DATABASE_NAME = "newsManager";
     private static final String TABLE_NEWS = "contacts";
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
