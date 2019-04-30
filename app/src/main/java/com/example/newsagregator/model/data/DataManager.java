@@ -1,5 +1,10 @@
 package com.example.newsagregator.model.data;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.model.data.db.DataBaseNewsSource;
 import com.example.newsagregator.model.data.network.RemoteNewsDataSource;
 import com.example.newsagregator.model.domain.NewsEmptity;
@@ -30,7 +35,7 @@ public class DataManager implements RemoteNewsDataSource.CallBackApi, DataBaseNe
     @Override
     public void onCompletedFromServer(JSONObject jsonObjectNews) {
         listNewsEmptity = converterJGONObjectInListData.setListModelView(jsonObjectNews);
-        //callBackRepo.setData(listNewsEmptity);
+        callBackRepo.setData(listNewsEmptity);
     }
 
     @Override
@@ -46,12 +51,22 @@ public class DataManager implements RemoteNewsDataSource.CallBackApi, DataBaseNe
     @Override
     public void getData(CallBacRepo callBackRepo) {
         this.callBackRepo = callBackRepo;
-        //remoteNewsDataSource.setSubcriber(this);
-       // remoteNewsDataSource.loadDataFromServer();
-
-        dateBaseNewsSource.setSubcriber(this);
-        dateBaseNewsSource.loadNewsFromDataBase();
+        if (isOnline()) {
+            remoteNewsDataSource.setSubcriber(this);
+            remoteNewsDataSource.loadDataFromServer();
+        } else {
+            dateBaseNewsSource.setSubcriber(this);
+            dateBaseNewsSource.loadNewsFromDataBase();
+        }
     }
 
-
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) ApplicationContextSingleton.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
 }

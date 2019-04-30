@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements INewsView {
         ApplicationContextSingleton.setContext(this);
         newsPresenter = new NewsPresenter(this, Factory.createGetUseCaseImpl());
         loadRSS();
-        loadData();
+        //loadData();
     }
 
     private void loadData() {
