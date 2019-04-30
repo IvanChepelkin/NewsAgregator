@@ -4,13 +4,13 @@ import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
 import com.example.newsagregator.model.data.DataManager;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.DataBaseNewsSourceImpl;
-import com.example.newsagregator.model.data.network.RemoteNewsDataSourceIml;
+import com.example.newsagregator.model.data.network.RemoteNewsDataSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.domain.GetNewsUseCaseImpl;
 
 public class Factory {
 
-    private static RemoteNewsDataSourceIml dataRemoteSourceInstance;
+    private static RemoteNewsDataSourceImpl dataRemoteSourceInstance;
     private static DataBaseHelper dataBaseSourceInstance;
     private static DataBaseNewsSourceImpl dataBaseNewsSourceInstance;
 
@@ -19,9 +19,9 @@ public class Factory {
         return new HTTPConnections();
     }
 
-    public static RemoteNewsDataSourceIml createObjectDataRemoteSource() {
+    public static RemoteNewsDataSourceImpl createObjectDataRemoteSource() {
         if (dataRemoteSourceInstance == null) {
-            dataRemoteSourceInstance = new RemoteNewsDataSourceIml(Factory.createObjectHTTPConnections());
+            dataRemoteSourceInstance = new RemoteNewsDataSourceImpl(Factory.createObjectHTTPConnections());
         }
         return dataRemoteSourceInstance;
     }
