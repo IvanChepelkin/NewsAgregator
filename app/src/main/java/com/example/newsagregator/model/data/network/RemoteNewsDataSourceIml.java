@@ -29,7 +29,7 @@ public class RemoteNewsDataSourceIml extends AsyncTask<String, String, JSONObjec
 
     @Override
     protected void onPostExecute(JSONObject jsonObjectNews) {
-        callBackApi.onCompleted(jsonObjectNews);
+        callBackApi.onCompletedFromServer(jsonObjectNews);
 
     }
 
@@ -39,7 +39,7 @@ public class RemoteNewsDataSourceIml extends AsyncTask<String, String, JSONObjec
     }
 
     @Override
-    public void loadData() {
+    public void loadDataFromServer() {
         Factory.createObjectDataRemoteSource().execute(RSS_to_GSON + RSS_link);
     }
 

@@ -2,7 +2,7 @@ package com.example.newsagregator.di;
 
 import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
 import com.example.newsagregator.model.data.DataManager;
-import com.example.newsagregator.model.data.db.DataBaseNewsSourceImpl;
+import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.network.RemoteNewsDataSourceIml;
 import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.domain.GetNewsUseCaseImpl;
@@ -10,7 +10,7 @@ import com.example.newsagregator.model.domain.GetNewsUseCaseImpl;
 public class Factory {
 
     private static RemoteNewsDataSourceIml dataRemoteSourceInstance;
-    private static DataBaseNewsSourceImpl dataBaseSourceInstance;
+    private static DataBaseHelper dataBaseSourceInstance;
 
 
     public static HTTPConnections createObjectHTTPConnections() {
@@ -24,9 +24,9 @@ public class Factory {
         return dataRemoteSourceInstance;
     }
 
-    public static DataBaseNewsSourceImpl createObjectDataBaseNewsSource() {
+    public static DataBaseHelper createObjectDataBaseNewsSource() {
         if (dataBaseSourceInstance == null) {
-            dataBaseSourceInstance = new DataBaseNewsSourceImpl(ApplicationContextSingleton.getContext());
+            dataBaseSourceInstance = new DataBaseHelper(ApplicationContextSingleton.getContext());
         }
         return dataBaseSourceInstance;
     }

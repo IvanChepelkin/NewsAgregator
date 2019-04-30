@@ -5,11 +5,11 @@ import org.json.JSONObject;
 public interface RemoteNewsDataSource {
 
     void setSubcriber(CallBackApi callBackApi);
-    void loadData();
+    void loadDataFromServer();
 
     interface CallBackApi {
 
-        void onCompleted(JSONObject jsonObjectNews);
+        void onCompletedFromServer(JSONObject jsonObjectNews);
 
         void onError(Throwable t);
     }
