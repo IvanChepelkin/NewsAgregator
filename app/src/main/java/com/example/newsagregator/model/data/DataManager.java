@@ -2,6 +2,7 @@ package com.example.newsagregator.model.data;
 
 import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.data.db.DataBaseNewsSource;
+import com.example.newsagregator.model.data.db.DataBaseReader;
 import com.example.newsagregator.model.data.network.RemoteNewsDataSource;
 import com.example.newsagregator.model.domain.GetNewsUseCase;
 import com.example.newsagregator.model.domain.NewsEmptity;
@@ -43,6 +44,8 @@ public class DataManager implements RemoteNewsDataSource.CallBackApi, RepoNews {
     @Override
     public void getData(CallBacRepo callBackRepo) {
         this.callBackRepo = callBackRepo;
+        DataBaseReader dataBaseReader = new DataBaseReader();
+        dataBaseReader.execute();
         remoteNewsDataSource.setSubcriber(this);
         remoteNewsDataSource.loadData();
     }

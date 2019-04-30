@@ -77,7 +77,6 @@ public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBase
                 newsEmptityList.add(newsEmptity);
             } while (cursor.moveToNext());
         }
-
         return newsEmptityList;
     }
 
