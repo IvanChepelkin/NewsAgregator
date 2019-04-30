@@ -3,8 +3,13 @@ package com.example.newsagregator.model.data.network;
 import android.os.AsyncTask;
 
 import com.example.newsagregator.di.Factory;
+import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
+import com.example.newsagregator.model.data.db.DataBaseHelper;
+import com.example.newsagregator.model.domain.NewsEmptity;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 
 public class RemoteNewsDataSourceIml extends AsyncTask<String, String, JSONObject> implements RemoteNewsDataSource {
@@ -24,6 +29,12 @@ public class RemoteNewsDataSourceIml extends AsyncTask<String, String, JSONObjec
         JSONObject result;
         httpConnections = Factory.createObjectHTTPConnections();
         result = httpConnections.getHTTPData(strings[0]);
+
+        DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
+        ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
+        List<NewsEmptity> list = converter.setListModelView(result);
+        dataBaseHelper.addNewsInDataBase(list);
+
         return result;
     }
 
