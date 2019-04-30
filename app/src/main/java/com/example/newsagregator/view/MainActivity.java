@@ -1,4 +1,5 @@
 package com.example.newsagregator.view;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
+import com.example.newsagregator.model.data.network.HttpIntentService;
 import com.example.newsagregator.presenter.INewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.model.domain.NewsEmptity;
@@ -26,6 +28,12 @@ public class MainActivity extends AppCompatActivity implements INewsView {
         ApplicationContextSingleton.setContext(this);
         newsPresenter = new NewsPresenter(this, Factory.createGetUseCaseImpl());
         loadRSS();
+        loadData();
+    }
+
+    private void loadData() {
+        Intent intent = new Intent(MainActivity.this, HttpIntentService.class);
+        startService(intent);
     }
 
     private void initViews() {

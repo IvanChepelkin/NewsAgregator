@@ -23,7 +23,7 @@ public class HTTPConnections {
    public HTTPConnections() {
     }
 
-    JSONObject getHTTPData(String urlString) {
+     JSONObject getHTTPData(String urlString) {
         try {
             URL url = new URL(urlString);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

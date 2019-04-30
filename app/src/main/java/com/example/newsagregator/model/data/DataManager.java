@@ -39,6 +39,7 @@ public class DataManager implements RemoteNewsDataSource.CallBackApi, RepoNews {
     public void onError(Throwable t) {
     }
 
+
     @Override
     public void getData(CallBacRepo callBackRepo) {
         this.callBackRepo = callBackRepo;

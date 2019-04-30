@@ -13,12 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBaseNewsSource
-{
+public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBaseNewsSource {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "newsManager";
-    private static final String TABLE_NEWS = "contacts";
+    private static final String TABLE_NEWS = "items";
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_GUIDE = "guide";
@@ -30,11 +29,11 @@ public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBase
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NEWS + "("
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NEWS + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_GUIDE + " TEXT,"
-                + KEY_CONTENT + " TEXT" + ")";
+                + KEY_CONTENT + " TEXT " + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -48,14 +47,14 @@ public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBase
 
     public void addNewsInDataBase(List<NewsEmptity> newsEmptityList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+
         for (int i = 0; i < newsEmptityList.size(); i++) {
+            ContentValues values = new ContentValues();
             values.put(KEY_TITLE, newsEmptityList.get(i).getTitle());
             values.put(KEY_GUIDE, newsEmptityList.get(i).getGuide());
             values.put(KEY_CONTENT, newsEmptityList.get(i).getContent());
+            db.insert(TABLE_NEWS, null, values);
         }
-
-        db.insert(TABLE_NEWS, null, values);
         db.close();
     }
 
