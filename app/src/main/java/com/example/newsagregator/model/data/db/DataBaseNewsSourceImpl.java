@@ -18,8 +18,9 @@ public class DataBaseNewsSourceImpl extends AsyncTask<Void, Void, List<NewsEmpti
 
     @Override
     protected List<NewsEmptity> doInBackground(Void... voids) {
+        dataBaseHelper = Factory.createObjectDataBaseHelper();
         List<NewsEmptity> newsEmptityList = new ArrayList<>();
-        newsEmptityList = Factory.createObjectDataBaseHelper().getNewsFromDataBase();
+        newsEmptityList = dataBaseHelper.getNewsFromDataBase();
         return newsEmptityList;
     }
 
