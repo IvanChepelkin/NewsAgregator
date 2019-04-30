@@ -9,14 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataBaseNewsSourceImpl extends AsyncTask<Void, Void, List<NewsEmptity>> implements DataBaseNewsSource {
-    CallBackDb callBackDb;
-    public DataBaseNewsSourceImpl() {
+    private DataBaseHelper dataBaseHelper;
+    private CallBackDb callBackDb;
+
+    public DataBaseNewsSourceImpl(DataBaseHelper dataBaseHelper) {
+        this.dataBaseHelper = dataBaseHelper;
     }
 
     @Override
     protected List<NewsEmptity> doInBackground(Void... voids) {
         List<NewsEmptity> newsEmptityList = new ArrayList<>();
-        newsEmptityList = Factory.createObjectDataBaseNewsSource().getNewsFromDataBase();
+        newsEmptityList = Factory.createObjectDataBaseHelper().getNewsFromDataBase();
         return newsEmptityList;
     }
 
@@ -28,8 +31,7 @@ public class DataBaseNewsSourceImpl extends AsyncTask<Void, Void, List<NewsEmpti
 
     @Override
     public void loadNewsFromDataBase() {
-        DataBaseNewsSourceImpl dataBaseNewsSourceImpl = new DataBaseNewsSourceImpl();
-        dataBaseNewsSourceImpl.execute();
+        Factory.createObjectDataBaseNewsSourceImpl().execute();
     }
 
     @Override

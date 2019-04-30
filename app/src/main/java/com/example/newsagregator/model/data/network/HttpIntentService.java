@@ -31,7 +31,7 @@ public class HttpIntentService extends IntentService {
         List<NewsEmptity> list = converter.setListModelView(jsonObject);
 
         System.out.println("лист"+list.toString());
-        Factory.createObjectDataBaseNewsSource().addNewsInDataBase(list);
+        Factory.createObjectDataBaseHelper().addNewsInDataBase(list);
 
     }
 }

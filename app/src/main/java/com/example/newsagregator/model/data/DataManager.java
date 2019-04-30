@@ -30,7 +30,7 @@ public class DataManager implements RemoteNewsDataSource.CallBackApi, DataBaseNe
     @Override
     public void onCompletedFromServer(JSONObject jsonObjectNews) {
         listNewsEmptity = converterJGONObjectInListData.setListModelView(jsonObjectNews);
-        callBackRepo.setData(listNewsEmptity);
+        //callBackRepo.setData(listNewsEmptity);
     }
 
     @Override
@@ -46,8 +46,11 @@ public class DataManager implements RemoteNewsDataSource.CallBackApi, DataBaseNe
     @Override
     public void getData(CallBacRepo callBackRepo) {
         this.callBackRepo = callBackRepo;
-        remoteNewsDataSource.setSubcriber(this);
-        remoteNewsDataSource.loadDataFromServer();
+        //remoteNewsDataSource.setSubcriber(this);
+       // remoteNewsDataSource.loadDataFromServer();
+
+        dateBaseNewsSource.setSubcriber(this);
+        dateBaseNewsSource.loadNewsFromDataBase();
     }
 
 
