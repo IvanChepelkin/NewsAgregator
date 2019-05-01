@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/news_list_channels"
+            android:icon="@drawable/ic_list_black_24dp"
+            android:title="@string/menu_all_channels" />
+        <item
+            android:id="@+id/news_add_channel"
+            android:icon="@drawable/ic_add_circle_outline_black_24dp"
+            android:title="@string/menu_add_channel" />
+        <item
+            android:id="@+id/news_delete_channel"
+            android:icon="@drawable/ic_remove_circle_outline_black_24dp"
+            android:title="@string/menu_remove_channel" />
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_tools"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_tools" />
+        </menu>
+    </item>
+
+</menu>
