@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.newsagregator.model.domain.NewsEmptity;
+import com.example.newsagregator.model.domain.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,22 +45,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addNewsInDataBase(List<NewsEmptity> newsEmptityList) {
+    public void addNewsInDataBase(List<NewsItem> newsItemList) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < newsEmptityList.size(); i++) {
+        for (int i = 0; i < newsItemList.size(); i++) {
             ContentValues values = new ContentValues();
-            values.put(KEY_TITLE, newsEmptityList.get(i).getTitle());
-            values.put(KEY_GUIDE, newsEmptityList.get(i).getGuide());
-            values.put(KEY_CONTENT, newsEmptityList.get(i).getContent());
+            values.put(KEY_TITLE, newsItemList.get(i).getTitle());
+            values.put(KEY_GUIDE, newsItemList.get(i).getGuide());
+            values.put(KEY_CONTENT, newsItemList.get(i).getContent());
             db.insert(TABLE_NEWS, null, values);
         }
         db.close();
     }
 
 
-    public List<NewsEmptity> getNewsFromDataBase() {
-        List<NewsEmptity> newsEmptityList = new ArrayList<NewsEmptity>();
+    public List<NewsItem> getNewsFromDataBase() {
+        List<NewsItem> newsItemList = new ArrayList<NewsItem>();
         String selectQuery = "SELECT  * FROM " + TABLE_NEWS;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -69,15 +69,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                NewsEmptity newsEmptity = new NewsEmptity(
+                NewsItem newsItem = new NewsItem(
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3));
 
-                newsEmptityList.add(newsEmptity);
+                newsItemList.add(newsItem);
             } while (cursor.moveToNext());
         }
-        return newsEmptityList;
+        return newsItemList;
     }
 
 }

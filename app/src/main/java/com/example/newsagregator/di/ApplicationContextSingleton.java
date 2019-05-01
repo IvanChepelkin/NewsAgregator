@@ -1,6 +1,5 @@
 package com.example.newsagregator.di;
 
-
 import android.content.Context;
 
 public class ApplicationContextSingleton {

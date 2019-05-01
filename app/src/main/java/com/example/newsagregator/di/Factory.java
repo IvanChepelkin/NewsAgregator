@@ -1,27 +1,27 @@
 package com.example.newsagregator.di;
 
 import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
-import com.example.newsagregator.model.data.DataManager;
+import com.example.newsagregator.model.data.NewsRepositoryImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
-import com.example.newsagregator.model.data.db.DataBaseNewsSourceImpl;
-import com.example.newsagregator.model.data.network.RemoteNewsDataSourceImpl;
+import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
+import com.example.newsagregator.model.data.network.NewsRemoteDataSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
-import com.example.newsagregator.model.domain.GetNewsUseCaseImpl;
+import com.example.newsagregator.model.domain.NewsUseCaseImpl;
 
 public class Factory {
 
-    private static RemoteNewsDataSourceImpl dataRemoteSourceInstance;
+    private static NewsRemoteDataSourceImpl dataRemoteSourceInstance;
     private static DataBaseHelper dataBaseSourceInstance;
-    private static DataBaseNewsSourceImpl dataBaseNewsSourceInstance;
+    private static NewsDataBaseSourceImpl dataBaseNewsSourceInstance;
 
 
     public static HTTPConnections createObjectHTTPConnections() {
         return new HTTPConnections();
     }
 
-    public static RemoteNewsDataSourceImpl createObjectDataRemoteSource() {
+    public static NewsRemoteDataSourceImpl createObjectDataRemoteSource() {
         if (dataRemoteSourceInstance == null) {
-            dataRemoteSourceInstance = new RemoteNewsDataSourceImpl(Factory.createObjectHTTPConnections());
+            dataRemoteSourceInstance = new NewsRemoteDataSourceImpl(Factory.createObjectHTTPConnections());
         }
         return dataRemoteSourceInstance;
     }
@@ -33,9 +33,9 @@ public class Factory {
         return dataBaseSourceInstance;
     }
 
-    public static DataBaseNewsSourceImpl createObjectDataBaseNewsSourceImpl() {
+    public static NewsDataBaseSourceImpl createObjectDataBaseNewsSourceImpl() {
         if (dataBaseNewsSourceInstance == null) {
-            dataBaseNewsSourceInstance = new DataBaseNewsSourceImpl(Factory.createObjectDataBaseHelper());
+            dataBaseNewsSourceInstance = new NewsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
         }
         return dataBaseNewsSourceInstance;
     }
@@ -44,14 +44,14 @@ public class Factory {
         return new ConverterJGONObjectInListData();
     }
 
-    public static DataManager createObjectDataManager() {
-        return new DataManager(
+    public static NewsRepositoryImpl createObjectDataManager() {
+        return new NewsRepositoryImpl(
                 Factory.createObjectDataRemoteSource(), Factory.createObjectDataBaseNewsSourceImpl(),
                 createObjectConverterJGONObjectInListData());
     }
 
-    public static GetNewsUseCaseImpl createGetUseCaseImpl() {
-        return new GetNewsUseCaseImpl(Factory.createObjectDataManager());
+    public static NewsUseCaseImpl createGetUseCaseImpl() {
+        return new NewsUseCaseImpl(Factory.createObjectDataManager());
     }
 
 }

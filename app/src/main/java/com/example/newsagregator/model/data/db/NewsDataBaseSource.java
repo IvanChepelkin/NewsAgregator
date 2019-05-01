@@ -1,10 +1,10 @@
 package com.example.newsagregator.model.data.db;
-import com.example.newsagregator.model.domain.NewsEmptity;
+import com.example.newsagregator.model.domain.NewsItem;
 
 
 import java.util.List;
 
-public interface DataBaseNewsSource {
+public interface NewsDataBaseSource {
 
     void loadNewsFromDataBase();
 
@@ -12,7 +12,7 @@ public interface DataBaseNewsSource {
 
     interface CallBackDb {
 
-        void onCompletedFromDateBase(List<NewsEmptity> newsEmptityListFromDateBase);
+        void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase);
 
     }
 }

@@ -5,14 +5,14 @@ import android.os.AsyncTask;
 import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
-import com.example.newsagregator.model.domain.NewsEmptity;
+import com.example.newsagregator.model.domain.NewsItem;
 
 import org.json.JSONObject;
 
 import java.util.List;
 
 
-public class RemoteNewsDataSourceImpl extends AsyncTask<String, String, JSONObject> implements RemoteNewsDataSource {
+public class NewsRemoteDataSourceImpl extends AsyncTask<String, String, JSONObject> implements NewsRemoteDataSource {
 
     private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
@@ -20,7 +20,7 @@ public class RemoteNewsDataSourceImpl extends AsyncTask<String, String, JSONObje
     private HTTPConnections httpConnections;
     private CallBackApi callBackApi;
 
-    public RemoteNewsDataSourceImpl(HTTPConnections httpConnections) {
+    public NewsRemoteDataSourceImpl(HTTPConnections httpConnections) {
         this.httpConnections = httpConnections;
     }
 
@@ -33,7 +33,7 @@ public class RemoteNewsDataSourceImpl extends AsyncTask<String, String, JSONObje
 
         DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
         ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
-        List<NewsEmptity> list = converter.setListModelView(result);
+        final List<NewsItem> list = converter.setListModelView(result);
         dataBaseHelper.addNewsInDataBase(list);
 
         return result;

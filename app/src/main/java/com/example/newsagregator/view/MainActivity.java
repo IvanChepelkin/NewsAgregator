@@ -8,17 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.data.network.HttpIntentService;
+import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.presenter.INewsView;
-import com.example.newsagregator.presenter.NewsPresenter;
-import com.example.newsagregator.model.domain.NewsEmptity;
-import com.example.newsagregator.view.NewsAdapter;
+import com.example.newsagregator.presenter.NewsNews;
+import com.example.newsagregator.model.domain.NewsItem;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements INewsView {
-    NewsPresenter newsPresenter;
-    RecyclerView recViewNews;
+    private NewsNews newsPresenter;
+    private RecyclerView NewsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,30 +25,32 @@ public class MainActivity extends AppCompatActivity implements INewsView {
         setContentView(R.layout.activity_main);
         initViews();
         ApplicationContextSingleton.setContext(this);
-        newsPresenter = new NewsPresenter(this, Factory.createGetUseCaseImpl());
+        newsPresenter = new NewsNews(this, Factory.createGetUseCaseImpl());
         loadRSS();
+
+
         //loadData();
     }
 
     private void loadData() {
-        Intent intent = new Intent(MainActivity.this, HttpIntentService.class);
+        Intent intent = new Intent(MainActivity.this, NewsIntentService.class);
         startService(intent);
     }
 
     private void initViews() {
-        recViewNews = findViewById(R.id.recViewNews);
-        recViewNews.setLayoutManager(new LinearLayoutManager(this));
+        NewsRecyclerView = findViewById(R.id.newsRecyclerView);
+        NewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void loadRSS() {
-      newsPresenter.getDataForView();
+      newsPresenter.updateNews();
     }
 
     @Override
-    public void showNews(List<NewsEmptity> listNewsEmptity) {
+    public void showNews(final List<NewsItem> listNewsItem) {
 
-        recViewNews.setHasFixedSize(false);
-        NewsAdapter newsAdapter = new NewsAdapter(listNewsEmptity);
-        recViewNews.setAdapter(newsAdapter);
+        NewsRecyclerView.setHasFixedSize(false);
+        NewsAdapter newsAdapter = new NewsAdapter(listNewsItem);
+        NewsRecyclerView.setAdapter(newsAdapter);
     }
 }

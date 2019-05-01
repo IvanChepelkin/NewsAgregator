@@ -1,9 +1,9 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.model.domain.NewsEmptity;
+import com.example.newsagregator.model.domain.NewsItem;
 
 import java.util.List;
 
 public interface INewsView {
-        void showNews(List<NewsEmptity> listNewsEmptity);
+        void showNews(List<NewsItem> listNewsItem);
 }
