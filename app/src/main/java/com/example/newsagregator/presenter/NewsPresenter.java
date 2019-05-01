@@ -15,7 +15,11 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
     }
 
     public void updateNews() {
-       newsUseCase.getData(this);
+        newsUseCase.getData(this);
+    }
+
+    public void setClickAddChannel() {
+        newsViewImpl.showAlertDialogAddChannel();
     }
 
     @Override

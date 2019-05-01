@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface NewsRepository {
     void getData(CallBacRepo callBackApi);
+    void saveChannel(final String channelUrl);
 
     interface CallBacRepo {
 

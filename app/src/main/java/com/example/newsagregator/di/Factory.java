@@ -6,6 +6,7 @@ import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
+import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSourceImpl;
 import com.example.newsagregator.model.domain.NewsUseCaseImpl;
 
 public class Factory {
@@ -40,18 +41,23 @@ public class Factory {
         return dataBaseNewsSourceInstance;
     }
 
-    public static ConverterJGONObjectInListData createObjectConverterJGONObjectInListData() {
+    private static NewsSharedPrefDataSourceImpl createObjectNewsSharedPrefDataSourceImpl(){
+        return new NewsSharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
+    }
+
+    private static ConverterJGONObjectInListData createObjectConverterJGONObjectInListData() {
         return new ConverterJGONObjectInListData();
     }
 
-    public static NewsRepositoryImpl createObjectDataManager() {
+    private static NewsRepositoryImpl createObjectNewsRepositoryImpl() {
         return new NewsRepositoryImpl(
-                Factory.createObjectDataRemoteSource(), Factory.createObjectDataBaseNewsSourceImpl(),
+                Factory.createObjectDataRemoteSource(),
+                Factory.createObjectDataBaseNewsSourceImpl(),
+                Factory.createObjectNewsSharedPrefDataSourceImpl(),
                 createObjectConverterJGONObjectInListData());
     }
 
     public static NewsUseCaseImpl createGetUseCaseImpl() {
-        return new NewsUseCaseImpl(Factory.createObjectDataManager());
+        return new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
     }
-
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface INewsView {
         void showNews(List<NewsItem> listNewsItem);
+        void showAlertDialogAddChannel();
 }
