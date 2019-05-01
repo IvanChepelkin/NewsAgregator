@@ -18,13 +18,14 @@ import java.util.Set;
 
 public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, NewsDataBaseSource.CallBackDb, NewsRepository {
 
-    private List<NewsItem> listNewsItem = new ArrayList<>();
+    //    private List<NewsItem> listNewsItem = new ArrayList<>();
     private NewsRemoteDataSource newsRemoteDataSource;
     private NewsDataBaseSource newsDateBaseNewsSource;
     private NewsSharedPrefDataSource newsSharedPrefDataSource;
     private NewsRepository.CallBacRepo callBackRepo;
     private ConverterJGONObjectInListData converterJGONObjectInListData;
     private Context context;
+    private String KEY_SERVICE = "channels";
 
 
     public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,
@@ -40,8 +41,8 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     }
 
     @Override
-    public void onCompletedFromServer( boolean onFinished) {
-        if(onFinished){
+    public void onCompletedFromServer(boolean onFinished) {
+        if (onFinished) {
             newsDateBaseNewsSource.setSubcriber(this);
             newsDateBaseNewsSource.loadNewsFromDataBase();
         }
@@ -61,12 +62,14 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     public void getData(CallBacRepo callBackRepo) {
         this.callBackRepo = callBackRepo;
         if (isOnline()) {
-            newsRemoteDataSource.setSubcriber(this);
-            Set<String> channelList = newsSharedPrefDataSource.getChannelUrlList();
-            newsRemoteDataSource.loadDataFromServer(channelList);
+            Set<String> channelListSet = newsSharedPrefDataSource.getChannelUrlList();
+            //newsRemoteDataSource.setSubcriber(this);
+            //newsRemoteDataSource.loadDataFromServer(channelList);
+            final ArrayList<String> channellistArrayList = new ArrayList<>(channelListSet);
 
-//            Intent intent = new Intent(context, NewsIntentService.class);
-//            context.startService(intent);
+            Intent intent = new Intent(context, NewsIntentService.class);
+            intent.putStringArrayListExtra(KEY_SERVICE, channellistArrayList);
+            context.startService(intent);
 
         } else {
             newsDateBaseNewsSource.setSubcriber(this);
@@ -76,9 +79,11 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
 
     @Override
     public void saveChannel(final String channelUrl) {
-        newsSharedPrefDataSource.putChannelInList(channelUrl);
         Set<String> channelList = newsSharedPrefDataSource.getChannelUrlList();
         newsRemoteDataSource.loadDataFromServer(channelList);
+        newsSharedPrefDataSource.putChannelInList(channelUrl);
+
+
     }
 
     private boolean isOnline() {

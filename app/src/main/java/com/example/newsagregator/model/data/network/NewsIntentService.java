@@ -13,10 +13,10 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class NewsIntentService extends IntentService {
-    HTTPConnections httpConnections;
-    DataBaseHelper dataBaseHelper;
-    public final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
-    public final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
+    private String KEY_SERVICE = "channels";
+    private List<String> channellistArrayList;
+    private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
+    private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
 
     /**
      * Creates an NewsIntentService.  Invoked by your subclass's constructor.
@@ -27,13 +27,15 @@ public class NewsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        httpConnections = Factory.createObjectHTTPConnections();
-        dataBaseHelper = Factory.createObjectDataBaseHelper();
-        ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
 
-        JSONObject jsonObject = httpConnections.getHTTPData(RSS_to_GSON + RSS_link);
-        final List<NewsItem> list = converter.setListModelView(jsonObject);
-        dataBaseHelper.addNewsInDataBase(list);
-
+        channellistArrayList = intent.getStringArrayListExtra(KEY_SERVICE);
+        for (String url : channellistArrayList) {
+            HTTPConnections httpConnections = Factory.createObjectHTTPConnections();
+            DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
+            JSONObject result = httpConnections.getHTTPData(RSS_to_GSON + url + API_KEY);
+            ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
+            List<NewsItem> list = converter.setListModelView(result);
+            dataBaseHelper.addNewsInDataBase(list);
+        }
     }
 }
