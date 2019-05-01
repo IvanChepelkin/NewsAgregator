@@ -20,7 +20,7 @@ public class HTTPConnections {
     private static final String RESPONSE = "status";
     private static final String ALL_GOOD = "ok";
 
-   public HTTPConnections() {
+    public HTTPConnections() {
     }
 
     JSONObject getHTTPData(String urlString) {
@@ -36,7 +36,7 @@ public class HTTPConnections {
                     sbuilder.append(line).append("\n");
                 }
                 httpURLConnection.disconnect();
-                JSONObject jsonObject = new JSONObject(sbuilder.toString());
+                final JSONObject jsonObject = new JSONObject(sbuilder.toString());
 //                if (jsonObject.getString(RESPONSE) != ALL_GOOD) {
 //                    return null;
 //                } else {

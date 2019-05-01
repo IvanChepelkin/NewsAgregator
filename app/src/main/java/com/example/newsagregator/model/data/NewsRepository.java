@@ -1,14 +1,14 @@
 package com.example.newsagregator.model.data;
 
-import com.example.newsagregator.model.domain.NewsEmptity;
+import com.example.newsagregator.model.domain.NewsItem;
 import java.util.List;
 
-public interface RepoNews {
+public interface NewsRepository {
     void getData(CallBacRepo callBackApi);
 
     interface CallBacRepo {
 
-        void setData(List<NewsEmptity> listNewsEmptity);
+        void setData(List<NewsItem> listNewsItem);
 
     }
 }

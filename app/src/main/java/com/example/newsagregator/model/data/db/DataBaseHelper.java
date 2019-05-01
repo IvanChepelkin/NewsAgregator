@@ -7,34 +7,33 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.newsagregator.model.domain.NewsEmptity;
+import com.example.newsagregator.model.domain.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBaseNewsSource
-{
+public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "newsManager";
-    private static final String TABLE_NEWS = "contacts";
+    private static final String TABLE_NEWS = "items";
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_GUIDE = "guide";
     private static final String KEY_CONTENT = "content";
 
-    public DataBaseNewsSourceImpl(Context context) {
+    public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NEWS + "("
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NEWS + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_GUIDE + " TEXT,"
-                + KEY_CONTENT + " TEXT" + ")";
+                + KEY_CONTENT + " TEXT " + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -46,22 +45,22 @@ public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBase
     }
 
 
-    public void addNewsInDataBase(List<NewsEmptity> newsEmptityList) {
+    public void addNewsInDataBase(List<NewsItem> newsItemList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        for (int i = 0; i < newsEmptityList.size(); i++) {
-            values.put(KEY_TITLE, newsEmptityList.get(i).getTitle());
-            values.put(KEY_GUIDE, newsEmptityList.get(i).getGuide());
-            values.put(KEY_CONTENT, newsEmptityList.get(i).getContent());
-        }
 
-        db.insert(TABLE_NEWS, null, values);
+        for (int i = 0; i < newsItemList.size(); i++) {
+            ContentValues values = new ContentValues();
+            values.put(KEY_TITLE, newsItemList.get(i).getTitle());
+            values.put(KEY_GUIDE, newsItemList.get(i).getGuide());
+            values.put(KEY_CONTENT, newsItemList.get(i).getContent());
+            db.insert(TABLE_NEWS, null, values);
+        }
         db.close();
     }
 
 
-    public List<NewsEmptity> getNewsFromDataBase() {
-        List<NewsEmptity> newsEmptityList = new ArrayList<NewsEmptity>();
+    public List<NewsItem> getNewsFromDataBase() {
+        List<NewsItem> newsItemList = new ArrayList<NewsItem>();
         String selectQuery = "SELECT  * FROM " + TABLE_NEWS;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -70,16 +69,15 @@ public class DataBaseNewsSourceImpl extends SQLiteOpenHelper implements DataBase
 
         if (cursor.moveToFirst()) {
             do {
-                NewsEmptity newsEmptity = new NewsEmptity(
+                NewsItem newsItem = new NewsItem(
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3));
 
-                newsEmptityList.add(newsEmptity);
+                newsItemList.add(newsItem);
             } while (cursor.moveToNext());
         }
-
-        return newsEmptityList;
+        return newsItemList;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.newsagregator.model.data;
 
-import com.example.newsagregator.model.domain.NewsEmptity;
+import com.example.newsagregator.model.domain.NewsItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,14 +13,14 @@ public class ConverterJGONObjectInListData {
     public ConverterJGONObjectInListData() {
     }
 
-    public List<NewsEmptity> setListModelView(JSONObject jsonObjectNews) {
-        List<NewsEmptity> listNewsEmptity = new ArrayList<>();
+    public List<NewsItem> setListModelView(JSONObject jsonObjectNews) {
+        List<NewsItem> listNewsItem = new ArrayList<>();
 
         try {
             JSONArray jsonArray = jsonObjectNews.getJSONArray("items");
             for (int i = 0; i < jsonArray.length(); i++) {
 
-                listNewsEmptity.add(new NewsEmptity(
+                listNewsItem.add(new NewsItem(
                         jsonArray.getJSONObject(i).getString("title"),
                         jsonArray.getJSONObject(i).getString("guid"),
                         jsonArray.getJSONObject(i).getString("content")));
@@ -29,6 +29,6 @@ public class ConverterJGONObjectInListData {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return listNewsEmptity;
+        return listNewsItem;
     }
 }
