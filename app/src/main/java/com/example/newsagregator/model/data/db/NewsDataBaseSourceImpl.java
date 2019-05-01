@@ -26,7 +26,10 @@ public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>
 
     @Override
     protected void onPostExecute(final List<NewsItem> newsItemList) {
-        System.out.println("Листок " + newsItemList.toString());
+        for (int i = 0; i <newsItemList.size() ; i++) {
+            System.out.println("Листок " + newsItemList.get(i).getGuide());
+        }
+
         callBackDb.onCompletedFromDateBase(newsItemList);
     }
 

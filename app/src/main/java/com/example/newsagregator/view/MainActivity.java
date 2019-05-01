@@ -1,6 +1,7 @@
 package com.example.newsagregator.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
+import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.model.domain.NewsItem;
 import com.example.newsagregator.presenter.INewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
@@ -108,6 +110,11 @@ public class MainActivity extends AppCompatActivity
 
     private void loadRSS() {
         newsPresenter.updateNews();
+    }
+
+    private void loadData() {
+        Intent intent = new Intent(MainActivity.this, NewsIntentService.class);
+        startService(intent);
     }
 
     @Override

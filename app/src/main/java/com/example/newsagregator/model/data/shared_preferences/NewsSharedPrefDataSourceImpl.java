@@ -21,12 +21,15 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
     @Override
     public void putChannelInList(String channelUrl) {
         channelList = getChannelUrlList();
-        channelList.add(channelUrl);
-        @SuppressLint("CommitPrefEdits")
-        SharedPreferences.Editor editor = channelListSheredPref.edit();
-        editor.remove(CHANNEL_KEY);
-        editor.putStringSet(CHANNEL_KEY, channelList);
-        editor.apply();
+        if (!channelList.contains(channelUrl)) {
+            channelList.add(channelUrl);
+            @SuppressLint("CommitPrefEdits")
+            SharedPreferences.Editor editor = channelListSheredPref.edit();
+            editor.remove(CHANNEL_KEY);
+            editor.putStringSet(CHANNEL_KEY, channelList);
+            editor.apply();
+        }
+
     }
 
     @Override

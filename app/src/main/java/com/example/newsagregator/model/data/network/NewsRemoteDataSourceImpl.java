@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 
-public class NewsRemoteDataSourceImpl extends AsyncTask<String, String, JSONObject> implements NewsRemoteDataSource {
+public class NewsRemoteDataSourceImpl extends AsyncTask<Set<String>, String, Boolean> implements NewsRemoteDataSource {
 
-    private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
+    //private final String RSS_link = "https://www.sports.ru/rss/rubric.xml?s=208";
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
     private HTTPConnections httpConnections;
@@ -25,24 +25,38 @@ public class NewsRemoteDataSourceImpl extends AsyncTask<String, String, JSONObje
         this.httpConnections = httpConnections;
     }
 
+//    @Override
+//    protected JSONObject doInBackground(String... strings) {
+//        JSONObject result;
+//        httpConnections = Factory.createObjectHTTPConnections();
+//        result = httpConnections.getHTTPData(strings[0]);
+//
+//        DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
+//        ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
+//        final List<NewsItem> list = converter.setListModelView(result);
+//        dataBaseHelper.addNewsInDataBase(list);
+//
+//        return result;
+//    }
 
     @Override
-    protected JSONObject doInBackground(String... strings) {
-        JSONObject result;
+    protected Boolean doInBackground(Set<String>... sets) {
+
         httpConnections = Factory.createObjectHTTPConnections();
-        result = httpConnections.getHTTPData(strings[0]);
+        for (String url : sets[0]) {
+            JSONObject result = httpConnections.getHTTPData(RSS_to_GSON + url + API_KEY);
+            DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
+            ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
+            List<NewsItem> list = converter.setListModelView(result);
+            dataBaseHelper.addNewsInDataBase(list);
+        }
 
-        DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
-        ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
-        final List<NewsItem> list = converter.setListModelView(result);
-        dataBaseHelper.addNewsInDataBase(list);
-
-        return result;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(JSONObject jsonObjectNews) {
-        callBackApi.onCompletedFromServer(jsonObjectNews);
+    protected void onPostExecute(Boolean onFinishedLoad) {
+        callBackApi.onCompletedFromServer(onFinishedLoad);
 
     }
 
@@ -53,9 +67,7 @@ public class NewsRemoteDataSourceImpl extends AsyncTask<String, String, JSONObje
 
     @Override
     public void loadDataFromServer(Set<String> channelList) {
-        for (String url : channelList) {
-            Factory.createObjectDataRemoteSource().execute(RSS_to_GSON + url + API_KEY);
-        }
+        Factory.createObjectDataRemoteSource().execute(channelList);
 
     }
 

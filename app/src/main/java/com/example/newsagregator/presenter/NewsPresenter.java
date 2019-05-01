@@ -3,6 +3,8 @@ package com.example.newsagregator.presenter;
 import com.example.newsagregator.model.domain.NewsUseCase;
 import com.example.newsagregator.model.domain.NewsItem;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class NewsPresenter implements NewsUseCase.NewsListener {
@@ -28,6 +30,7 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
 
     @Override
     public void setData(List<NewsItem> listNewsItem) {
+        Collections.reverse(listNewsItem);
         newsViewImpl.showNews(listNewsItem);
 
     }

@@ -1,50 +1,50 @@
 package com.example.newsagregator.model.data;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.model.data.db.NewsDataBaseSource;
+import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
 import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSource;
 import com.example.newsagregator.model.domain.NewsItem;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, NewsDataBaseSource.CallBackDb, NewsRepository {
 
     private List<NewsItem> listNewsItem = new ArrayList<>();
     private NewsRemoteDataSource newsRemoteDataSource;
-    private NewsDataBaseSource dateBaseNewsSource;
+    private NewsDataBaseSource newsDateBaseNewsSource;
     private NewsSharedPrefDataSource newsSharedPrefDataSource;
     private NewsRepository.CallBacRepo callBackRepo;
     private ConverterJGONObjectInListData converterJGONObjectInListData;
+    private Context context;
 
 
     public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,
-                              NewsDataBaseSource dateBaseNewsSource,
+                              NewsDataBaseSource newsDateBaseNewsSource,
                               NewsSharedPrefDataSource newsSharedPrefDataSource,
                               ConverterJGONObjectInListData converterJGONObjectInListData) {
 
         this.newsRemoteDataSource = newsRemoteDataSource;
-        this.dateBaseNewsSource = dateBaseNewsSource;
+        this.newsDateBaseNewsSource = newsDateBaseNewsSource;
         this.newsSharedPrefDataSource = newsSharedPrefDataSource;
         this.converterJGONObjectInListData = converterJGONObjectInListData;
+        this.context = ApplicationContextSingleton.getContext();
     }
 
     @Override
-    public void onCompletedFromServer(final JSONObject jsonObjectNews) {
-        listNewsItem = converterJGONObjectInListData.setListModelView(jsonObjectNews);
-        callBackRepo.setData(listNewsItem);
+    public void onCompletedFromServer( boolean onFinished) {
+        if(onFinished){
+            newsDateBaseNewsSource.setSubcriber(this);
+            newsDateBaseNewsSource.loadNewsFromDataBase();
+        }
     }
 
     @Override
@@ -52,7 +52,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     }
 
     @Override
-    public void onCompletedFromDateBase(final List<NewsItem> newsItemListFromDateBase) {
+    public void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase) {
         callBackRepo.setData(newsItemListFromDateBase);
     }
 
@@ -62,10 +62,15 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         this.callBackRepo = callBackRepo;
         if (isOnline()) {
             newsRemoteDataSource.setSubcriber(this);
-            //newsRemoteDataSource.loadDataFromServer();
+            Set<String> channelList = newsSharedPrefDataSource.getChannelUrlList();
+            newsRemoteDataSource.loadDataFromServer(channelList);
+
+//            Intent intent = new Intent(context, NewsIntentService.class);
+//            context.startService(intent);
+
         } else {
-            dateBaseNewsSource.setSubcriber(this);
-            dateBaseNewsSource.loadNewsFromDataBase();
+            newsDateBaseNewsSource.setSubcriber(this);
+            newsDateBaseNewsSource.loadNewsFromDataBase();
         }
     }
 
@@ -78,7 +83,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
 
     private boolean isOnline() {
         ConnectivityManager cm =
-                (ConnectivityManager) ApplicationContextSingleton.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;

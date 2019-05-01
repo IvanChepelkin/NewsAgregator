@@ -11,7 +11,7 @@ public interface NewsRemoteDataSource {
 
     interface CallBackApi {
 
-        void onCompletedFromServer(JSONObject jsonObjectNews);
+        void onCompletedFromServer(final boolean onFinished);
 
         void onError(Throwable t);
     }
