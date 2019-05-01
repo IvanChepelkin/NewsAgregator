@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                newsPresenter.setClickOkAddChannel(input.getText().toString());
             }
         });
         builder.show();

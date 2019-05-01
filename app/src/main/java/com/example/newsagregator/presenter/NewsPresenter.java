@@ -22,6 +22,10 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
         newsViewImpl.showAlertDialogAddChannel();
     }
 
+    public void setClickOkAddChannel(final String channelUrl) {
+        newsUseCase.saveChannel(channelUrl);
+    }
+
     @Override
     public void setData(List<NewsItem> listNewsItem) {
         newsViewImpl.showNews(listNewsItem);

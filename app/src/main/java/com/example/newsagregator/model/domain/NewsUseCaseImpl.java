@@ -21,8 +21,8 @@ public class NewsUseCaseImpl implements NewsUseCase, NewsRepository.CallBacRepo 
     }
 
     @Override
-    public void saveChannel(String channelUrl) {
-
+    public void saveChannel(final String channelUrl) {
+        newsRepository.saveChannel(channelUrl);
     }
 
     @Override

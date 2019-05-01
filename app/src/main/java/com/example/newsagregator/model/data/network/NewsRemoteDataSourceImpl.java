@@ -10,6 +10,7 @@ import com.example.newsagregator.model.domain.NewsItem;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Set;
 
 
 public class NewsRemoteDataSourceImpl extends AsyncTask<String, String, JSONObject> implements NewsRemoteDataSource {
@@ -51,8 +52,11 @@ public class NewsRemoteDataSourceImpl extends AsyncTask<String, String, JSONObje
     }
 
     @Override
-    public void loadDataFromServer() {
-        Factory.createObjectDataRemoteSource().execute(RSS_to_GSON + RSS_link + API_KEY);
+    public void loadDataFromServer(Set<String> channelList) {
+        for (String url : channelList) {
+            Factory.createObjectDataRemoteSource().execute(RSS_to_GSON + url + API_KEY);
+        }
+
     }
 
 }

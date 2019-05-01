@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -61,7 +62,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         this.callBackRepo = callBackRepo;
         if (isOnline()) {
             newsRemoteDataSource.setSubcriber(this);
-            newsRemoteDataSource.loadDataFromServer();
+            //newsRemoteDataSource.loadDataFromServer();
         } else {
             dateBaseNewsSource.setSubcriber(this);
             dateBaseNewsSource.loadNewsFromDataBase();
@@ -71,6 +72,8 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     @Override
     public void saveChannel(final String channelUrl) {
         newsSharedPrefDataSource.putChannelInList(channelUrl);
+        Set<String> channelList = newsSharedPrefDataSource.getChannelUrlList();
+        newsRemoteDataSource.loadDataFromServer(channelList);
     }
 
     private boolean isOnline() {
