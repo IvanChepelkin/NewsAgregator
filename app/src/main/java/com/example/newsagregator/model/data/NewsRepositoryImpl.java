@@ -31,12 +31,10 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
 
 
     public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,
-                              NewsDataBaseSource newsDateBaseNewsSource,
                               NewsSharedPrefDataSource newsSharedPrefDataSource,
                               ConverterJGONObjectInListData converterJGONObjectInListData) {
 
         this.newsRemoteDataSource = newsRemoteDataSource;
-       // this.newsDateBaseNewsSource = newsDateBaseNewsSource;
         this.newsSharedPrefDataSource = newsSharedPrefDataSource;
         this.converterJGONObjectInListData = converterJGONObjectInListData;
         this.context = ApplicationContextSingleton.getContext();
@@ -79,8 +77,8 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     }
 
     private void loadNewsFromRemote() {
-        Set<String> channelListSet = newsSharedPrefDataSource.getChannelUrlList();
-        final ArrayList<String> channellistArrayList = new ArrayList<>(channelListSet);
+        Set<String> channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
+        final ArrayList<String> channelslistArrayList = new ArrayList<>(channelListSet);
         // регистрируем BroadcastReceiver
         IntentFilter intentFilter = new IntentFilter(NewsIntentService.ACTION_NEWSINTENTSERVICE);
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -88,7 +86,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         newsRemoteDataSource.setSubcriber(this);
 
         Intent intent = new Intent(context, NewsIntentService.class);
-        intent.putStringArrayListExtra(KEY_SERVICE, channellistArrayList);
+        intent.putStringArrayListExtra(KEY_SERVICE, channelslistArrayList);
         context.startService(intent);
     }
 

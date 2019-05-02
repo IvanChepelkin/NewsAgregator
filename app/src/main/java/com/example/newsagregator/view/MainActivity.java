@@ -25,6 +25,7 @@ import com.example.newsagregator.model.domain.NewsItem;
 import com.example.newsagregator.presenter.INewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity
             newsPresenter.setClickAddChannel();
 
         } else if (id == R.id.news_delete_channel) {
-
+            newsPresenter.setClickDeleteChannel();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -112,10 +113,6 @@ public class MainActivity extends AppCompatActivity
         newsPresenter.updateNews();
     }
 
-    private void loadData() {
-        Intent intent = new Intent(MainActivity.this, NewsIntentService.class);
-        startService(intent);
-    }
 
     @Override
     public void showNews(List<NewsItem> listNewsItem) {
@@ -126,19 +123,42 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showAlertDialogAddChannel() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Введите адрес канала");
+        AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(this);
+        addChannelDialog.setTitle("Введите адрес канала");
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://lenta.ru/l/r/EX/import.rss");
-        builder.setView(input);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        input.setText("http://www.vsesmi.ru/rss/19/");
+        addChannelDialog.setView(input);
+        addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 newsPresenter.setClickOkAddChannel(input.getText().toString());
             }
         });
-        builder.show();
+        addChannelDialog.show();
+    }
+
+    @Override
+    public void showAlertDialogDeleteChannel(ArrayList<String> channelsList) {
+        AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
+        deleteChannelsDialog.setTitle("Выберите канал");
+
+        final EditText inputs = new EditText(this);
+        inputs.setInputType(InputType.TYPE_CLASS_TEXT);
+        deleteChannelsDialog.setView(inputs);
+        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        deleteChannelsDialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        deleteChannelsDialog.show();
     }
 }

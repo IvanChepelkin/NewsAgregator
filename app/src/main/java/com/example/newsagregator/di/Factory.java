@@ -45,7 +45,6 @@ public class Factory {
     private static NewsRepositoryImpl createObjectNewsRepositoryImpl() {
         return new NewsRepositoryImpl(
                 Factory.createObjectNewsBroadcastReceiverImpl(),
-                Factory.createObjectDataBaseNewsSourceImpl(),
                 Factory.createObjectNewsSharedPrefDataSourceImpl(),
                 createObjectConverterJGONObjectInListData());
     }

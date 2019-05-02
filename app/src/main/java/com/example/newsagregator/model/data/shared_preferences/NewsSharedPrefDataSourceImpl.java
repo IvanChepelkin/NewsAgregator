@@ -1,6 +1,5 @@
 package com.example.newsagregator.model.data.shared_preferences;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -10,7 +9,7 @@ import java.util.Set;
 
 public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
     private SharedPreferences channelListSheredPref;
-    private Set<String> channelList = new HashSet<>();
+    private Set<String> channelsList = new HashSet<>();
     private final String APP_PREFERENCES = "NEWS_CHANNELS";
     private final String CHANNEL_KEY = "NEWS_CHANNEL";
 
@@ -20,23 +19,23 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
 
     @Override
     public void putChannelInList(String channelUrl) {
-        channelList = getChannelUrlList();
-        if (!channelList.contains(channelUrl)) {
-            channelList.add(channelUrl);
+        channelsList = getChannelsUrlList();
+        if (!channelsList.contains(channelUrl)) {
+            channelsList.add(channelUrl);
             changeListChannels();
         }
     }
 
     @Override
-    public Set<String> getChannelUrlList() {
-        channelList = channelListSheredPref.getStringSet(CHANNEL_KEY, new HashSet<String>());
-        return channelList;
+    public Set<String> getChannelsUrlList() {
+        channelsList = channelListSheredPref.getStringSet(CHANNEL_KEY, channelsList);
+        return channelsList;
     }
 
     @Override
     public void deleteChannel(String channelUrl) {
-        channelList = getChannelUrlList();
-        channelList.remove(channelUrl);
+        channelsList = getChannelsUrlList();
+        channelsList.remove(channelUrl);
         changeListChannels();
     }
 
@@ -45,7 +44,7 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
         SharedPreferences.Editor editor = channelListSheredPref.edit();
         editor.remove(CHANNEL_KEY);
         editor.apply();
-        editor.putStringSet(CHANNEL_KEY, channelList);
+        editor.putStringSet(CHANNEL_KEY, channelsList);
         editor.apply();
     }
 

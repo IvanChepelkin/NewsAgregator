@@ -6,7 +6,7 @@ public interface NewsSharedPrefDataSource {
 
     void putChannelInList(final String channelUrl);
 
-    Set<String> getChannelUrlList();
+    Set<String> getChannelsUrlList();
 
     void deleteChannel(final String channelUrl);
 }
