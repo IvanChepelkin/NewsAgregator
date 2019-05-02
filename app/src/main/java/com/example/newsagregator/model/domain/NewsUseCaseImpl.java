@@ -3,11 +3,12 @@ package com.example.newsagregator.model.domain;
 import com.example.newsagregator.model.data.NewsRepository;
 
 import java.util.List;
+import java.util.Set;
 
 
 public class NewsUseCaseImpl implements NewsUseCase, NewsRepository.CallBacRepo {
-    NewsRepository newsRepository;
-    NewsListener newsListener;
+    private NewsRepository newsRepository;
+    private NewsListener newsListener;
 
     public NewsUseCaseImpl(NewsRepository newsRepository) {
         this.newsRepository = newsRepository;
@@ -26,7 +27,17 @@ public class NewsUseCaseImpl implements NewsUseCase, NewsRepository.CallBacRepo 
     }
 
     @Override
+    public void channelsList() {
+        newsRepository.channelsList();
+    }
+
+    @Override
     public void setData(final List<NewsItem> listNewsItem) {
         newsListener.setData(listNewsItem);
+    }
+
+    @Override
+    public void setChannelList(Set<String> channelListSet) {
+        newsListener.setChannelsList(channelListSet);
     }
 }

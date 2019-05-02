@@ -28,6 +28,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     private ConverterJGONObjectInListData converterJGONObjectInListData;
     private Context context;
     private String KEY_SERVICE = "channels";
+    Set<String> channelListSet;
 
 
     public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,
@@ -76,8 +77,14 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         loadNewsFromRemote();
     }
 
+    @Override
+    public void channelsList() {
+        channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
+        callBackRepo.setChannelList(channelListSet);
+    }
+
     private void loadNewsFromRemote() {
-        Set<String> channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
+        channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
         final ArrayList<String> channelslistArrayList = new ArrayList<>(channelListSet);
         // регистрируем BroadcastReceiver
         IntentFilter intentFilter = new IntentFilter(NewsIntentService.ACTION_NEWSINTENTSERVICE);

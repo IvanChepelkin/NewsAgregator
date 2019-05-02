@@ -140,20 +140,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void showAlertDialogDeleteChannel(ArrayList<String> channelsList) {
+    public void showAlertDialogDeleteChannel(String[] channelsArray) {
+
+        boolean[] selectedTrueFalse = new boolean[channelsArray.length];
+        for (int i = 0; i < selectedTrueFalse.length; i++) {
+            selectedTrueFalse[i] = false;
+        }
+
         AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
         deleteChannelsDialog.setTitle("Выберите канал");
 
         final EditText inputs = new EditText(this);
         inputs.setInputType(InputType.TYPE_CLASS_TEXT);
         deleteChannelsDialog.setView(inputs);
-        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
+        deleteChannelsDialog.setMultiChoiceItems(channelsArray, selectedTrueFalse, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
 
             }
         });
-        deleteChannelsDialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
