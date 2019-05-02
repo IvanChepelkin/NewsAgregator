@@ -25,7 +25,7 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
             channelList.add(channelUrl);
             @SuppressLint("CommitPrefEdits")
             SharedPreferences.Editor editor = channelListSheredPref.edit();
-            editor.remove(CHANNEL_KEY);
+            //editor.remove(CHANNEL_KEY);
             editor.putStringSet(CHANNEL_KEY, channelList);
             editor.apply();
         }

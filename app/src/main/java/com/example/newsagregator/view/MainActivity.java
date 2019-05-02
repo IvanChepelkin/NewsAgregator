@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText("http://lenta.ru/l/r/EX/import.rss");
         builder.setView(input);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

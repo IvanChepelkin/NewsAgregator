@@ -26,7 +26,7 @@ public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>
 
     @Override
     protected void onPostExecute(final List<NewsItem> newsItemList) {
-        for (int i = 0; i <newsItemList.size() ; i++) {
+        for (int i = 0; i < newsItemList.size(); i++) {
             System.out.println("Листок " + newsItemList.get(i).getGuide());
         }
 
@@ -35,7 +35,7 @@ public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>
 
     @Override
     public void loadNewsFromDataBase() {
-        Factory.createObjectDataBaseNewsSourceImpl().execute();
+        execute();
     }
 
     @Override

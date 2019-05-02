@@ -1,58 +1,49 @@
 package com.example.newsagregator.model.data.network;
 
-import android.os.AsyncTask;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import com.example.newsagregator.di.ApplicationContextSingleton;
 
-import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
-import com.example.newsagregator.model.data.db.DataBaseHelper;
-import com.example.newsagregator.model.domain.NewsItem;
-
-import org.json.JSONObject;
-
-import java.util.List;
 import java.util.Set;
 
+public class NewsRemoteDataSourceImpl extends BroadcastReceiver implements NewsRemoteDataSource {
+    Context context;
+    private String KEY_SERVICE = "channels";
+    CallBackApi callBackApi;
 
-public class NewsRemoteDataSourceImpl extends AsyncTask<Set<String>, String, Boolean> implements NewsRemoteDataSource {
-
-    private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
-    private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
-    private HTTPConnections httpConnections;
-    private CallBackApi callBackApi;
-
-    public NewsRemoteDataSourceImpl(HTTPConnections httpConnections) {
-        this.httpConnections = httpConnections;
-    }
-    @Override
-    protected Boolean doInBackground(Set<String>... sets) {
-
-        httpConnections = Factory.createObjectHTTPConnections();
-        for (String url : sets[0]) {
-            JSONObject result = httpConnections.getHTTPData(RSS_to_GSON + url + API_KEY);
-            DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
-            ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
-            List<NewsItem> list = converter.setListModelView(result);
-            dataBaseHelper.addNewsInDataBase(list);
-        }
-
-        return true;
+    public NewsRemoteDataSourceImpl() {
     }
 
     @Override
-    protected void onPostExecute(Boolean onFinishedLoad) {
-        callBackApi.onCompletedFromServer(onFinishedLoad);
+    public void onReceive(Context context, Intent intent) {
+
+        boolean onFinish = intent.getBooleanExtra(NewsIntentService.EXTRA_KEY_OUT, false);
+       if (onFinish){
+           callBackApi.onCompletedFromServer(onFinish);
+       }
 
     }
 
     @Override
     public void setSubcriber(CallBackApi callBackApi) {
-      //  this.callBackApi = callBackApi;
+        this.callBackApi = callBackApi;
     }
 
     @Override
-    public void loadDataFromServer(Set<String> channelList) {
-        Factory.createObjectDataRemoteSource().execute(channelList);
+    public void loadDataFromServer(Set<String> channelListSet) {
+        this.context = ApplicationContextSingleton.getContext();
 
+//        final ArrayList<String> channellistArrayList = new ArrayList<>(channelListSet);
+//        NewsRemoteDataSourceImpl newsBroadcastReceiver = new NewsRemoteDataSourceImpl();
+//
+//        // регистрируем BroadcastReceiver
+//        IntentFilter intentFilter = new IntentFilter(NewsIntentService.ACTION_NEWSINTENTSERVICE);
+//        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+//        context.registerReceiver(newsBroadcastReceiver, intentFilter);
+//
+//        Intent intent = new Intent(context, NewsIntentService.class);
+//        intent.putStringArrayListExtra(KEY_SERVICE, channellistArrayList);
+//        context.startService(intent);
     }
-
 }
