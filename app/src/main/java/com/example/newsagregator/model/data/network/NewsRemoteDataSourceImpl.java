@@ -46,7 +46,7 @@ public class NewsRemoteDataSourceImpl extends AsyncTask<Set<String>, String, Boo
 
     @Override
     public void setSubcriber(CallBackApi callBackApi) {
-        this.callBackApi = callBackApi;
+      //  this.callBackApi = callBackApi;
     }
 
     @Override

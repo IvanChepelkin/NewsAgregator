@@ -2,6 +2,7 @@ package com.example.newsagregator.model.data;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -67,9 +68,17 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
             //newsRemoteDataSource.loadDataFromServer(channelList);
             final ArrayList<String> channellistArrayList = new ArrayList<>(channelListSet);
 
+            NewsBroadcastReceiver newsBroadcastReceiver = new NewsBroadcastReceiver();
+            newsRemoteDataSource.setSubcriber(this);
+            // регистрируем BroadcastReceiver
+            IntentFilter intentFilter = new IntentFilter(NewsIntentService.ACTION_NEWSINTENTSERVICE);
+            intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+            context.registerReceiver(newsBroadcastReceiver, intentFilter);
+
             Intent intent = new Intent(context, NewsIntentService.class);
             intent.putStringArrayListExtra(KEY_SERVICE, channellistArrayList);
             context.startService(intent);
+
 
         } else {
             newsDateBaseNewsSource.setSubcriber(this);
@@ -80,8 +89,8 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     @Override
     public void saveChannel(final String channelUrl) {
         Set<String> channelList = newsSharedPrefDataSource.getChannelUrlList();
-        newsRemoteDataSource.loadDataFromServer(channelList);
-        newsSharedPrefDataSource.putChannelInList(channelUrl);
+        // newsRemoteDataSource.loadDataFromServer(channelList);
+        //newsSharedPrefDataSource.putChannelInList(channelUrl);
 
 
     }

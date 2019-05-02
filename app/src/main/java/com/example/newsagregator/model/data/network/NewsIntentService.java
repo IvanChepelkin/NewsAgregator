@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class NewsIntentService extends IntentService {
+    public static final String ACTION_NEWSINTENTSERVICE = "NEWS_FROM_INTENTSERVICE";
+    public static final String EXTRA_KEY_OUT = "EXTRA_OUT";
     private String KEY_SERVICE = "channels";
     private List<String> channellistArrayList;
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
@@ -27,6 +29,7 @@ public class NewsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        boolean onFinish;
 
         channellistArrayList = intent.getStringArrayListExtra(KEY_SERVICE);
         for (String url : channellistArrayList) {
@@ -37,5 +40,13 @@ public class NewsIntentService extends IntentService {
             List<NewsItem> list = converter.setListModelView(result);
             dataBaseHelper.addNewsInDataBase(list);
         }
+        onFinish = true;
+
+        Intent responseIntent = new Intent();
+        responseIntent.setAction(ACTION_NEWSINTENTSERVICE);
+        responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        responseIntent.putExtra(EXTRA_KEY_OUT, onFinish);
+        sendBroadcast(responseIntent);
+
     }
 }
