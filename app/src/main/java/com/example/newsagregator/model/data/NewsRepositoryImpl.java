@@ -65,7 +65,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     public void getData(CallBacRepo callBackRepo) {
         this.callBackRepo = callBackRepo;
         if (isOnline()) {
-            loadNewsFromService();
+            loadNewsFromRemote();
 
         } else {
             loadNewsFromDataBase();
@@ -75,10 +75,10 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     @Override
     public void saveChannel(final String channelUrl) {
         newsSharedPrefDataSource.putChannelInList(channelUrl);
-        loadNewsFromService();
+        loadNewsFromRemote();
     }
 
-    private void loadNewsFromService() {
+    private void loadNewsFromRemote() {
         Set<String> channelListSet = newsSharedPrefDataSource.getChannelUrlList();
         final ArrayList<String> channellistArrayList = new ArrayList<>(channelListSet);
         // регистрируем BroadcastReceiver
