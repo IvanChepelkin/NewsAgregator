@@ -1,7 +1,6 @@
 package com.example.newsagregator.view;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,12 +19,10 @@ import android.widget.EditText;
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.model.domain.NewsItem;
 import com.example.newsagregator.presenter.INewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -128,12 +125,12 @@ public class MainActivity extends AppCompatActivity
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.vsesmi.ru/rss/19/");
+        input.setText("http://lenta.ru/l/r/EX/import.rss");
         addChannelDialog.setView(input);
         addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                newsPresenter.setClickOkAddChannel(input.getText().toString());
+                newsPresenter.setClickOkAddChannels(input.getText().toString());
             }
         });
         addChannelDialog.show();
@@ -142,9 +139,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showAlertDialogDeleteChannel(String[] channelsArray) {
 
-        boolean[] selectedTrueFalse = new boolean[channelsArray.length];
-        for (int i = 0; i < selectedTrueFalse.length; i++) {
-            selectedTrueFalse[i] = false;
+        final boolean[] positionCheckboxArray = new boolean[channelsArray.length];
+        for (int i = 0; i < positionCheckboxArray.length; i++) {
+            positionCheckboxArray[i] = false;
         }
 
         AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
@@ -153,17 +150,16 @@ public class MainActivity extends AppCompatActivity
         final EditText inputs = new EditText(this);
         inputs.setInputType(InputType.TYPE_CLASS_TEXT);
         deleteChannelsDialog.setView(inputs);
-        deleteChannelsDialog.setMultiChoiceItems(channelsArray, selectedTrueFalse, new DialogInterface.OnMultiChoiceClickListener() {
+        deleteChannelsDialog.setMultiChoiceItems(channelsArray, positionCheckboxArray, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-
+                positionCheckboxArray[which] = true;
             }
         });
         deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                newsPresenter.setClickOkDeleteChannels(positionCheckboxArray);
             }
         });
         deleteChannelsDialog.show();

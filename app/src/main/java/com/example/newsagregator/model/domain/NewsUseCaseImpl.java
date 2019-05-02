@@ -28,7 +28,12 @@ public class NewsUseCaseImpl implements NewsUseCase, NewsRepository.CallBacRepo 
 
     @Override
     public void channelsList() {
-        newsRepository.channelsList();
+        newsRepository.returnChannelsList();
+    }
+
+    @Override
+    public void deleteChannels(final List<String> channelsToDeleteList) {
+        newsRepository.deleteChannels(channelsToDeleteList);
     }
 
     @Override

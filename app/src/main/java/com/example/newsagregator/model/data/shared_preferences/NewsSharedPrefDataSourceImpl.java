@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -33,9 +34,12 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
     }
 
     @Override
-    public void deleteChannel(String channelUrl) {
+    public void deleteChannel(final List<String> channelsToDeleteList) {
         channelsList = getChannelsUrlList();
-        channelsList.remove(channelUrl);
+        for (int i = 0; i < channelsToDeleteList.size(); i++) {
+                channelsList.remove(channelsToDeleteList.get(i));
+        }
+        System.out.println("так удаляет или нет?"+channelsList);
         changeListChannels();
     }
 

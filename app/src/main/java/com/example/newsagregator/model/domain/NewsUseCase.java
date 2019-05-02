@@ -8,6 +8,7 @@ public interface NewsUseCase {
     void getData(NewsListener newsListener);
     void saveChannel(final String channelUrl);
     void channelsList();
+    void deleteChannels(final List<String> channelsToDeleteList);
 
     interface NewsListener {
 

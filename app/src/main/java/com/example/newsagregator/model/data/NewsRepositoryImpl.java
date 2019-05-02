@@ -78,9 +78,14 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     }
 
     @Override
-    public void channelsList() {
+    public void returnChannelsList() {
         channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
         callBackRepo.setChannelList(channelListSet);
+    }
+
+    @Override
+    public void deleteChannels(final List<String> channelsToDeleteList) {
+        newsSharedPrefDataSource.deleteChannel(channelsToDeleteList);
     }
 
     private void loadNewsFromRemote() {
@@ -102,7 +107,6 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         newsDateBaseNewsSource.setSubcriber(this);
         newsDateBaseNewsSource.loadNewsFromDataBase();
     }
-
 
 
     private boolean isOnline() {

@@ -13,6 +13,7 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
     private INewsView newsViewImpl;
     private NewsUseCase newsUseCase;
     List<NewsItem> listNewsItem;
+    String[] channelsArray;
     ArrayList<String> List;
 
     public NewsPresenter(INewsView newsViewImpl, NewsUseCase newsUseCase) {
@@ -32,12 +33,23 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
         newsUseCase.channelsList();
     }
 
-    public void setClickOkAddChannel(final String channelUrl) {
+    public void setClickOkAddChannels(final String channelUrl) {
         newsUseCase.saveChannel(channelUrl);
     }
 
+    public void setClickOkDeleteChannels(final boolean [] positionCheckboxArray){
+       List<String> channelsToDeleteList = new ArrayList<>();
+
+        for (int i = 0; i < positionCheckboxArray.length ; i++) {
+            if (positionCheckboxArray[i]){
+                channelsToDeleteList.add(channelsArray[i]);
+            }
+        }
+        newsUseCase.deleteChannels(channelsToDeleteList);
+    }
+
     @Override
-    public void setData(List<NewsItem> listNewsItem) {
+    public void setData(final List<NewsItem> listNewsItem) {
         this.listNewsItem = listNewsItem;
         Collections.reverse(listNewsItem);
         newsViewImpl.showNews(listNewsItem);
@@ -46,7 +58,7 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
 
     @Override
     public void setChannelsList(Set<String> channelListSet) {
-        String[] channelsArray = channelListSet.toArray(new String[0]);
+        channelsArray = channelListSet.toArray(new String[0]);
         newsViewImpl.showAlertDialogDeleteChannel(channelsArray);
     }
 }
