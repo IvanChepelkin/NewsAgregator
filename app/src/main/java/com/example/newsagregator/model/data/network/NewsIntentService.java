@@ -37,8 +37,8 @@ public class NewsIntentService extends IntentService {
             DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
             JSONObject result = httpConnections.getHTTPData(RSS_to_GSON + url + API_KEY);
             ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
-            List<NewsItem> list = converter.setListModelView(result);
-            dataBaseHelper.addNewsInDataBase(list);
+            List<NewsItem> newsItemlist = converter.setListModelView(result);
+            dataBaseHelper.addNewsInDataBase(newsItemlist);
         }
         onFinish = true;
 

@@ -5,4 +5,10 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="titleTextSize">25sp</dimen>
+    <dimen name="contentTextSize">14sp</dimen>
+    <dimen name="cardNewsItemMargins">10dp</dimen>
+    <dimen name="cardNewsItemCornerRadius">10dp</dimen>
+    <dimen name="cardNewsItemElevation">5dp</dimen>
+    <dimen name="cardNewsItemPadding">5dp</dimen>
 </resources>

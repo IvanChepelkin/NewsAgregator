@@ -2,7 +2,6 @@ package com.example.newsagregator.model.data.network;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,8 +14,7 @@ import java.net.URL;
 
 public class HTTPConnections {
     private JSONObject stream = null;
-    private static final String RESPONSE = "status";
-    private static final String ALL_GOOD = "ok";
+    private final String ALL_GOOD = "ok";
 
     public HTTPConnections() {
     }
