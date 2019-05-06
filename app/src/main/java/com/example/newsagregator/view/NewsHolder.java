@@ -9,11 +9,11 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.newsagregator.R;
-import com.example.newsagregator.presenter.model_view.ModelView;
+import com.example.newsagregator.model.domain.NewsItem;
 
 class NewsHolder extends RecyclerView.ViewHolder {
     private int id;
-    private ModelView modelView;
+    private NewsItem newsItem;
     private View root;
     private TextView textTitle;
     private TextView textContent;
@@ -22,27 +22,26 @@ class NewsHolder extends RecyclerView.ViewHolder {
     private NewsHolder(@NonNull View itemView) {
         super(itemView);
         root = itemView;
-        textTitle = itemView.findViewById(R.id.txtTitle);
-        textContent = itemView.findViewById(R.id.txtContent);
-        webViewContent = itemView.findViewById(R.id.webViewContent);
+        textTitle = itemView.findViewById(R.id.newsItemTitle);
+        textContent = itemView.findViewById(R.id.newsItemContent);
+        webViewContent = itemView.findViewById(R.id.newsItemGuide);
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 webViewContent.getSettings().setJavaScriptEnabled(true);
-                webViewContent.loadUrl(modelView.getGuide());
+                webViewContent.loadUrl(newsItem.getGuide());
             }
         });
     }
 
-    void bind(ModelView modelView) {
-        this.id = id;
-        this.modelView = modelView;
-        textTitle.setText(modelView.getTitle());
-        textContent.setText(modelView.getContent());
+    void bind(NewsItem newsItem) {
+        this.newsItem = newsItem;
+        textTitle.setText(newsItem.getTitle());
+        textContent.setText(newsItem.getContent());
 
     }
 
     static NewsHolder create(LayoutInflater inflater, ViewGroup parent) {
-        return new NewsHolder(inflater.inflate(R.layout.card_item_news, parent, false));
+        return new NewsHolder(inflater.inflate(R.layout.news_card_item, parent, false));
     }
 }

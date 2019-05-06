@@ -1,11 +1,11 @@
-package com.example.newsagregator.presenter.model_view;
+package com.example.newsagregator.model.domain;
 
-public class ModelView {
+public class NewsItem {
     private String title;
     private String guide;
     private String content;
 
-    public ModelView(String title, String guide, String content) {
+    public NewsItem(String title, String guide, String content) {
         this.title = title;
         this.guide = guide;
         this.content = content;

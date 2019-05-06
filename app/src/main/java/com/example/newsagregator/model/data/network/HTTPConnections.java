@@ -1,6 +1,4 @@
-package com.example.newsagregator.model.network;
-
-import com.google.gson.JsonObject;
+package com.example.newsagregator.model.data.network;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,12 +13,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class HTTPConnection {
+public class HTTPConnections {
     private JSONObject stream = null;
     private static final String RESPONSE = "status";
     private static final String ALL_GOOD = "ok";
 
-    public HTTPConnection() {
+    public HTTPConnections() {
     }
 
     JSONObject getHTTPData(String urlString) {
@@ -36,7 +34,7 @@ public class HTTPConnection {
                     sbuilder.append(line).append("\n");
                 }
                 httpURLConnection.disconnect();
-                JSONObject jsonObject = new JSONObject(sbuilder.toString());
+                final JSONObject jsonObject = new JSONObject(sbuilder.toString());
 //                if (jsonObject.getString(RESPONSE) != ALL_GOOD) {
 //                    return null;
 //                } else {
