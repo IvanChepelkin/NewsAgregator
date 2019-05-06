@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface NewsRepository {
+
     void getData(CallBacRepo callBackApi);
 
     void saveChannel(final String channelUrl);

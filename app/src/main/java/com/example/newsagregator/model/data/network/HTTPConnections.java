@@ -32,12 +32,8 @@ public class HTTPConnections {
                     sbuilder.append(line).append("\n");
                 }
                 httpURLConnection.disconnect();
-                final JSONObject jsonObject = new JSONObject(sbuilder.toString());
-//                if (jsonObject.getString(RESPONSE) != ALL_GOOD) {
-//                    return null;
-//                } else {
-//
-//                }
+               JSONObject jsonObject = new JSONObject(sbuilder.toString());
+
                 return jsonObject;
             }
         } catch (MalformedURLException e) {
