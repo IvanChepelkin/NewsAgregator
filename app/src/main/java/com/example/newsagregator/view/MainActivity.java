@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
-    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         recViewNews = findViewById(R.id.newsRecyclerView);
         recViewNews.setLayoutManager(new LinearLayoutManager(this));
-        progressBar = findViewById(R.id.progressBar);
         refreshLayout = findViewById(R.id.refresh);
         refreshLayout.setOnRefreshListener(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
