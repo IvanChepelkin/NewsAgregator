@@ -25,6 +25,7 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
 
     public void updateNews() {
         newsUseCase.getData(this);
+        newsView.showProgress();
     }
 
     public void setClickAddChannel() {
@@ -54,6 +55,7 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
     public void setData(final List<NewsItem> listNewsItem) {
         this.listNewsItem = listNewsItem;
         Collections.reverse(listNewsItem);
+        newsView.hideProgress();
         newsView.showNews(listNewsItem);
     }
 

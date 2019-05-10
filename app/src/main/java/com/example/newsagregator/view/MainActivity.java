@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.newsagregator.R;
@@ -27,10 +28,11 @@ import com.example.newsagregator.presenter.NewsPresenter;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NewsView{
+        implements NavigationView.OnNavigationItemSelectedListener, NewsView {
 
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         recViewNews = findViewById(R.id.newsRecyclerView);
         recViewNews.setLayoutManager(new LinearLayoutManager(this));
+        progressBar = findViewById(R.id.progressBar);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -175,12 +178,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showProgress() {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
 
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
 }
