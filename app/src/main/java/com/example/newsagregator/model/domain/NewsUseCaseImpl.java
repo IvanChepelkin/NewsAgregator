@@ -45,4 +45,9 @@ public class NewsUseCaseImpl implements NewsUseCase, NewsRepository.CallBacRepo 
     public void setChannelList(Set<String> channelListSet) {
         newsListener.setChannelsList(channelListSet);
     }
+
+    @Override
+    public void setError(Throwable exeption) {
+        newsListener.setError(exeption);
+    }
 }

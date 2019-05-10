@@ -21,5 +21,7 @@ public interface NewsRepository {
 
         void setChannelList(Set<String> channelListSet);
 
+        void setError(Throwable exeption);
+
     }
 }

@@ -15,18 +15,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.domain.NewsItem;
-import com.example.newsagregator.presenter.INewsView;
+import com.example.newsagregator.presenter.NewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INewsView {
+        implements NavigationView.OnNavigationItemSelectedListener, NewsView{
 
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://lenta.ru/l/r/EX/import.rss");
+        input.setText("http://homeidea.ru/index.php?type=rss;action=.xml");
         addChannelDialog.setView(input);
         addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -164,4 +165,22 @@ public class MainActivity extends AppCompatActivity
         });
         deleteChannelsDialog.show();
     }
+
+    @Override
+    public void showError(String error) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Ошибка запроса", Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
 }

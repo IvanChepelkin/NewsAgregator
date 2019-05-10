@@ -46,10 +46,9 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         }
     }
 
-
     @Override
-    public void onError(Throwable t) {
-
+    public void onError(Throwable exeption) {
+        callBackRepo.setError(exeption);
     }
 
     @Override

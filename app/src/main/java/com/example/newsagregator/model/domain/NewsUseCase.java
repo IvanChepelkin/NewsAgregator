@@ -14,5 +14,6 @@ public interface NewsUseCase {
 
         void setData(List<NewsItem> listNewsItem);
         void setChannelsList(Set<String> channelListSet);
+        void setError(Throwable exeption);
     }
 }

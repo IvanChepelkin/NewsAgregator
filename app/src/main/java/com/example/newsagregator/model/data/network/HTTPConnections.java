@@ -2,6 +2,7 @@ package com.example.newsagregator.model.data.network;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,18 +13,22 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class HTTPConnections {
-    private JSONObject stream = null;
-    private final String ALL_GOOD = "ok";
+public class HTTPConnections implements LoadDataHttp {
+    private CallBackHttp callBackHttp;
 
     public HTTPConnections() {
     }
 
-    JSONObject getHTTPData(String urlString) {
+
+    @Override
+    public void getHttpData(CallBackHttp callBackHttp, String urlChannel) {
+        this.callBackHttp = callBackHttp;
         try {
-            URL url = new URL(urlString);
+            URL url = new URL(urlChannel);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
             if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
                 InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 StringBuilder sbuilder = new StringBuilder(1024);
@@ -32,17 +37,15 @@ public class HTTPConnections {
                     sbuilder.append(line).append("\n");
                 }
                 httpURLConnection.disconnect();
-               JSONObject jsonObject = new JSONObject(sbuilder.toString());
-
-                return jsonObject;
+                final JSONObject result = new JSONObject(sbuilder.toString());
+                callBackHttp.onSuccess(result);
             }
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            callBackHttp.onError(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            callBackHttp.onError(e);
         } catch (JSONException e) {
-            e.printStackTrace();
+            callBackHttp.onError(e);
         }
-        return stream;
     }
 }

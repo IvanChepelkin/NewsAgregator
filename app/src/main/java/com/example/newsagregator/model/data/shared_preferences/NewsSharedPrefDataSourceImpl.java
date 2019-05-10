@@ -20,10 +20,12 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
 
     @Override
     public void putChannelInList(String channelUrl) {
-        channelsList = getChannelsUrlList();
-        if (!channelsList.contains(channelUrl)) {
-            channelsList.add(channelUrl);
-            changeListChannels();
+        if (channelUrl != null) {
+            channelsList = getChannelsUrlList();
+            if (!channelsList.contains(channelUrl)) {
+                channelsList.add(channelUrl);
+                changeListChannels();
+            }
         }
     }
 
@@ -37,12 +39,10 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
     public void deleteChannel(final List<String> channelsToDeleteList) {
         channelsList = getChannelsUrlList();
         for (int i = 0; i < channelsToDeleteList.size(); i++) {
-                channelsList.remove(channelsToDeleteList.get(i));
+            channelsList.remove(channelsToDeleteList.get(i));
         }
-        System.out.println("так удаляет или нет?"+channelsList);
         changeListChannels();
     }
-
 
     private void changeListChannels() {
         SharedPreferences.Editor editor = channelListSheredPref.edit();
