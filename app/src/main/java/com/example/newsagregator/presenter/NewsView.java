@@ -17,5 +17,7 @@ public interface NewsView {
 
     void hideProgress();
 
+    void showMainConent(String guid);
+
 
 }

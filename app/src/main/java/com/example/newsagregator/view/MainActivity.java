@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -29,10 +31,13 @@ import com.example.newsagregator.presenter.NewsPresenter;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NewsView, SwipeRefreshLayout.OnRefreshListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NewsView, SwipeRefreshLayout.OnRefreshListener, NewsAdapter.ItemListener {
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
+    private WebView webViewContent;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showNews(List<NewsItem> listNewsItem) {
         recViewNews.setHasFixedSize(false);
-        NewsAdapter newsAdapter = new NewsAdapter(listNewsItem);
+        NewsAdapter newsAdapter = new NewsAdapter(this,listNewsItem);
         recViewNews.setAdapter(newsAdapter);
     }
 
@@ -185,7 +190,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void showMainConent(String guid) {
+        webViewContent.getSettings().setJavaScriptEnabled(true);
+        webViewContent.loadUrl(guid);
+    }
+
+    @Override
     public void onRefresh() {
         newsPresenter.updateNews();
+    }
+
+    @Override
+    public void onItemClick(int position, WebView webViewContent) {
+        this.webViewContent = webViewContent;
+        newsPresenter.setClickItemNews(position);
     }
 }

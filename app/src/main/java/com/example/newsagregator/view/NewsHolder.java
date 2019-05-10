@@ -12,30 +12,32 @@ import com.example.newsagregator.R;
 import com.example.newsagregator.model.domain.NewsItem;
 
 class NewsHolder extends RecyclerView.ViewHolder {
-    private int id;
     private NewsItem newsItem;
     private View root;
     private TextView textTitle;
     private TextView textContent;
+    private NewsAdapter.ItemListener itemListener;
+    private int position;
     private WebView webViewContent;
-
     private NewsHolder(@NonNull View itemView) {
         super(itemView);
         root = itemView;
         textTitle = itemView.findViewById(R.id.newsItemTitle);
         textContent = itemView.findViewById(R.id.newsItemContent);
         webViewContent = itemView.findViewById(R.id.newsItemGuide);
+
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                webViewContent.getSettings().setJavaScriptEnabled(true);
-                webViewContent.loadUrl(newsItem.getGuide());
+                itemListener.onItemClick(position, webViewContent);
             }
         });
     }
 
-    void bind(NewsItem newsItem) {
+    void bind(NewsItem newsItem, NewsAdapter.ItemListener itemListener, int position) {
         this.newsItem = newsItem;
+        this.itemListener = itemListener;
+        this.position = position;
         textTitle.setText(newsItem.getTitle());
         textContent.setText(newsItem.getContent());
 

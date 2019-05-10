@@ -51,6 +51,11 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
         newsUseCase.deleteChannels(channelsToDeleteList);
     }
 
+    public void setClickItemNews(int position) {
+        String guid = listNewsItem.get(position).getGuide();
+        newsView.showMainConent(guid);
+    }
+
     @Override
     public void setData(final List<NewsItem> listNewsItem) {
         this.listNewsItem = listNewsItem;
