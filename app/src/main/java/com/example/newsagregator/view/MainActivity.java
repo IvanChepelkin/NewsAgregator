@@ -2,6 +2,7 @@ package com.example.newsagregator.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +29,8 @@ import com.example.newsagregator.presenter.NewsPresenter;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NewsView {
-
+        implements NavigationView.OnNavigationItemSelectedListener, NewsView, SwipeRefreshLayout.OnRefreshListener {
+    private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
     private ProgressBar progressBar;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity
         recViewNews = findViewById(R.id.newsRecyclerView);
         recViewNews.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progressBar);
+        refreshLayout = findViewById(R.id.refresh);
+        refreshLayout.setOnRefreshListener(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -78,12 +81,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -178,13 +177,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showProgress() {
-        progressBar.setVisibility(ProgressBar.VISIBLE);
+        refreshLayout.setRefreshing(true);
 
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
+        refreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public void onRefresh() {
+        newsPresenter.updateNews();
+    }
 }

@@ -8,23 +8,19 @@
     tools:context=".view.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:scaleX="0.10"
-        android:scaleY="0.10"
-        android:textColor="@color/colorAccent"
-        android:visibility="invisible"/>
+        android:id="@+id/refresh">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/newsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:scrollbars="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/newsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>
