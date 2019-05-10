@@ -1,5 +1,6 @@
 package com.example.newsagregator.view;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://homeidea.ru/index.php?type=rss;action=.xml");
+        input.setText("http://www.free-lance.ru/rss/projects.xml");
         addChannelDialog.setView(input);
         addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -189,6 +190,7 @@ public class MainActivity extends AppCompatActivity
         refreshLayout.setRefreshing(false);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void showMainConent(String guid) {
         webViewContent.getSettings().setJavaScriptEnabled(true);
