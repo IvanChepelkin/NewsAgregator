@@ -3,8 +3,6 @@ package com.example.newsagregator.presenter;
 import com.example.newsagregator.model.domain.NewsPresenterListener;
 import com.example.newsagregator.model.domain.NewsUseCase;
 import com.example.newsagregator.model.domain.NewsItem;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +14,15 @@ public class NewsPresenter implements NewsPresenterListener {
     private List<NewsItem> listNewsItem;
     private String[] channelsArray;
 
-    public NewsPresenter(NewsView newsView, NewsUseCase newsUseCase) {
-        this.newsView = newsView;
+    public NewsPresenter( NewsUseCase newsUseCase) {
         this.newsUseCase = newsUseCase;
+    }
+
+    public void onAttach(NewsView newsView){
+        this.newsView = newsView;
+        if (newsView != null){
+            updateNews();
+        }
     }
 
     public void updateNews() {
@@ -70,10 +74,6 @@ public class NewsPresenter implements NewsPresenterListener {
 
     @Override
     public void setError(Throwable exeption) {
-
-        if (exeption instanceof IOException){
-            newsView.showError("Ошибка");
-        }
-
+        newsView.showError("Неправильный адрес запроса");
     }
 }

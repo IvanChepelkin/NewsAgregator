@@ -8,14 +8,18 @@ import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSourceImpl;
 import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSourceImpl;
 import com.example.newsagregator.model.domain.NewsUseCaseImpl;
+import com.example.newsagregator.presenter.NewsPresenter;
+import com.example.newsagregator.presenter.NewsView;
+import com.example.newsagregator.view.MainActivity;
 
 public class Factory {
 
     private static DataBaseHelper dataBaseSourceInstance;
 
-//    public static NewsPresenter createObjectNewsPresenter(){
-//        return new NewsPresenter();
-//    }
+
+    public static NewsPresenter createObjectNewsPresenter(){
+        return new NewsPresenter(Factory.createGetUseCaseImpl());
+    }
 
     public static HTTPConnections createObjectHTTPConnections() {
         return new HTTPConnections();

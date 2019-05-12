@@ -43,9 +43,11 @@ public class HTTPConnections implements LoadDataHttp {
 
         } catch (MalformedURLException e) {
             callBackHttp.onError(e);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             callBackHttp.onError(e);
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             callBackHttp.onError(e);
         }
     }

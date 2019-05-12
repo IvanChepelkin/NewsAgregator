@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initViews();
         ApplicationContextSingleton.setContext(this);
-        newsPresenter = new NewsPresenter(this, Factory.createGetUseCaseImpl());
-        loadRSS();
+        newsPresenter = Factory.createObjectNewsPresenter();
+        newsPresenter.onAttach(this);
     }
 
     private void initViews() {
@@ -110,11 +110,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    private void loadRSS() {
-        newsPresenter.updateNews();
-    }
-
 
     @Override
     public void showNews(List<NewsItem> listNewsItem) {
