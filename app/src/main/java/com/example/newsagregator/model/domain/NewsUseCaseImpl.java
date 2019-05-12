@@ -1,14 +1,15 @@
 package com.example.newsagregator.model.domain;
 
+import com.example.newsagregator.model.data.CallBackRepo;
 import com.example.newsagregator.model.data.NewsRepository;
 
 import java.util.List;
 import java.util.Set;
 
 
-public class NewsUseCaseImpl implements NewsUseCase, NewsRepository.CallBacRepo {
+public class NewsUseCaseImpl implements NewsUseCase, CallBackRepo {
     private NewsRepository newsRepository;
-    private NewsListener newsListener;
+    private NewsPresenterListener newsListener;
 
     public NewsUseCaseImpl(NewsRepository newsRepository) {
         this.newsRepository = newsRepository;
@@ -16,7 +17,7 @@ public class NewsUseCaseImpl implements NewsUseCase, NewsRepository.CallBacRepo 
 
 
     @Override
-    public void getData(NewsListener newsListener) {
+    public void getData(NewsPresenterListener newsListener) {
         this.newsListener = newsListener;
         newsRepository.getData(this);
     }

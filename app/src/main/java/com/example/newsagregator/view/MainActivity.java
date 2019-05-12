@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -19,15 +18,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.domain.NewsItem;
-import com.example.newsagregator.presenter.NewsView;
 import com.example.newsagregator.presenter.NewsPresenter;
+import com.example.newsagregator.presenter.NewsView;
 
 import java.util.List;
 
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showAlertDialogAddChannel() {
         AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(this);
-        addChannelDialog.setTitle("Введите адрес канала");
+        addChannelDialog.setTitle("Введите адрес канала"); //literals
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);

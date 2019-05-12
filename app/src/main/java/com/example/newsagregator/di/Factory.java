@@ -13,10 +13,13 @@ public class Factory {
 
     private static DataBaseHelper dataBaseSourceInstance;
 
+//    public static NewsPresenter createObjectNewsPresenter(){
+//        return new NewsPresenter();
+//    }
+
     public static HTTPConnections createObjectHTTPConnections() {
         return new HTTPConnections();
     }
-
 
     public static DataBaseHelper createObjectDataBaseHelper() {
         if (dataBaseSourceInstance == null) {

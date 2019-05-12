@@ -1,5 +1,4 @@
 package com.example.newsagregator.model.data.network;
-import java.util.Set;
 
 public interface NewsRemoteDataSource {
 

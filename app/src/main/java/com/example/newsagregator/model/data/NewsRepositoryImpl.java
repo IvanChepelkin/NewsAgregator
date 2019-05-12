@@ -25,7 +25,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     private NewsRemoteDataSource newsRemoteDataSource;
     private NewsDataBaseSource newsDateBaseNewsSource;
     private NewsSharedPrefDataSource newsSharedPrefDataSource;
-    private NewsRepository.CallBacRepo callBackRepo;
+    private CallBackRepo callBackRepo;
     private Context context;
     private String KEY_SERVICE = "channels";
     private Set<String> channelListSet;
@@ -58,7 +58,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
 
 
     @Override
-    public void getData(CallBacRepo callBackRepo) {
+    public void getData(CallBackRepo callBackRepo) {
         this.callBackRepo = callBackRepo;
         if (isOnline()) {
             loadNewsFromRemote();

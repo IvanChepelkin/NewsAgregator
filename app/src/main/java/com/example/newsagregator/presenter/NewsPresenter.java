@@ -1,18 +1,14 @@
 package com.example.newsagregator.presenter;
 
+import com.example.newsagregator.model.domain.NewsPresenterListener;
 import com.example.newsagregator.model.domain.NewsUseCase;
 import com.example.newsagregator.model.domain.NewsItem;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class NewsPresenter implements NewsUseCase.NewsListener {
+public class NewsPresenter implements NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private List<NewsItem> listNewsItem;
@@ -24,8 +20,8 @@ public class NewsPresenter implements NewsUseCase.NewsListener {
     }
 
     public void updateNews() {
-        newsUseCase.getData(this);
         newsView.showProgress();
+        newsUseCase.getData(this);
     }
 
     public void setClickAddChannel() {
