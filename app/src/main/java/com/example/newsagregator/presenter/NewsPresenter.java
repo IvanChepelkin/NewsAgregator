@@ -3,6 +3,8 @@ package com.example.newsagregator.presenter;
 import com.example.newsagregator.model.domain.NewsPresenterListener;
 import com.example.newsagregator.model.domain.NewsUseCase;
 import com.example.newsagregator.model.domain.NewsItem;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,6 +71,9 @@ public class NewsPresenter implements NewsPresenterListener {
     @Override
     public void setError(Throwable exeption) {
 
-        newsView.showError(exeption.toString());
+        if (exeption instanceof IOException){
+            newsView.showError("Ошибка");
+        }
+
     }
 }

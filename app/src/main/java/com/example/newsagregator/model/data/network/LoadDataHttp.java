@@ -10,6 +10,6 @@ public interface LoadDataHttp {
 
         void onSuccess(JSONObject newsItemList);
 
-        void onError(Exception ex);
+        void onError(Throwable ex);
     }
 }

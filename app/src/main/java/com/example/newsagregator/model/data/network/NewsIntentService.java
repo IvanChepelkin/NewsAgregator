@@ -23,7 +23,7 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
     private List<String> channellistArrayList;
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
-    private boolean onFinish = false;
+    private boolean onFinish;
 
     /**
      * Creates an NewsIntentService.  Invoked by your subclass's constructor.
@@ -65,7 +65,8 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
     }
 
     @Override
-    public void onError(Exception exeption) {
+    public void onError(Throwable exeption) {
+        onFinish = false;
         Bundle extras = new Bundle();
         extras.putSerializable(EXTRA_KEY_ERROR, exeption);
         Intent responseIntent = new Intent();

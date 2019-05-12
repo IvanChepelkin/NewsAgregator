@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.util.Objects;
+
 public class NewsRemoteDataSourceImpl extends BroadcastReceiver implements NewsRemoteDataSource {
     CallBackApi callBackApi;
 
@@ -14,12 +16,12 @@ public class NewsRemoteDataSourceImpl extends BroadcastReceiver implements NewsR
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        boolean onFinish = intent.getBooleanExtra(NewsIntentService.EXTRA_KEY_SUCCESS, false);
+        boolean onFinish = Objects.requireNonNull(intent.getExtras()).getBoolean(NewsIntentService.EXTRA_KEY_SUCCESS);
        if (onFinish){
            callBackApi.onCompletedFromServer(onFinish);
        }
        else {
-           Bundle extras = intent.getExtras();
+           Bundle extras = intent.getExtras().getBundle(NewsIntentService.EXTRA_KEY_SUCCESS);
            assert extras != null;
            Throwable exeption = (Throwable) extras.getSerializable(NewsIntentService.EXTRA_KEY_ERROR);
            callBackApi.onError(exeption);
