@@ -5,12 +5,10 @@ import com.example.newsagregator.model.data.NewsRepositoryImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
-import com.example.newsagregator.model.data.network.NewsRemoteDataSourceImpl;
+import com.example.newsagregator.model.data.network.OnFinishBroadcastReceiver;
 import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSourceImpl;
 import com.example.newsagregator.model.domain.NewsUseCaseImpl;
 import com.example.newsagregator.presenter.NewsPresenter;
-import com.example.newsagregator.presenter.NewsView;
-import com.example.newsagregator.view.MainActivity;
 
 public class Factory {
 
@@ -31,9 +29,9 @@ public class Factory {
         }
         return dataBaseSourceInstance;
     }
-    public static NewsRemoteDataSourceImpl createObjectNewsBroadcastReceiverImpl() {
+    public static OnFinishBroadcastReceiver createObjectNewsBroadcastReceiverImpl() {
 
-        return new NewsRemoteDataSourceImpl();
+        return new OnFinishBroadcastReceiver();
     }
 
     public static NewsDataBaseSourceImpl createObjectDataBaseNewsSourceImpl() {

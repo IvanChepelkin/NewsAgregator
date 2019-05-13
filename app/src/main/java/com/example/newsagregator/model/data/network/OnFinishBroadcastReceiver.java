@@ -7,10 +7,10 @@ import android.os.Bundle;
 
 import java.util.Objects;
 
-public class NewsRemoteDataSourceImpl extends BroadcastReceiver implements NewsRemoteDataSource {
+public class OnFinishBroadcastReceiver extends BroadcastReceiver implements NewsRemoteDataSource {
     CallBackApi callBackApi;
 
-    public NewsRemoteDataSourceImpl() {
+    public OnFinishBroadcastReceiver() {
     }
 
     @Override

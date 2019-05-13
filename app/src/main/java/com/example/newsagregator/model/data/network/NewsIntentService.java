@@ -24,6 +24,7 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
     private boolean onFinish;
+    private List<NewsItem> newsItemlist;
 
     /**
      * Creates an NewsIntentService.  Invoked by your subclass's constructor.
@@ -38,13 +39,11 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
 
         channellistArrayList = intent.getStringArrayListExtra(KEY_SERVICE);
         for (String url : channellistArrayList) {
-            if (url.equals(channellistArrayList.get(channellistArrayList.size()-1))) {
+            if (url.equals(channellistArrayList.get(channellistArrayList.size() - 1))) {
                 onFinish = true;
             }
             loadDataHttp.getHttpData(this, RSS_to_GSON + url + API_KEY);
-
         }
-
     }
 
     @Override
@@ -52,7 +51,7 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
 
         ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
         DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
-        List<NewsItem> newsItemlist = converter.setListModelView(result);
+        newsItemlist = converter.setListModelView(result);
         dataBaseHelper.addNewsInDataBase(newsItemlist);
 
         if (onFinish) {
@@ -66,6 +65,7 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
 
     @Override
     public void onError(Throwable exeption) {
+
         onFinish = false;
         Bundle extras = new Bundle();
         extras.putSerializable(EXTRA_KEY_ERROR, exeption);
@@ -75,6 +75,5 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
         responseIntent.putExtra(EXTRA_KEY_SUCCESS, onFinish);
         responseIntent.putExtra(EXTRA_KEY_SUCCESS, extras);
         sendBroadcast(responseIntent);
-
     }
 }

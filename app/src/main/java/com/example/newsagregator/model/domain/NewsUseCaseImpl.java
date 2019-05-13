@@ -2,12 +2,12 @@ package com.example.newsagregator.model.domain;
 
 import com.example.newsagregator.model.data.CallBackRepo;
 import com.example.newsagregator.model.data.NewsRepository;
-
 import java.util.List;
 import java.util.Set;
 
 
 public class NewsUseCaseImpl implements NewsUseCase, CallBackRepo {
+
     private NewsRepository newsRepository;
     private NewsPresenterListener newsListener;
 
