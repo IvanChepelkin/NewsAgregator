@@ -21,7 +21,7 @@ public class HTTPConnections implements LoadDataHttp {
 
 
     @Override
-    public void getHttpData(CallBackHttp callBackHttp, String urlChannel) {
+    public void getHttpData(CallBackHttp callBackHttp,final String urlChannel) {
         this.callBackHttp = callBackHttp;
         try {
             URL url = new URL(urlChannel);

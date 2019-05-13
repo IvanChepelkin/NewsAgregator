@@ -17,11 +17,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "newsManager";
-    private static final String TABLE_NEWS = "items";
-    private static final String KEY_ID = "id";
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_GUIDE = "guide";
-    private static final String KEY_CONTENT = "content";
+    private static final String TABLE_CHANNELS = "channels";
+    private static final String TABLE_NEWS_ITEMS = "news_items";
+    private static final String CHANNEL_URL = "channels_id";
+    private static final String ID_CHANNELS = "id_channels";
+    private static final String URL = "url";
+    private static final String CHANNEL_NAME = "url";
+    private static final String ID_NEWS_ITEMS = "id_channels";
+    private static final String TITLE = "title";
+    private static final String GUIDE = "guide";
+    private static final String CONTENT = "content";
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,38 +34,63 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NEWS + " ("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_TITLE + " TEXT,"
-                + KEY_GUIDE + " TEXT,"
-                + KEY_CONTENT + " TEXT " + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+
+        String CREATE_CHANNELS_TABLE = "CREATE TABLE " + TABLE_CHANNELS + " ("
+                + URL + " TEXT PRIMARY KEY,"
+                + CHANNEL_NAME + " TEXT " + ")";
+        db.execSQL(CREATE_CHANNELS_TABLE);
+
+
+        String CREATE_NEWS_ITEMS_TABLE = "CREATE TABLE " + TABLE_NEWS_ITEMS + " ("
+                + ID_NEWS_ITEMS + " INTEGER PRIMARY KEY,"
+                + TITLE + " TEXT,"
+                + GUIDE + " TEXT,"
+                + CONTENT + " TEXT,"
+                + CHANNEL_URL + " TEXT,"
+                + " FOREIGN KEY (" + CHANNEL_URL + ") REFERENCES " + TABLE_CHANNELS + "(" + URL + "));";
+        //+ ")";
+        db.execSQL(CREATE_NEWS_ITEMS_TABLE);
+
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NEWS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHANNELS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NEWS_ITEMS);
 
         onCreate(db);
     }
 
 
-    public void addNewsInDataBase(List<NewsItem> newsItemList) {
+    public void addNewsInDataBase(List<NewsItem> newsItemList, String urlChannel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         for (int i = 0; i < newsItemList.size(); i++) {
             ContentValues values = new ContentValues();
-            values.put(KEY_TITLE, newsItemList.get(i).getTitle());
-            values.put(KEY_GUIDE, newsItemList.get(i).getGuide());
-            values.put(KEY_CONTENT, newsItemList.get(i).getContent());
-            db.insert(TABLE_NEWS, null, values);
+            values.put(TITLE, newsItemList.get(i).getTitle());
+            values.put(GUIDE, newsItemList.get(i).getGuide());
+            values.put(CONTENT, newsItemList.get(i).getContent());
+            values.put(CHANNEL_URL, urlChannel);
+            db.insert(TABLE_NEWS_ITEMS, null, values);
         }
         db.close();
     }
 
+
+    public void addChannelInDataBase(final String urlChannel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(URL, urlChannel);
+        db.replace(TABLE_CHANNELS, null, values);
+        db.close();
+    }
+
+
     public List<NewsItem> getNewsFromDataBase() {
         List<NewsItem> newsItemList = new ArrayList<NewsItem>();
-        String selectQuery = "SELECT  * FROM " + TABLE_NEWS;
+        String selectQuery = "SELECT  * FROM " + TABLE_NEWS_ITEMS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         @SuppressLint("Recycle")

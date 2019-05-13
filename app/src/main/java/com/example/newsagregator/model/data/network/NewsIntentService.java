@@ -25,6 +25,7 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
     private boolean onFinish;
     private List<NewsItem> newsItemlist;
+    private String url;
 
     /**
      * Creates an NewsIntentService.  Invoked by your subclass's constructor.
@@ -39,6 +40,7 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
 
         channellistArrayList = intent.getStringArrayListExtra(KEY_SERVICE);
         for (String url : channellistArrayList) {
+            this.url = url;
             if (url.equals(channellistArrayList.get(channellistArrayList.size() - 1))) {
                 onFinish = true;
             }
@@ -52,7 +54,8 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
         ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
         DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
         newsItemlist = converter.setListModelView(result);
-        dataBaseHelper.addNewsInDataBase(newsItemlist);
+        dataBaseHelper.addNewsInDataBase(newsItemlist, url);
+        dataBaseHelper.addChannelInDataBase(url);
 
         if (onFinish) {
             Intent responseIntent = new Intent();
