@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.newsagregator.model.domain.NewsItem;
 
@@ -22,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String CHANNEL_URL = "channels_id";
     private static final String ID_CHANNELS = "id_channels";
     private static final String URL = "url";
-    private static final String CHANNEL_NAME = "url";
+    private static final String CHANNEL_NAME = "channel_name";
     private static final String ID_NEWS_ITEMS = "id_channels";
     private static final String TITLE = "title";
     private static final String GUIDE = "guide";
@@ -46,9 +47,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + TITLE + " TEXT,"
                 + GUIDE + " TEXT,"
                 + CONTENT + " TEXT,"
-                + CHANNEL_URL + " TEXT,"
+                + CHANNEL_URL+ " TEXT,"
                 + " FOREIGN KEY (" + CHANNEL_URL + ") REFERENCES " + TABLE_CHANNELS + "(" + URL + "));";
-        //+ ")";
         db.execSQL(CREATE_NEWS_ITEMS_TABLE);
 
 
@@ -62,6 +62,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+//    @Override
+//    public void onOpen(SQLiteDatabase db) {
+//        super.onOpen(db);
+//
+//        db.execSQL("PRAGMA foreign_keys=ON;");
+//        db.setForeignKeyConstraintsEnabled(true);
+//    }
+
+//    @Override
+//    public void onConfigure(SQLiteDatabase db) {
+//        super.onConfigure(db);
+//        db.execSQL("PRAGMA foreign_keys=ON;");
+//        db.setForeignKeyConstraintsEnabled(true);
+//    }
 
     public void addNewsInDataBase(List<NewsItem> newsItemList, String urlChannel) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -85,6 +99,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(URL, urlChannel);
         db.replace(TABLE_CHANNELS, null, values);
         db.close();
+        deleteContact(urlChannel);
     }
 
 
@@ -107,5 +122,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return newsItemList;
+    }
+
+    public void deleteContact(String deleteUrl) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //db.setForeignKeyConstraintsEnabled(true);
+        int del = db.delete(TABLE_CHANNELS, URL + "= ?", new String[]{deleteUrl});
+        System.out.println("Удалил");
+
+        //Log.d("mLog", "deleted rows count = " + del);
+        db.close();
     }
 }

@@ -11,7 +11,6 @@ import com.example.newsagregator.model.domain.NewsItem;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class NewsIntentService extends IntentService implements LoadDataHttp.CallBackHttp {
@@ -54,8 +53,9 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
         ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
         DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
         newsItemlist = converter.setListModelView(result);
-        dataBaseHelper.addNewsInDataBase(newsItemlist, url);
         dataBaseHelper.addChannelInDataBase(url);
+        dataBaseHelper.addNewsInDataBase(newsItemlist, url);
+
 
         if (onFinish) {
             Intent responseIntent = new Intent();
