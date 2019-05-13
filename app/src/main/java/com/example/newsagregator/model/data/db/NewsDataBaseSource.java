@@ -10,6 +10,7 @@ public interface NewsDataBaseSource {
 
     void setSubcriber(CallBackDb callBackDb);
 
+
     interface CallBackDb {
 
         void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase);

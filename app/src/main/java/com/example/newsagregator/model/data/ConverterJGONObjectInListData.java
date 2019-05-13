@@ -22,8 +22,8 @@ public class ConverterJGONObjectInListData {
 
                 listNewsItem.add(new NewsItem(
                         jsonArray.getJSONObject(i).getString("title"),
-                        jsonArray.getJSONObject(i).getString("guid"),
-                        jsonArray.getJSONObject(i).getString("content")));
+                        jsonArray.getJSONObject(i).getString("link"),
+                        jsonArray.getJSONObject(i).getString("description")));
             }
 
         } catch (JSONException e) {

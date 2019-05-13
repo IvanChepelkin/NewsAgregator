@@ -58,7 +58,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
     public List<NewsItem> getNewsFromDataBase() {
         List<NewsItem> newsItemList = new ArrayList<NewsItem>();
         String selectQuery = "SELECT  * FROM " + TABLE_NEWS;
@@ -79,5 +78,4 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return newsItemList;
     }
-
 }

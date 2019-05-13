@@ -26,13 +26,12 @@ public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>
 
     @Override
     protected void onPostExecute(final List<NewsItem> newsItemList) {
-        System.out.println("Листок " + newsItemList.toString());
         callBackDb.onCompletedFromDateBase(newsItemList);
     }
 
     @Override
     public void loadNewsFromDataBase() {
-        Factory.createObjectDataBaseNewsSourceImpl().execute();
+        execute();
     }
 
     @Override
