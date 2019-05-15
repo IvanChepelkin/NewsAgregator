@@ -19,5 +19,7 @@ public interface NewsView {
 
     void showMainConent(String guid);
 
+    void showAlertDialogFiltrChannels();
+
 
 }
