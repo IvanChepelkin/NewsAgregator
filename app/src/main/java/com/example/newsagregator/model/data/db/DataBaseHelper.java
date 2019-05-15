@@ -82,16 +82,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addChannelInDataBase(final ChannelItem channelItem) {
+    public void addChannelInDataBase(ChannelItem channelItem) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
         values.put(URL, channelItem.getChannelUrl());
         values.put(CHANNEL_NAME, channelItem.getChannelName());
-        db.replace(TABLE_CHANNELS, null, values);
+
+        int id = getID(channelItem.getChannelUrl());
+        if(id==-1)
+            db.insert(TABLE_CHANNELS, null, values);
+        else
+            db.update(TABLE_CHANNELS, values, URL + "=?", new String[]{Integer.toString(id)});
+//
+//        int id = (int) db.insertWithOnConflict(TABLE_CHANNELS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+//        if (id == -1) {
+//            db.update(TABLE_CHANNELS, values, URL + "= ?", new String[]{channelItem.getChannelUrl()});
+//        } else {
+//            db.insert(TABLE_CHANNELS, null, values);
+//        }
+
         db.close();
 
+    }
+
+    private int getID(String url){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.query(TABLE_CHANNELS,new String[]{URL},"url =? ",new String[]{url},null,null,null,null);
+        if (c.moveToFirst()) //if the row exist then return the id
+            return c.getInt(c.getColumnIndex(URL));
+        return -1;
     }
 
 
@@ -125,7 +146,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<ChannelItem> getChannelsFromDataBase() {
         List<ChannelItem> channelItemList = new ArrayList<ChannelItem>();
         String selectQuery = "SELECT  * FROM " + TABLE_CHANNELS;
-        String name = "канал";
         System.out.println("МЕТОД ВЫЗЫВАЕТСЯ");
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -136,11 +156,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do {
                 ChannelItem channelItem = new ChannelItem(
                         cursor.getString(1),
-                        name);
+                        cursor.getString(0));
 
-//                Log.d("mLog", "ID = " + cursor.getString(1) +
-//                        ", name = " + cursor.getString(2) +
-//                        ", email = " + cursor.getString(3));
+                Log.d("mLog", "ID = " + cursor.getString(0) +
+                        ", name = " + cursor.getString(1));
 
                 channelItemList.add(channelItem);
             } while (cursor.moveToNext());

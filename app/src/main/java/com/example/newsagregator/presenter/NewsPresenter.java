@@ -36,7 +36,7 @@ public class NewsPresenter implements ChannelPresenterListener,NewsPresenterList
         if (newsView != null){
             updateNews();
         }
-        //newsUseCase.getData();
+        newsUseCase.getData();
     }
 
     public void updateNews() {
