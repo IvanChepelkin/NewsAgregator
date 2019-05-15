@@ -16,10 +16,14 @@ import com.example.newsagregator.presenter.NewsPresenter;
 public class Factory {
 
     private static DataBaseHelper dataBaseSourceInstance;
+    private static UseCaseImpl useCaseInstance;
 
 
     public static NewsPresenter createObjectNewsPresenter() {
-        return new NewsPresenter(Factory.createObjectControlLogic(), Factory.createObjectControlLogic());
+        return new NewsPresenter(
+                Factory.createObjectControlLogic(),
+                Factory.createObjectControlLogic(),
+                Factory.createObjectControlLogic());
     }
 
     public static HTTPConnections createObjectHTTPConnections() {
@@ -66,12 +70,18 @@ public class Factory {
     }
 
     private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {
-        return new ChannelRepositoryImpl(Factory.createObjectNewsBroadcastReceiverImpl(),
+        return new ChannelRepositoryImpl(
+                Factory.createObjectNewsBroadcastReceiverImpl(),
                 createObjectChannelDataBaseSourceImpl());
     }
 
     public static UseCaseImpl createObjectControlLogic() {
-        return new UseCaseImpl(Factory.createObjectNewsRepositoryImpl(),
-                Factory.createObjectChannelRepositoryImpl());
+        if (useCaseInstance == null) {
+            useCaseInstance = new UseCaseImpl(
+                    Factory.createObjectNewsRepositoryImpl(),
+                    Factory.createObjectChannelRepositoryImpl());
+        }
+        return useCaseInstance;
+
     }
 }

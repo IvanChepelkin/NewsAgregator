@@ -5,23 +5,30 @@ import com.example.newsagregator.model.domain.CallbacksInterfaces.NewsPresenterL
 import com.example.newsagregator.model.domain.Channel.ChannelUseCase;
 import com.example.newsagregator.model.domain.News.NewsUseCase;
 import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.SubscribeUseCase;
 
 import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NewsPresenter implements NewsPresenterListener, ChannelPresenterListener {
+public class NewsPresenter implements ChannelPresenterListener,NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
+    private SubscribeUseCase subscribeUseCase;
     private List<NewsItem> listNewsItem;
     private String[] channelsArray;
 
-    public NewsPresenter( NewsUseCase newsUseCase, ChannelUseCase channelUseCase) {
+    public NewsPresenter(NewsUseCase newsUseCase,
+                         ChannelUseCase channelUseCase,
+                         SubscribeUseCase subscribeUseCase) {
+
         this.newsUseCase = newsUseCase;
         this.channelUseCase = channelUseCase;
-
+        this.subscribeUseCase = subscribeUseCase;
+        subscribeUseCase.subscribePresenterChannels(this);
+        subscribeUseCase.subscribePresenterNews(this);
     }
 
     public void onAttach(NewsView newsView){

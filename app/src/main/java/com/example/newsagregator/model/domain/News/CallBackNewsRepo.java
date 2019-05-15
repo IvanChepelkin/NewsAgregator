@@ -1,7 +1,5 @@
 package com.example.newsagregator.model.domain.News;
 
-import com.example.newsagregator.model.domain.News.NewsItem;
-
 import java.util.List;
 import java.util.Set;
 

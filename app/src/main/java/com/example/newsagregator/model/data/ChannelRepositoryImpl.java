@@ -12,7 +12,9 @@ public class ChannelRepositoryImpl implements ChannelRepository, ChannelDataBase
     private ChannelDataBaseSource channelDataBaseSource;
     private CallBackChannelRepo callBackChannelRepo;
 
-    public ChannelRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource, ChannelDataBaseSource channelDataBaseSource) {
+    public ChannelRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,
+                                 ChannelDataBaseSource channelDataBaseSource)
+    {
         this.newsRemoteDataSource = newsRemoteDataSource;
         this.channelDataBaseSource = channelDataBaseSource;
     }

@@ -82,8 +82,6 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         callBackNewsRepo.setChannelList(channelListSet);
     }
 
-
-
     private void loadNewsFromRemote(final List<String> channelList) {
         channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
         final ArrayList<String> channelslistArrayList = new ArrayList<>(channelList);

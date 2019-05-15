@@ -80,7 +80,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db.insert(TABLE_NEWS_ITEMS, null, values);
         }
         db.close();
-        // deleteContact(urlChannel);
     }
 
     public void addChannelInDataBase(final ChannelItem channelItem) {
