@@ -13,19 +13,21 @@ import com.example.newsagregator.model.data.db.NewsDataBaseSource;
 import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
 import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSource;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.Channel.ChannelItem;
+import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, NewsDataBaseSource.CallBackDb, NewsRepository {
+public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, NewsDataBaseSource.NewsCallBackDb, NewsRepository {
 
     private NewsRemoteDataSource newsRemoteDataSource;
     private NewsDataBaseSource newsDateBaseNewsSource;
     private NewsSharedPrefDataSource newsSharedPrefDataSource;
-    private CallBackRepo callBackRepo;
+    private CallBackNewsRepo callBackNewsRepo;
     private Context context;
     private String KEY_SERVICE = "channels";
     private Set<String> channelListSet;
@@ -48,46 +50,43 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
 
     @Override
     public void onError(Throwable exeption) {
-        callBackRepo.setError(exeption);
+        callBackNewsRepo.setError(exeption);
     }
 
     @Override
     public void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase) {
-        callBackRepo.setData(newsItemListFromDateBase);
+        callBackNewsRepo.setData(newsItemListFromDateBase);
     }
 
 
     @Override
-    public void getData(CallBackRepo callBackRepo) {
-        this.callBackRepo = callBackRepo;
+    public void subscribeNewsRepository(CallBackNewsRepo callBackNewsRepo) {
+        this.callBackNewsRepo = callBackNewsRepo;
+    }
+
+    @Override
+    public void getData(List<String> channelList) {
         if (isOnline()) {
-            loadNewsFromRemote();
+            loadNewsFromRemote(channelList);
 
         } else {
             loadNewsFromDataBase();
         }
     }
 
-    @Override
-    public void saveChannel(final String channelUrl) {
-        newsSharedPrefDataSource.putChannelInList(channelUrl);
-        loadNewsFromRemote();
-    }
+
 
     @Override
     public void returnChannelsList() {
         channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
-        callBackRepo.setChannelList(channelListSet);
+        callBackNewsRepo.setChannelList(channelListSet);
     }
 
-    @Override
-    public void deleteChannels(final List<String> channelsToDeleteList) {
-        newsSharedPrefDataSource.deleteChannel(channelsToDeleteList);
-    }
 
-    private void loadNewsFromRemote() {
+
+    private void loadNewsFromRemote(final List<String> channelList) {
         channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
-        final ArrayList<String> channelslistArrayList = new ArrayList<>(channelListSet);
+        final ArrayList<String> channelslistArrayList = new ArrayList<>(channelList);
         // регистрируем BroadcastReceiver
         IntentFilter intentFilter = new IntentFilter(NewsIntentService.ACTION_NEWSINTENTSERVICE);
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);

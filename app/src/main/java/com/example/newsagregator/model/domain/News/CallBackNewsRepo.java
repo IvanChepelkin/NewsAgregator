@@ -1,11 +1,12 @@
-package com.example.newsagregator.model.data;
+package com.example.newsagregator.model.domain.News;
 
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import java.util.List;
 import java.util.Set;
 
-public interface CallBackRepo {
+public interface CallBackNewsRepo {
+
     void setData(List<NewsItem> listNewsItem);
 
     void setChannelList(Set<String> channelListSet);

@@ -1,13 +1,12 @@
-package com.example.newsagregator.model.domain;
+package com.example.newsagregator.model.domain.CallbacksInterfaces;
+
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import java.util.List;
-import java.util.Set;
 
 public interface NewsPresenterListener {
 
     void setData(List<NewsItem> listNewsItem);
-
-    void setChannelsList(Set<String> channelListSet);
 
     void setError(Throwable exeption);
 }

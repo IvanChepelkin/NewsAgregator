@@ -1,10 +1,10 @@
-package com.example.newsagregator.model.domain;
+package com.example.newsagregator.model.domain.Channel;
 
-public class Channel {
+public class ChannelItem {
     private String channelName;
     private String channelUrl;
 
-    public Channel(String channelName, String channelUrl) {
+    public ChannelItem(String channelName, String channelUrl) {
         this.channelName = channelName;
         this.channelUrl = channelUrl;
     }

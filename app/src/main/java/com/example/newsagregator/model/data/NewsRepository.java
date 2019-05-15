@@ -1,18 +1,18 @@
 package com.example.newsagregator.model.data;
 
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.Channel.CallBackChannelRepo;
+import com.example.newsagregator.model.domain.Channel.ChannelItem;
+import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
 
 import java.util.List;
-import java.util.Set;
 
 public interface NewsRepository {
 
-    void getData(CallBackRepo callBackApi);
+    void subscribeNewsRepository(CallBackNewsRepo callBackNewsRepo);
 
-    void saveChannel(final String channelUrl);
+    void getData(List<String> channelList);
 
     void returnChannelsList();
 
-    void deleteChannels(final List<String> ChannelsToDeleteList);
 
 }

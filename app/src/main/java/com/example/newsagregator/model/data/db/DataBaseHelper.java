@@ -8,12 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.Channel.ChannelItem;
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.webkit.WebSettings.PluginState.ON;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -78,17 +77,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             values.put(GUIDE, newsItemList.get(i).getGuide());
             values.put(CONTENT, newsItemList.get(i).getContent());
             values.put(CHANNEL_URL, urlChannel);
-            db.insert(TABLE_NEWS_ITEMS,null,values );
+            db.insert(TABLE_NEWS_ITEMS, null, values);
         }
         db.close();
-        deleteContact(urlChannel);
+        // deleteContact(urlChannel);
     }
 
-    public void addChannelInDataBase(final String urlChannel) {
+    public void addChannelInDataBase(final ChannelItem channelItem) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(URL, urlChannel);
+
+        values.put(URL, channelItem.getChannelUrl());
+        values.put(CHANNEL_NAME, channelItem.getChannelName());
         db.replace(TABLE_CHANNELS, null, values);
         db.close();
 
@@ -112,13 +113,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getString(3));
 
-                Log.d("mLog", "ID = " + cursor.getString(1) +
-                        ", name = " + cursor.getString(2) +
-                        ", email = " + cursor.getString(3));
+//                Log.d("mLog", "ID = " + cursor.getString(1) +
+//                        ", name = " + cursor.getString(2) +
+//                        ", email = " + cursor.getString(3));
+
                 newsItemList.add(newsItem);
             } while (cursor.moveToNext());
         }
         return newsItemList;
+    }
+
+    public List<ChannelItem> getChannelsFromDataBase() {
+        List<ChannelItem> channelItemList = new ArrayList<ChannelItem>();
+        String selectQuery = "SELECT  * FROM " + TABLE_CHANNELS;
+        String name = "канал";
+        System.out.println("МЕТОД ВЫЗЫВАЕТСЯ");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        @SuppressLint("Recycle")
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                ChannelItem channelItem = new ChannelItem(
+                        cursor.getString(1),
+                        name);
+
+//                Log.d("mLog", "ID = " + cursor.getString(1) +
+//                        ", name = " + cursor.getString(2) +
+//                        ", email = " + cursor.getString(3));
+
+                channelItemList.add(channelItem);
+            } while (cursor.moveToNext());
+        }
+        return channelItemList;
     }
 
     public void deleteContact(String deleteUrl) {

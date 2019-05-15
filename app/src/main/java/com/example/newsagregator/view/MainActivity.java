@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.NewsItem;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
 

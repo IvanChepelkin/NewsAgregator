@@ -3,14 +3,14 @@ package com.example.newsagregator.model.data.db;
 import android.os.AsyncTask;
 
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>> implements NewsDataBaseSource {
     private DataBaseHelper dataBaseHelper;
-    private CallBackDb callBackDb;
+    private NewsCallBackDb newsCallBackDb;
 
     public NewsDataBaseSourceImpl(DataBaseHelper dataBaseHelper) {
         this.dataBaseHelper = dataBaseHelper;
@@ -26,7 +26,7 @@ public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>
 
     @Override
     protected void onPostExecute(final List<NewsItem> newsItemList) {
-        callBackDb.onCompletedFromDateBase(newsItemList);
+        newsCallBackDb.onCompletedFromDateBase(newsItemList);
     }
 
     @Override
@@ -34,8 +34,9 @@ public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>
         execute();
     }
 
+
     @Override
-    public void setSubcriber(CallBackDb callBackDb) {
-        this.callBackDb = callBackDb;
+    public void setSubcriber(NewsCallBackDb newsCallBackDb) {
+        this.newsCallBackDb = newsCallBackDb;
     }
 }

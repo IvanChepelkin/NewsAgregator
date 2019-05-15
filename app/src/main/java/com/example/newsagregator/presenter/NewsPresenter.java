@@ -1,21 +1,27 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.model.domain.NewsPresenterListener;
-import com.example.newsagregator.model.domain.NewsUseCase;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.CallbacksInterfaces.ChannelPresenterListener;
+import com.example.newsagregator.model.domain.CallbacksInterfaces.NewsPresenterListener;
+import com.example.newsagregator.model.domain.Channel.ChannelUseCase;
+import com.example.newsagregator.model.domain.News.NewsUseCase;
+import com.example.newsagregator.model.domain.News.NewsItem;
+
+import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-public class NewsPresenter implements NewsPresenterListener {
+public class NewsPresenter implements NewsPresenterListener, ChannelPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
+    private ChannelUseCase channelUseCase;
     private List<NewsItem> listNewsItem;
     private String[] channelsArray;
 
-    public NewsPresenter( NewsUseCase newsUseCase) {
+    public NewsPresenter( NewsUseCase newsUseCase, ChannelUseCase channelUseCase) {
         this.newsUseCase = newsUseCase;
+        this.channelUseCase = channelUseCase;
+
     }
 
     public void onAttach(NewsView newsView){
@@ -23,11 +29,11 @@ public class NewsPresenter implements NewsPresenterListener {
         if (newsView != null){
             updateNews();
         }
+        //newsUseCase.getData();
     }
 
     public void updateNews() {
         newsView.showProgress();
-        newsUseCase.getData(this);
     }
 
     public void setClickAddChannel() {
@@ -39,7 +45,8 @@ public class NewsPresenter implements NewsPresenterListener {
     }
 
     public void setClickOkAddChannels(final String channelUrl) {
-        newsUseCase.saveChannel(channelUrl);
+
+        channelUseCase.saveChannel(channelUrl);
     }
 
     public void setClickOkDeleteChannels(final boolean[] positionCheckboxArray) {
@@ -66,14 +73,20 @@ public class NewsPresenter implements NewsPresenterListener {
         newsView.showNews(listNewsItem);
     }
 
-    @Override
-    public void setChannelsList(Set<String> channelListSet) {
-        channelsArray = channelListSet.toArray(new String[0]);
-        newsView.showAlertDialogDeleteChannel(channelsArray);
-    }
+//    @Override
+//    public void setChannelsList(Set<String> channelListSet) {
+//        channelsArray = channelListSet.toArray(new String[0]);
+//
+//    }
 
     @Override
     public void setError(Throwable exeption) {
         newsView.showError("Неправильный адрес запроса");
+    }
+
+    @Override
+    public void setChannelsList(List<Channel> channelList) {
+        channelsArray = channelList.toArray(new String[0]);
+        newsView.showAlertDialogDeleteChannel(channelsArray);
     }
 }

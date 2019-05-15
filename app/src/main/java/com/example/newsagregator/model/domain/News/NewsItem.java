@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.domain;
+package com.example.newsagregator.model.domain.News;
 
 public class NewsItem {
     private String title;

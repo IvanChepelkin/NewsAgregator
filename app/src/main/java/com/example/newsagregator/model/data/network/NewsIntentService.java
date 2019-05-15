@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
+import com.example.newsagregator.model.data.ConverterJONObjectInListData;
+import com.example.newsagregator.model.data.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.Channel.ChannelItem;
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import org.json.JSONObject;
 
@@ -18,12 +20,15 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
     public static final String ACTION_NEWSINTENTSERVICE = "NEWS_FROM_INTENTSERVICE";
     public static final String EXTRA_KEY_ERROR = "EXEPTION";
     private LoadDataHttp loadDataHttp;
+    private ConverterJONObjectInListData converterJONObjectInListData;
+    private ConverterJSONObjectInChannel converterJSONObjectInChannel;
     private String KEY_SERVICE = "channels";
     private List<String> channellistArrayList;
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
     private boolean onFinish;
     private List<NewsItem> newsItemlist;
+    private ChannelItem channelItem;
     private String url;
 
     /**
@@ -32,6 +37,8 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
     public NewsIntentService() {
         super("NewsIntentService");
         this.loadDataHttp = Factory.createObjectHTTPConnections();
+        this.converterJONObjectInListData = Factory.createObjectConverterJGONObjectInListData();
+        this.converterJSONObjectInChannel = Factory.createObjectConverterJSONObjectInChannel();
     }
 
     @Override
@@ -50,10 +57,11 @@ public class NewsIntentService extends IntentService implements LoadDataHttp.Cal
     @Override
     public void onSuccess(JSONObject result) {
 
-        ConverterJGONObjectInListData converter = new ConverterJGONObjectInListData();
         DataBaseHelper dataBaseHelper = Factory.createObjectDataBaseHelper();
-        newsItemlist = converter.setListModelView(result);
-        dataBaseHelper.addChannelInDataBase(url);
+        newsItemlist = converterJONObjectInListData.setListModelView(result);
+        channelItem = converterJSONObjectInChannel.setChannel(result);
+
+        dataBaseHelper.addChannelInDataBase(channelItem);
         dataBaseHelper.addNewsInDataBase(newsItemlist, url);
 
 

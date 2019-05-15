@@ -1,13 +1,16 @@
 package com.example.newsagregator.di;
 
-import com.example.newsagregator.model.data.ConverterJGONObjectInListData;
+import com.example.newsagregator.model.data.ChannelRepositoryImpl;
+import com.example.newsagregator.model.data.ConverterJONObjectInListData;
+import com.example.newsagregator.model.data.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.NewsRepositoryImpl;
+import com.example.newsagregator.model.data.db.ChannelDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.data.network.OnFinishBroadcastReceiver;
 import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSourceImpl;
-import com.example.newsagregator.model.domain.NewsUseCaseImpl;
+import com.example.newsagregator.model.domain.UseCaseImpl;
 import com.example.newsagregator.presenter.NewsPresenter;
 
 public class Factory {
@@ -15,8 +18,8 @@ public class Factory {
     private static DataBaseHelper dataBaseSourceInstance;
 
 
-    public static NewsPresenter createObjectNewsPresenter(){
-        return new NewsPresenter(Factory.createGetUseCaseImpl());
+    public static NewsPresenter createObjectNewsPresenter() {
+        return new NewsPresenter(Factory.createObjectControlLogic(), Factory.createObjectControlLogic());
     }
 
     public static HTTPConnections createObjectHTTPConnections() {
@@ -29,6 +32,7 @@ public class Factory {
         }
         return dataBaseSourceInstance;
     }
+
     public static OnFinishBroadcastReceiver createObjectNewsBroadcastReceiverImpl() {
 
         return new OnFinishBroadcastReceiver();
@@ -38,13 +42,21 @@ public class Factory {
         return new NewsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
+    public static ChannelDataBaseSourceImpl createObjectChannelDataBaseSourceImpl() {
+        return new ChannelDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
+    }
 
-    private static NewsSharedPrefDataSourceImpl createObjectNewsSharedPrefDataSourceImpl(){
+
+    private static NewsSharedPrefDataSourceImpl createObjectNewsSharedPrefDataSourceImpl() {
         return new NewsSharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
     }
 
-    private static ConverterJGONObjectInListData createObjectConverterJGONObjectInListData() {
-        return new ConverterJGONObjectInListData();
+    public static ConverterJONObjectInListData createObjectConverterJGONObjectInListData() {
+        return new ConverterJONObjectInListData();
+    }
+
+    public static ConverterJSONObjectInChannel createObjectConverterJSONObjectInChannel() {
+        return new ConverterJSONObjectInChannel();
     }
 
     private static NewsRepositoryImpl createObjectNewsRepositoryImpl() {
@@ -53,7 +65,13 @@ public class Factory {
                 Factory.createObjectNewsSharedPrefDataSourceImpl());
     }
 
-    public static NewsUseCaseImpl createGetUseCaseImpl() {
-        return new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
+    private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {
+        return new ChannelRepositoryImpl(Factory.createObjectNewsBroadcastReceiverImpl(),
+                createObjectChannelDataBaseSourceImpl());
+    }
+
+    public static UseCaseImpl createObjectControlLogic() {
+        return new UseCaseImpl(Factory.createObjectNewsRepositoryImpl(),
+                Factory.createObjectChannelRepositoryImpl());
     }
 }

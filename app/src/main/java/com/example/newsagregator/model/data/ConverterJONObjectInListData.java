@@ -1,6 +1,6 @@
 package com.example.newsagregator.model.data;
 
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConverterJGONObjectInListData {
-    public ConverterJGONObjectInListData() {
+public class ConverterJONObjectInListData {
+    public ConverterJONObjectInListData() {
     }
 
     public List<NewsItem> setListModelView(JSONObject jsonObjectNews) {

@@ -1,6 +1,6 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.NewsItem;
 
 import java.util.List;
 
