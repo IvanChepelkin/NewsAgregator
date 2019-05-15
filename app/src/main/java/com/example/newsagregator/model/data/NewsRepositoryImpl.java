@@ -26,18 +26,13 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
 
     private NewsRemoteDataSource newsRemoteDataSource;
     private NewsDataBaseSource newsDateBaseNewsSource;
-    private NewsSharedPrefDataSource newsSharedPrefDataSource;
     private CallBackNewsRepo callBackNewsRepo;
     private Context context;
     private String KEY_SERVICE = "channels";
-    private Set<String> channelListSet;
 
-
-    public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,
-                              NewsSharedPrefDataSource newsSharedPrefDataSource) {
+    public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource) {
 
         this.newsRemoteDataSource = newsRemoteDataSource;
-        this.newsSharedPrefDataSource = newsSharedPrefDataSource;
         this.context = ApplicationContextSingleton.getContext();
     }
 
@@ -74,16 +69,8 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         }
     }
 
-
-
-    @Override
-    public void returnChannelsList() {
-        channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
-        callBackNewsRepo.setChannelList(channelListSet);
-    }
-
     private void loadNewsFromRemote(final List<String> channelList) {
-        channelListSet = newsSharedPrefDataSource.getChannelsUrlList();
+
         final ArrayList<String> channelslistArrayList = new ArrayList<>(channelList);
         // регистрируем BroadcastReceiver
         IntentFilter intentFilter = new IntentFilter(NewsIntentService.ACTION_NEWSINTENTSERVICE);
@@ -101,7 +88,6 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
         newsDateBaseNewsSource.setSubcriber(this);
         newsDateBaseNewsSource.loadNewsFromDataBase();
     }
-
 
     private boolean isOnline() {
         ConnectivityManager cm =

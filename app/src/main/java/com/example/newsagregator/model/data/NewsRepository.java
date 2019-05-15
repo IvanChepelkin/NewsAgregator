@@ -12,7 +12,4 @@ public interface NewsRepository {
 
     void getData(List<String> channelList);
 
-    void returnChannelsList();
-
-
 }

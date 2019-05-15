@@ -65,8 +65,7 @@ public class Factory {
 
     private static NewsRepositoryImpl createObjectNewsRepositoryImpl() {
         return new NewsRepositoryImpl(
-                Factory.createObjectNewsBroadcastReceiverImpl(),
-                Factory.createObjectNewsSharedPrefDataSourceImpl());
+                Factory.createObjectNewsBroadcastReceiverImpl());
     }
 
     private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {

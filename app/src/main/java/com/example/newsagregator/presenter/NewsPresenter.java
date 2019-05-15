@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NewsPresenter implements ChannelPresenterListener,NewsPresenterListener {
+public class NewsPresenter implements ChannelPresenterListener, NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
@@ -31,9 +31,9 @@ public class NewsPresenter implements ChannelPresenterListener,NewsPresenterList
         subscribeUseCase.subscribePresenterNews(this);
     }
 
-    public void onAttach(NewsView newsView){
+    public void onAttach(NewsView newsView) {
         this.newsView = newsView;
-        if (newsView != null){
+        if (newsView != null) {
             updateNews();
         }
         newsUseCase.getData();
@@ -48,7 +48,7 @@ public class NewsPresenter implements ChannelPresenterListener,NewsPresenterList
     }
 
     public void setClickDeleteChannel() {
-        newsUseCase.channelsList();
+        newsView.showAlertDialogDeleteChannel(channelsArray);
     }
 
     public void setClickOkAddChannels(final String channelUrl) {
@@ -92,8 +92,8 @@ public class NewsPresenter implements ChannelPresenterListener,NewsPresenterList
     }
 
     @Override
-    public void setChannelsList(List<Channel> channelList) {
+    public void setChannelsList(List<String> channelList) {
         channelsArray = channelList.toArray(new String[0]);
-        newsView.showAlertDialogDeleteChannel(channelsArray);
+
     }
 }

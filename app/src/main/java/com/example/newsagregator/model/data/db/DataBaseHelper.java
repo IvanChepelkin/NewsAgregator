@@ -93,15 +93,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int id = getID(channelItem.getChannelUrl());
         if(id==-1)
             db.insert(TABLE_CHANNELS, null, values);
-        else
-            db.update(TABLE_CHANNELS, values, URL + "=?", new String[]{Integer.toString(id)});
-//
-//        int id = (int) db.insertWithOnConflict(TABLE_CHANNELS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-//        if (id == -1) {
-//            db.update(TABLE_CHANNELS, values, URL + "= ?", new String[]{channelItem.getChannelUrl()});
-//        } else {
-//            db.insert(TABLE_CHANNELS, null, values);
-//        }
+//        else
+//            db.update(TABLE_CHANNELS, values, URL + "=?", new String[]{Integer.toString(id)});
 
         db.close();
 
@@ -109,7 +102,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private int getID(String url){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor c = db.query(TABLE_CHANNELS,new String[]{URL},"url =? ",new String[]{url},null,null,null,null);
+        Cursor c = db.query(TABLE_CHANNELS,
+                new String[]{URL},
+                "url =? ",
+                new String[]{url},
+                null,
+                null,
+                null,
+                null);
         if (c.moveToFirst()) //if the row exist then return the id
             return c.getInt(c.getColumnIndex(URL));
         return -1;
@@ -146,7 +146,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<ChannelItem> getChannelsFromDataBase() {
         List<ChannelItem> channelItemList = new ArrayList<ChannelItem>();
         String selectQuery = "SELECT  * FROM " + TABLE_CHANNELS;
-        System.out.println("МЕТОД ВЫЗЫВАЕТСЯ");
 
         SQLiteDatabase db = this.getWritableDatabase();
         @SuppressLint("Recycle")
