@@ -7,12 +7,12 @@ import com.example.newsagregator.model.domain.Channel.ChannelItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChannelDataBaseSourceImpl extends AsyncTask<Void, Void, List<ChannelItem>> implements ChannelDataBaseSource {
+public class ChanneloadDataBaseSourceImpl extends AsyncTask<Void, Void, List<ChannelItem>> implements ChannelLoadDataBaseSource {
 
     private DataBaseHelper dataBaseHelper;
-    private ChannelsCallBackDb channelsCallBackDb;
+    private ChannelsLoadCallBackDb channelsLoadCallBackDb;
 
-    public ChannelDataBaseSourceImpl(DataBaseHelper dataBaseHelper) {
+    public ChanneloadDataBaseSourceImpl(DataBaseHelper dataBaseHelper) {
         this.dataBaseHelper = dataBaseHelper;
     }
 
@@ -27,7 +27,7 @@ public class ChannelDataBaseSourceImpl extends AsyncTask<Void, Void, List<Channe
 
     @Override
     protected void onPostExecute(List<ChannelItem> channelItemList) {
-        channelsCallBackDb.ChannelsonCompletedFromDateBase(channelItemList);
+        channelsLoadCallBackDb.ChannelsLoadCompletedFromDateBase(channelItemList);
     }
 
     @Override
@@ -35,9 +35,10 @@ public class ChannelDataBaseSourceImpl extends AsyncTask<Void, Void, List<Channe
         execute();
     }
 
+
     @Override
-    public void setSubcriber(ChannelsCallBackDb channelsCallBackDb) {
-        this.channelsCallBackDb = channelsCallBackDb;
+    public void setSubcriber(ChannelsLoadCallBackDb channelsLoadCallBackDb) {
+        this.channelsLoadCallBackDb = channelsLoadCallBackDb;
 
     }
 

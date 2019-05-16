@@ -4,7 +4,8 @@ import com.example.newsagregator.model.data.ChannelRepositoryImpl;
 import com.example.newsagregator.model.data.ConverterJONObjectInListData;
 import com.example.newsagregator.model.data.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.NewsRepositoryImpl;
-import com.example.newsagregator.model.data.db.ChannelDataBaseSourceImpl;
+import com.example.newsagregator.model.data.db.ChanneloadDataBaseSourceImpl;
+import com.example.newsagregator.model.data.db.ChannelsDeleteDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
@@ -46,8 +47,12 @@ public class Factory {
         return new NewsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
-    public static ChannelDataBaseSourceImpl createObjectChannelDataBaseSourceImpl() {
-        return new ChannelDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
+    public static ChanneloadDataBaseSourceImpl createObjectChannelSloadDataBaseSourceImpl() {
+        return new ChanneloadDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
+    }
+
+    public static ChannelsDeleteDataBaseSourceImpl createObjectChannelsDeleteDataBaseSourceImpl() {
+        return new ChannelsDeleteDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
 
@@ -69,9 +74,9 @@ public class Factory {
     }
 
     private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {
-        return new ChannelRepositoryImpl(
-                Factory.createObjectNewsBroadcastReceiverImpl(),
-                createObjectChannelDataBaseSourceImpl());
+        return new ChannelRepositoryImpl(Factory.createObjectNewsBroadcastReceiverImpl(),
+                Factory.createObjectChannelSloadDataBaseSourceImpl(),
+                Factory.createObjectChannelsDeleteDataBaseSourceImpl());
     }
 
     public static UseCaseImpl createObjectControlLogic() {

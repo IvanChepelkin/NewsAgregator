@@ -91,7 +91,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(CHANNEL_NAME, channelItem.getChannelName());
 
         int id = getID(channelItem.getChannelUrl());
-        if(id==-1)
+        if (id == -1)
             db.insert(TABLE_CHANNELS, null, values);
 //        else
 //            db.update(TABLE_CHANNELS, values, URL + "=?", new String[]{Integer.toString(id)});
@@ -100,7 +100,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    private int getID(String url){
+    private int getID(String url) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.query(TABLE_CHANNELS,
                 new String[]{URL},
@@ -166,15 +166,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return channelItemList;
     }
 
-    public void deleteContact(String deleteUrl) {
+    public boolean deleteChannels(List<String> channelsToDeleteList) {
+        boolean onFinishDeleteChannels;
         SQLiteDatabase db = this.getWritableDatabase();
+        for (int i = 0; i < channelsToDeleteList.size(); i++) {
 
-        int del = db.delete(TABLE_CHANNELS, URL + "= ?", new String[]{deleteUrl});
+            int del = db.delete(TABLE_CHANNELS, URL + "= ?", new String[]{channelsToDeleteList.get(i)});
 
-        System.out.println("Удалил");
+            System.out.println("Удалил");
 
-        // Log.d("mLog", "deleted rows count = " + del);
-        Log.d("mLog", "deleted rows count = " + del);
+            // Log.d("mLog", "deleted rows count = " + del);
+            Log.d("mLog", "deleted rows count = " + del);
+
+        }
+        onFinishDeleteChannels = true;
         db.close();
+        return onFinishDeleteChannels;
     }
 }
