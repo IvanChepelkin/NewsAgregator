@@ -10,6 +10,6 @@ public interface NewsRepository {
 
     void subscribeNewsRepository(CallBackNewsRepo callBackNewsRepo);
 
-    void getData(List<String> channelList);
+    void getNews(List<String> channelList);
 
 }

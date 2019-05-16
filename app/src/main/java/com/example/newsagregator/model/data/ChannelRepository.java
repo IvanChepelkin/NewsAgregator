@@ -1,7 +1,6 @@
 package com.example.newsagregator.model.data;
 
 import com.example.newsagregator.model.domain.Channel.CallBackChannelRepo;
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
 
 import java.util.List;
 

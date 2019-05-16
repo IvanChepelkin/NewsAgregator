@@ -12,15 +12,12 @@ import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.data.db.NewsDataBaseSource;
 import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
-import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSource;
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
 import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
 import com.example.newsagregator.model.domain.News.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, NewsDataBaseSource.NewsCallBackDb, NewsRepository {
 
@@ -50,7 +47,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
 
     @Override
     public void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase) {
-        callBackNewsRepo.setData(newsItemListFromDateBase);
+        callBackNewsRepo.setNewsItemList(newsItemListFromDateBase);
     }
 
 
@@ -60,7 +57,7 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     }
 
     @Override
-    public void getData(List<String> channelList) {
+    public void getNews(List<String> channelList) {
         if (isOnline()) {
             loadNewsFromRemote(channelList);
 

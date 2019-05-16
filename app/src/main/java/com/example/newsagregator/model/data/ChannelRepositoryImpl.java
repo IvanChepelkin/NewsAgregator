@@ -14,16 +14,16 @@ public class ChannelRepositoryImpl implements ChannelRepository,
         ChannelsDeleteDataBaseSource.ChannelsDeleteCallBackDb {
 
     private NewsRemoteDataSource newsRemoteDataSource;
-    private ChannelLoadDataBaseSource channelDataBaseSource;
+    private ChannelLoadDataBaseSource channelLoadDataBaseSource;
     private ChannelsDeleteDataBaseSource channelsDeleteDataBaseSource;
     private CallBackChannelRepo callBackChannelRepo;
 
     public ChannelRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,
-                                 ChannelLoadDataBaseSource channelDataBaseSource,
+                                 ChannelLoadDataBaseSource channelLoadDataBaseSource,
                                  ChannelsDeleteDataBaseSource channelsDeleteDataBaseSource)
     {
         this.newsRemoteDataSource = newsRemoteDataSource;
-        this.channelDataBaseSource = channelDataBaseSource;
+        this.channelLoadDataBaseSource = channelLoadDataBaseSource;
         this.channelsDeleteDataBaseSource = channelsDeleteDataBaseSource;
     }
 
@@ -49,9 +49,10 @@ public class ChannelRepositoryImpl implements ChannelRepository,
     @Override
     public void getChannels() {
 
-        channelDataBaseSource.setSubcriber(this);
+        channelLoadDataBaseSource = Factory.createObjectChannelSloadDataBaseSourceImpl();
+        channelLoadDataBaseSource.setSubcriber(this);
+        channelLoadDataBaseSource.loadChannelsFromDataBase();
 
-        channelDataBaseSource.loadChannelsFromDataBase();
     }
 
 
@@ -63,6 +64,6 @@ public class ChannelRepositoryImpl implements ChannelRepository,
 
     @Override
     public void ChannelsDeleteCompletedFromDateBase(Boolean onFinishDeleteChannels) {
-
+        callBackChannelRepo.ChannelsDeleteCompleted(onFinishDeleteChannels);
     }
 }
