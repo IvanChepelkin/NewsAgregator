@@ -13,22 +13,6 @@ public class ChannelsDeleteDataBaseSourceImpl extends AsyncTask<List<String>, Vo
     public ChannelsDeleteDataBaseSourceImpl(DataBaseHelper dataBaseHelper) {
         this.dataBaseHelper = dataBaseHelper;
     }
-//
-//    @Override
-//    protected List<ChannelItem> doInBackground(Void... voids) {
-//        dataBaseHelper = Factory.createObjectDataBaseHelper();
-//        List<ChannelItem> channelItemList = new ArrayList<>();
-//        channelItemList = dataBaseHelper.getChannelsFromDataBase();
-//        return channelItemList;
-//
-//    }
-
-//    @Override
-//    protected List<ChannelItem> doInBackground(List<String>... lists) {
-//        dataBaseHelper = Factory.createObjectDataBaseHelper();
-//        dataBaseHelper.deleteChannels(lists[0]);
-//        return null;
-//    }
 
     @SafeVarargs
     @Override

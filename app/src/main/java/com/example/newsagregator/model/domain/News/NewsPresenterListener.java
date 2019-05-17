@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.domain.CallbacksInterfaces;
+package com.example.newsagregator.model.domain.News;
 
 import com.example.newsagregator.model.domain.News.NewsItem;
 

@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.data;
+package com.example.newsagregator.model.data.channelRepo;
 
 import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.data.db.ChannelLoadDataBaseSource;

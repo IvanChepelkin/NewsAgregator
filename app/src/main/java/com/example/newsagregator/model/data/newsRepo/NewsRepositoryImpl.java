@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.data;
+package com.example.newsagregator.model.data.newsRepo;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

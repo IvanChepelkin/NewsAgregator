@@ -1,9 +1,9 @@
 package com.example.newsagregator.di;
 
-import com.example.newsagregator.model.data.ChannelRepositoryImpl;
-import com.example.newsagregator.model.data.ConverterJONObjectInListData;
-import com.example.newsagregator.model.data.ConverterJSONObjectInChannel;
-import com.example.newsagregator.model.data.NewsRepositoryImpl;
+import com.example.newsagregator.model.data.channelRepo.ChannelRepositoryImpl;
+import com.example.newsagregator.model.data.newsRepo.ConverterJONObjectInListData;
+import com.example.newsagregator.model.data.channelRepo.ConverterJSONObjectInChannel;
+import com.example.newsagregator.model.data.newsRepo.NewsRepositoryImpl;
 import com.example.newsagregator.model.data.db.ChanneloadDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.ChannelsDeleteDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
@@ -11,20 +11,22 @@ import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.data.network.OnFinishBroadcastReceiver;
 import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSourceImpl;
-import com.example.newsagregator.model.domain.UseCaseImpl;
+import com.example.newsagregator.model.domain.Channel.ChannelUseCaseImpl;
+import com.example.newsagregator.model.domain.News.NewsUseCaseImpl;
 import com.example.newsagregator.presenter.NewsPresenter;
 
 public class Factory {
 
     private static DataBaseHelper dataBaseSourceInstance;
-    private static UseCaseImpl useCaseInstance;
+    private static NewsUseCaseImpl newsUseCaseInstance;
+    private static ChannelUseCaseImpl channelUseCasenstance;
 
 
     public static NewsPresenter createObjectNewsPresenter() {
-        return new NewsPresenter(
-                Factory.createObjectControlLogic(),
-                Factory.createObjectControlLogic(),
-                Factory.createObjectControlLogic());
+        return new NewsPresenter(Factory.createObjectNewsUseCaseImpl(),
+                Factory.createObjectChannelUseCaseImplImpl(),
+                Factory.createObjectNewsUseCaseImpl(),
+                Factory.createObjectChannelUseCaseImplImpl());
     }
 
     public static HTTPConnections createObjectHTTPConnections() {
@@ -79,13 +81,19 @@ public class Factory {
                 Factory.createObjectChannelsDeleteDataBaseSourceImpl());
     }
 
-    public static UseCaseImpl createObjectControlLogic() {
-        if (useCaseInstance == null) {
-            useCaseInstance = new UseCaseImpl(
-                    Factory.createObjectNewsRepositoryImpl(),
-                    Factory.createObjectChannelRepositoryImpl());
+    public static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
+        if (newsUseCaseInstance == null) {
+            newsUseCaseInstance = new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
         }
-        return useCaseInstance;
+        return newsUseCaseInstance;
+
+    }
+
+    public static ChannelUseCaseImpl createObjectChannelUseCaseImplImpl() {
+        if (channelUseCasenstance == null) {
+            channelUseCasenstance = new ChannelUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
+        }
+        return channelUseCasenstance;
 
     }
 }

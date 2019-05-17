@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.data.ConverterJONObjectInListData;
-import com.example.newsagregator.model.data.ConverterJSONObjectInChannel;
+import com.example.newsagregator.model.data.newsRepo.ConverterJONObjectInListData;
+import com.example.newsagregator.model.data.channelRepo.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.domain.Channel.ChannelItem;
 import com.example.newsagregator.model.domain.News.NewsItem;
