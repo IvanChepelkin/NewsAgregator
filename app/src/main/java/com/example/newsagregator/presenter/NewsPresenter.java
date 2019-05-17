@@ -74,7 +74,7 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     }
 
     @Override
-    public void setData(final List<NewsItem> listNewsItem) {
+    public void setNewsItemList(final List<NewsItem> listNewsItem) {
         this.listNewsItem = listNewsItem;
         Collections.reverse(listNewsItem);
         newsView.hideProgress();
@@ -82,7 +82,7 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     }
 
 //    @Override
-//    public void setChannelsList(Set<String> channelListSet) {
+//    public void setChannelsItemList(Set<String> channelListSet) {
 //        channelsArray = channelListSet.toArray(new String[0]);
 //
 //    }
@@ -93,7 +93,7 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     }
 
     @Override
-    public void setChannelsList(List<ChannelItem> channelItemListList) {
+    public void setChannelsItemList(List<ChannelItem> channelItemListList) {
         this.channelItemListList = channelItemListList;
         List<String> channelList = new ArrayList<>();
 

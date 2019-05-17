@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ChannelPresenterListener {
 
-    void setChannelsList(List<ChannelItem> channelItemListList);
+    void setChannelsItemList(List<ChannelItem> channelItemListList);
 }

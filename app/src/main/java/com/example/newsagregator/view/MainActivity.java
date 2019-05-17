@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.free-lance.ru/rss/projects.xml");
+        input.setText("http://www.championat.com/xml/rss_hockey.xml");
         addChannelDialog.setView(input);
         addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

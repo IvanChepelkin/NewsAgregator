@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NewsPresenterListener {
 
-    void setData(List<NewsItem> listNewsItem);
+    void setNewsItemList(List<NewsItem> listNewsItem);
 
     void setError(Throwable exeption);
 }
