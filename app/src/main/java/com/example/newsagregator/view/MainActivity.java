@@ -26,6 +26,7 @@ import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.domain.News.NewsItem;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
+import com.example.newsagregator.view.dialogs.AlertDialogAddChannel;
 
 import java.util.List;
 
@@ -121,20 +122,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showAlertDialogAddChannel() {
-        AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(this);
-        addChannelDialog.setTitle("Введите адрес канала"); //literals
-
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.free-lance.ru/rss/projects.xml");
-        addChannelDialog.setView(input);
-        addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newsPresenter.setClickOkAddChannels(input.getText().toString());
-            }
-        });
-        addChannelDialog.show();
+        AlertDialogAddChannel alertDialogAddChannel = new AlertDialogAddChannel();
+        alertDialogAddChannel.show(getSupportFragmentManager(), "AlertDialogAddChannel");
     }
 
     @Override
