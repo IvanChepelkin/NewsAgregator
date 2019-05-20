@@ -16,11 +16,6 @@ public class ChannelUseCaseImpl implements SubscribeChannelUseCase,ChannelUseCas
         channelRepository.subscribeChannelRepository(this);
     }
 
-    @Override
-    public void addChannel(String channelUrl) {
-        channelRepository.saveChannel(channelUrl);
-
-    }
 
     @Override
     public void deleteChannel(List<String> channelsToDeleteList) {

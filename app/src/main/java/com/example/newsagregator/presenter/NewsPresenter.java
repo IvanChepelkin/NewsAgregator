@@ -38,13 +38,6 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
         if (newsView != null) {
             updateNews();
         }
-        loadData();
-    }
-
-    private void loadData() {
-
-        channelUseCase.getChannels();
-
     }
 
     public void updateNews() {
@@ -127,8 +120,6 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     public void setChannelsItemList(List<ChannelItem> channelItemList) {
 
         if (channelItemList.size() == 0) {
-            listNewsItem.add(new NewsItem(" ", " ", " "));
-            newsView.showNews(listNewsItem);
             newsView.showError("У вас нет добавленных каналов");
             newsView.hideProgress();
         } else {
@@ -136,6 +127,10 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
             setChannelsArray(channelItemList);
             loadNews(channelItemList);
         }
+
+        this.channelItemList = channelItemList;
+        setChannelsArray(channelItemList);
+        loadNews(channelItemList);
 
 
     }

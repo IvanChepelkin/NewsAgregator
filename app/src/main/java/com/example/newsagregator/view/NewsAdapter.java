@@ -13,9 +13,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder> {
     private List<NewsItem> listNewsItem;
     private ItemListener itemListener;
 
-    public NewsAdapter(ItemListener itemListener, List<NewsItem> listNewsItem) {
+    public NewsAdapter(ItemListener itemListener) {
         super();
         this.itemListener = itemListener;
+
+    }
+
+    public void setListNewsItem(List<NewsItem> listNewsItem){
         this.listNewsItem = listNewsItem;
     }
 

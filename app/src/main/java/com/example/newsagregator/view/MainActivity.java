@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
     private WebView webViewContent;
-
+    private NewsAdapter newsAdapter;
 
 
     @Override
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         ApplicationContextSingleton.setContext(this);
         newsPresenter = Factory.createObjectNewsPresenter();
         newsPresenter.onAttach(this);
+        newsAdapter = new NewsAdapter(this);
     }
 
     private void initViews() {
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showNews(List<NewsItem> listNewsItem) {
         recViewNews.setHasFixedSize(false);
-        NewsAdapter newsAdapter = new NewsAdapter(this,listNewsItem);
+        newsAdapter.setListNewsItem(listNewsItem);
         recViewNews.setAdapter(newsAdapter);
     }
 
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.championat.com/xml/rss_hockey.xml");
+        input.setText("http://www.free-lance.ru/rss/projects.xml");
         addChannelDialog.setView(input);
         addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showError(String error) {
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Ошибка запроса", Toast.LENGTH_LONG);
+                error, Toast.LENGTH_LONG);
         toast.show();
     }
 
@@ -228,5 +229,11 @@ public class MainActivity extends AppCompatActivity
     public void onItemClick(int position, WebView webViewContent) {
         this.webViewContent = webViewContent;
         newsPresenter.setClickItemNews(position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        newsPresenter.onAttach(null);
     }
 }
