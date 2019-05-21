@@ -59,11 +59,11 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
         channelUseCase.getChannels();
     }
 
-    public void setClickOkDeleteChannels(final boolean[] positionCheckboxArray) {
+    public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
         List<String> channelsToDeleteList = new ArrayList<>();
 
-        for (int i = 0; i < positionCheckboxArray.length; i++) {
-            if (positionCheckboxArray[i]) {
+        for (int i = 0; i < positionChannelToDeleteArray.length; i++) {
+            if (positionChannelToDeleteArray[i]) {
                 channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
             }
         }

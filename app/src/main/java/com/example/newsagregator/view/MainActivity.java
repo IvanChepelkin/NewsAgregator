@@ -26,12 +26,21 @@ import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.domain.News.NewsItem;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
-import com.example.newsagregator.view.dialogs.AlertDialogAddChannel;
+import com.example.newsagregator.view.dialogs.AddChannelDialog;
+import com.example.newsagregator.view.dialogs.DeleteChannelDialog;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NewsView, SwipeRefreshLayout.OnRefreshListener, NewsAdapter.ItemListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        NewsView,
+        SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.ItemListener,
+        AddChannelDialog.ClickAddChannelDialog,
+        DeleteChannelDialog.ClickOkDeleteChannelDialog {
+    private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
+    private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
+    public static final String KEY_channelsArray = " channelsArray";
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
@@ -122,37 +131,45 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showAlertDialogAddChannel() {
-        AlertDialogAddChannel alertDialogAddChannel = new AlertDialogAddChannel();
-        alertDialogAddChannel.show(getSupportFragmentManager(), "AlertDialogAddChannel");
+        AddChannelDialog addChannelDialog = new AddChannelDialog();
+        addChannelDialog.show(getSupportFragmentManager(), TAG_ADD_CHANNEL_DIALOG);
     }
 
     @Override
     public void showAlertDialogDeleteChannel(String[] channelsArray) {
 
-        final boolean[] positionCheckboxArray = new boolean[channelsArray.length];
-        for (int i = 0; i < positionCheckboxArray.length; i++) {
-            positionCheckboxArray[i] = false;
-        }
+        DeleteChannelDialog deleteChannelDialog = new DeleteChannelDialog();
+        Bundle data = new Bundle();
+        data.putStringArray(KEY_channelsArray, channelsArray);
+        deleteChannelDialog.setArguments(data);
+        deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
 
-        AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
-        deleteChannelsDialog.setTitle("Выберите канал");
+        //addChannelDialog.show(getSupportFragmentManager(), "AddChannelDialog");
 
-        final EditText inputs = new EditText(this);
-        inputs.setInputType(InputType.TYPE_CLASS_TEXT);
-        deleteChannelsDialog.setView(inputs);
-        deleteChannelsDialog.setMultiChoiceItems(channelsArray, positionCheckboxArray, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                positionCheckboxArray[which] = true;
-            }
-        });
-        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newsPresenter.setClickOkDeleteChannels(positionCheckboxArray);
-            }
-        });
-        deleteChannelsDialog.show();
+//        final boolean[] positionCheckboxArray = new boolean[channelsArray.length];
+//        for (int i = 0; i < positionCheckboxArray.length; i++) {
+//            positionCheckboxArray[i] = false;
+//        }
+//
+//        AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
+//        deleteChannelsDialog.setTitle("Выберите канал");
+//
+//        final EditText inputs = new EditText(this);
+//        inputs.setInputType(InputType.TYPE_CLASS_TEXT);
+//        deleteChannelsDialog.setView(inputs);
+//        deleteChannelsDialog.setMultiChoiceItems(channelsArray, positionCheckboxArray, new DialogInterface.OnMultiChoiceClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+//                positionCheckboxArray[which] = true;
+//            }
+//        });
+//        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                newsPresenter.setClickOkDeleteChannels(positionCheckboxArray);
+//            }
+//        });
+//        deleteChannelsDialog.show();
     }
 
     @Override
@@ -224,5 +241,15 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         newsPresenter.onAttach(null);
+    }
+
+    @Override
+    public void setClickOkAddChannel(String saveUrlChannel) {
+        newsPresenter.setClickOkAddChannels(saveUrlChannel);
+    }
+
+    @Override
+    public void setClickOkAddChannel(boolean[] positionChannelToDelete) {
+        newsPresenter.setClickOkDeleteChannels(positionChannelToDelete);
     }
 }
