@@ -33,11 +33,13 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
         subscribeUseCaseNews.subscribePresenterNews(this);
     }
 
-    public void onAttach(NewsView newsView) {
+    public void onAttachView(NewsView newsView) {
         this.newsView = newsView;
-        if (newsView != null) {
-            updateNews();
-        }
+        updateNews();
+    }
+    
+    public void detachView() {
+        this.newsView = null;
     }
 
     public void updateNews() {

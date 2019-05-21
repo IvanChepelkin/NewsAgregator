@@ -1,15 +1,12 @@
 package com.example.newsagregator.view;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.text.InputType;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.webkit.WebView;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.newsagregator.R;
@@ -54,8 +50,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initViews();
         ApplicationContextSingleton.setContext(this);
-        newsPresenter = Factory.createObjectNewsPresenter();
-        newsPresenter.onAttach(this);
+        attachPresenter();
         newsAdapter = new NewsAdapter(this);
     }
 
@@ -75,6 +70,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void attachPresenter() {
+        newsPresenter = (NewsPresenter) getLastCustomNonConfigurationInstance();
+        if (newsPresenter == null) {
+            newsPresenter = Factory.createObjectNewsPresenter();
+        }
+        newsPresenter.onAttachView(this);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -87,7 +90,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -144,32 +146,6 @@ public class MainActivity extends AppCompatActivity
         deleteChannelDialog.setArguments(data);
         deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
 
-        //addChannelDialog.show(getSupportFragmentManager(), "AddChannelDialog");
-
-//        final boolean[] positionCheckboxArray = new boolean[channelsArray.length];
-//        for (int i = 0; i < positionCheckboxArray.length; i++) {
-//            positionCheckboxArray[i] = false;
-//        }
-//
-//        AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
-//        deleteChannelsDialog.setTitle("Выберите канал");
-//
-//        final EditText inputs = new EditText(this);
-//        inputs.setInputType(InputType.TYPE_CLASS_TEXT);
-//        deleteChannelsDialog.setView(inputs);
-//        deleteChannelsDialog.setMultiChoiceItems(channelsArray, positionCheckboxArray, new DialogInterface.OnMultiChoiceClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-//                positionCheckboxArray[which] = true;
-//            }
-//        });
-//        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                newsPresenter.setClickOkDeleteChannels(positionCheckboxArray);
-//            }
-//        });
-//        deleteChannelsDialog.show();
     }
 
     @Override
@@ -240,7 +216,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        newsPresenter.onAttach(null);
+        newsPresenter.detachView();
     }
 
     @Override
@@ -251,5 +227,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void setClickOkAddChannel(boolean[] positionChannelToDelete) {
         newsPresenter.setClickOkDeleteChannels(positionChannelToDelete);
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return newsPresenter;
     }
 }
