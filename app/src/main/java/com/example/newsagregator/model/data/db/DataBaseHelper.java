@@ -45,8 +45,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         String CREATE_NEWS_ITEMS_TABLE = "CREATE TABLE " + TABLE_NEWS_ITEMS + " ("
                 + ID_NEWS_ITEMS + " INTEGER PRIMARY KEY,"
-                + DATE_PUBLICATION + " TEXT,"
                 + CHANNEL_NAME+ " TEXT,"
+                + DATE_PUBLICATION + " TEXT,"
                 + TITLE + " TEXT,"
                 + GUIDE + " TEXT,"
                 + CONTENT + " TEXT,"
@@ -76,8 +76,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         for (int i = 0; i < newsItemList.size(); i++) {
             ContentValues values = new ContentValues();
-            values.put(DATE_PUBLICATION, newsItemList.get(i).getDate());
             values.put(CHANNEL_NAME, newsItemList.get(i).getChannelName());
+            values.put(DATE_PUBLICATION, newsItemList.get(i).getDatePublication());
             values.put(TITLE, newsItemList.get(i).getTitle());
             values.put(GUIDE, newsItemList.get(i).getGuide());
             values.put(CONTENT, newsItemList.get(i).getContent());
@@ -98,8 +98,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int id = getID(channelItem.getChannelUrl());
         if (id == -1)
             db.insert(TABLE_CHANNELS, null, values);
-//        else
-//            db.update(TABLE_CHANNELS, values, URL + "=?", new String[]{Integer.toString(id)});
 
         db.close();
 

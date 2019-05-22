@@ -21,8 +21,7 @@ public class ConverterJONObjectInListData {
             JSONObject jsonFeed = jsonObjectNews.getJSONObject("feed");
             for (int i = 0; i < jsonItems.length(); i++) {
 
-                listNewsItem.add(new NewsItem(
-                        jsonFeed.getString("title"),
+                listNewsItem.add(new NewsItem(jsonFeed.getString("title"),
                         jsonItems.getJSONObject(i).getString("pubDate"),
                         jsonItems.getJSONObject(i).getString("title"),
                         jsonItems.getJSONObject(i).getString("link"),

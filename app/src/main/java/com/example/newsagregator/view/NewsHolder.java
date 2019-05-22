@@ -14,6 +14,8 @@ import com.example.newsagregator.model.domain.News.NewsItem;
 class NewsHolder extends RecyclerView.ViewHolder {
     private NewsItem newsItem;
     private View root;
+    private TextView textNewsChannelName;
+    private TextView textDatePublication;
     private TextView textTitle;
     private TextView textContent;
     private NewsAdapter.ItemListener itemListener;
@@ -22,6 +24,8 @@ class NewsHolder extends RecyclerView.ViewHolder {
     private NewsHolder(@NonNull View itemView) {
         super(itemView);
         root = itemView;
+        textNewsChannelName = itemView.findViewById(R.id.newsChannelName);
+        textDatePublication = itemView.findViewById(R.id.datePublication);
         textTitle = itemView.findViewById(R.id.newsItemTitle);
         textContent = itemView.findViewById(R.id.newsItemContent);
         webViewContent = itemView.findViewById(R.id.newsItemGuide);
@@ -38,8 +42,11 @@ class NewsHolder extends RecyclerView.ViewHolder {
         this.newsItem = newsItem;
         this.itemListener = itemListener;
         this.position = position;
+        textNewsChannelName.setText(newsItem.getChannelName());
+        textDatePublication.setText(newsItem.getDatePublication());
         textTitle.setText(newsItem.getTitle());
         textContent.setText(newsItem.getContent());
+
 
     }
 
