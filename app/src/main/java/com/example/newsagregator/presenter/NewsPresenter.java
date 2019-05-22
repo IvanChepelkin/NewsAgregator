@@ -37,7 +37,7 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
         this.newsView = newsView;
         updateNews();
     }
-    
+
     public void detachView() {
         this.newsView = null;
     }
@@ -121,20 +121,16 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     @Override
     public void setChannelsItemList(List<ChannelItem> channelItemList) {
 
-        if (channelItemList.size() == 0) {
+        if (channelItemList.size() == 0 && channeSavelUrl == null) {
             newsView.showError("У вас нет добавленных каналов");
             newsView.hideProgress();
+        } else if (channelItemList.size() == 0) {
+            loadNews(channelItemList);
         } else {
             this.channelItemList = channelItemList;
             setChannelsArray(channelItemList);
             loadNews(channelItemList);
         }
-
-        this.channelItemList = channelItemList;
-        setChannelsArray(channelItemList);
-        loadNews(channelItemList);
-
-
     }
 
     @Override

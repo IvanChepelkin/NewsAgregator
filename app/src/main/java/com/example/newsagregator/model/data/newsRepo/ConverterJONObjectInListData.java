@@ -17,13 +17,16 @@ public class ConverterJONObjectInListData {
         List<NewsItem> listNewsItem = new ArrayList<>();
 
         try {
-            JSONArray jsonArray = jsonObjectNews.getJSONArray("items");
-            for (int i = 0; i < jsonArray.length(); i++) {
+            JSONArray jsonItems = jsonObjectNews.getJSONArray("items");
+            JSONObject jsonFeed = jsonObjectNews.getJSONObject("feed");
+            for (int i = 0; i < jsonItems.length(); i++) {
 
                 listNewsItem.add(new NewsItem(
-                        jsonArray.getJSONObject(i).getString("title"),
-                        jsonArray.getJSONObject(i).getString("link"),
-                        jsonArray.getJSONObject(i).getString("description")));
+                        jsonFeed.getString("title"),
+                        jsonItems.getJSONObject(i).getString("pubDate"),
+                        jsonItems.getJSONObject(i).getString("title"),
+                        jsonItems.getJSONObject(i).getString("link"),
+                        jsonItems.getJSONObject(i).getString("description")));
             }
 
         } catch (JSONException e) {

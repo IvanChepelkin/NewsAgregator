@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showAlertDialogAddChannel() {
+
         AddChannelDialog addChannelDialog = new AddChannelDialog();
         addChannelDialog.show(getSupportFragmentManager(), TAG_ADD_CHANNEL_DIALOG);
     }
@@ -176,30 +177,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showAlertDialogFiltrChannels() {
 
-//        final boolean[] positionCheckboxArray = new boolean[channelsArray.length];
-//        for (int i = 0; i < positionCheckboxArray.length; i++) {
-//            positionCheckboxArray[i] = false;
-//        }
-//
-//        AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
-//        deleteChannelsDialog.setTitle("Выберите канал");
-//
-//        final EditText inputs = new EditText(this);
-//        inputs.setInputType(InputType.TYPE_CLASS_TEXT);
-//        deleteChannelsDialog.setView(inputs);
-//        deleteChannelsDialog.setMultiChoiceItems(channelsArray, positionCheckboxArray, new DialogInterface.OnMultiChoiceClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-//                positionCheckboxArray[which] = true;
-//            }
-//        });
-//        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                newsPresenter.setClickOkDeleteChannels(positionCheckboxArray);
-//            }
-//        });
-//        deleteChannelsDialog.show();
+
     }
 
     @Override
@@ -217,6 +195,7 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         newsPresenter.detachView();
+
     }
 
     @Override

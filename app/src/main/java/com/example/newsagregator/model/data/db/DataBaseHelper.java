@@ -25,6 +25,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String URL = "url";
     private static final String CHANNEL_NAME = "channel_name";
     private static final String ID_NEWS_ITEMS = "id_channels";
+    private static final String DATE_PUBLICATION = "date_publication";
     private static final String TITLE = "title";
     private static final String GUIDE = "guide";
     private static final String CONTENT = "content";
@@ -44,6 +45,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         String CREATE_NEWS_ITEMS_TABLE = "CREATE TABLE " + TABLE_NEWS_ITEMS + " ("
                 + ID_NEWS_ITEMS + " INTEGER PRIMARY KEY,"
+                + DATE_PUBLICATION + " TEXT,"
+                + CHANNEL_NAME+ " TEXT,"
                 + TITLE + " TEXT,"
                 + GUIDE + " TEXT,"
                 + CONTENT + " TEXT,"
@@ -73,6 +76,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         for (int i = 0; i < newsItemList.size(); i++) {
             ContentValues values = new ContentValues();
+            values.put(DATE_PUBLICATION, newsItemList.get(i).getDate());
+            values.put(CHANNEL_NAME, newsItemList.get(i).getChannelName());
             values.put(TITLE, newsItemList.get(i).getTitle());
             values.put(GUIDE, newsItemList.get(i).getGuide());
             values.put(CONTENT, newsItemList.get(i).getContent());
@@ -131,7 +136,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 NewsItem newsItem = new NewsItem(
                         cursor.getString(1),
                         cursor.getString(2),
-                        cursor.getString(3));
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5));
 
 //                Log.d("mLog", "ID = " + cursor.getString(1) +
 //                        ", name = " + cursor.getString(2) +
