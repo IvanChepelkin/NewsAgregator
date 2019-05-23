@@ -11,6 +11,8 @@ import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.widget.EditText;
 
+import com.example.newsagregator.R;
+
 public class AddChannelDialog extends DialogFragment {
     private ClickAddChannelDialog clickAddChannelDialog;
 
@@ -24,11 +26,11 @@ public class AddChannelDialog extends DialogFragment {
         AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(getActivity());
         final EditText input = new EditText(getActivity());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.championat.com/xml/rss_hockey.xml");
+        input.setText("http://www.sovsport.ru/news_rss");
         addChannelDialog.setView(input);
         addChannelDialog
-                .setMessage("Введите адрес канала")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setMessage(R.string.enterChannelText)
+                .setPositiveButton(R.string.okText, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         clickAddChannelDialog.setClickOkAddChannel(input.getText().toString());

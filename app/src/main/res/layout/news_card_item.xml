@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textSize="10sp"
+                android:textSize="@dimen/newsChannelNameTextSize"
                 android:textStyle="italic" />
             <TextView
                 android:id="@+id/datePublication"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
-                android:textSize="10sp"
+                android:textSize="@dimen/dateNewsTextSize"
                 android:textStyle="italic" />
 
         </LinearLayout>

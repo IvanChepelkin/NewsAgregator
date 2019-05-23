@@ -11,4 +11,6 @@
     <dimen name="cardNewsItemCornerRadius">10dp</dimen>
     <dimen name="cardNewsItemElevation">5dp</dimen>
     <dimen name="cardNewsItemPadding">5dp</dimen>
+    <dimen name="dateNewsTextSize">10sp</dimen>
+    <dimen name="newsChannelNameTextSize">10sp</dimen>
 </resources>
