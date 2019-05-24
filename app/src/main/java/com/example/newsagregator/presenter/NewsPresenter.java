@@ -115,14 +115,14 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
 
     @Override
     public void setError(Throwable exeption) {
-        newsView.showError("Неправильный адрес запроса");
+        newsView.showErrorToast();
     }
 
     @Override
     public void setChannelsItemList(List<ChannelItem> channelItemList) {
 
         if (channelItemList.size() == 0 && channeSavelUrl == null) {
-            newsView.showError("У вас нет добавленных каналов");
+            newsView.showNotCahnnelToast();
             newsView.hideProgress();
         } else if (channelItemList.size() == 0) {
             loadNews(channelItemList);

@@ -53,6 +53,11 @@ public class MainActivity extends AppCompatActivity
         ApplicationContextSingleton.setContext(this);
         attachPresenter();
         newsAdapter = new NewsAdapter(this);
+        loadDataDeeplink();
+
+    }
+
+    private void loadDataDeeplink() {
         Intent intent = getIntent();
         if(intent!=null && intent.getData()!=null){
             newsPresenter.setClickOkAddChannels(intent.getData().toString());
@@ -155,9 +160,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void showError(String error) {
+    public void showErrorToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
-                error, Toast.LENGTH_LONG);
+                R.string.errorInvalidAdress, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
+    public void showNotCahnnelToast() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                R.string.errorNotFoundChannels, Toast.LENGTH_LONG);
         toast.show();
     }
 
@@ -177,12 +189,6 @@ public class MainActivity extends AppCompatActivity
     public void showMainConent(String guid) {
         webViewContent.getSettings().setJavaScriptEnabled(true);
         webViewContent.loadUrl(guid);
-    }
-
-    @Override
-    public void showAlertDialogFiltrChannels() {
-
-
     }
 
     @Override

@@ -16,5 +16,7 @@
     <string name="deleteTxt">Удалить</string>
     <string name="okText">OK</string>
     <string name="enterChannelText">Введите адрес канала</string>
+    <string name="errorNotFoundChannels">У вас нет добавленных каналов</string>
+    <string name="errorInvalidAdress">Неправильный адрес запроса</string>
 
 </resources>
