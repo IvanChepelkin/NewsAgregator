@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         DeleteChannelDialog.ClickOkDeleteChannelDialog {
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
     private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
-    public static final String KEY_channelsArray = " channelsArray";
+    public static final String KEY_channelsArray = "channelsArray";
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
@@ -120,9 +120,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.news_list_channels) {
-
-        } else if (id == R.id.news_add_channel) {
+        if (id == R.id.news_add_channel) {
             newsPresenter.setClickAddChannel();
 
         } else if (id == R.id.news_delete_channel) {
@@ -203,13 +201,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        newsPresenter.detachView();
-
-    }
-
-    @Override
     public void setClickOkAddChannel(String saveUrlChannel) {
         newsPresenter.setClickOkAddChannels(saveUrlChannel);
     }
@@ -222,5 +213,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return newsPresenter;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        newsPresenter.detachView();
+        ApplicationContextSingleton.setContext(null);
+
     }
 }
