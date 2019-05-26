@@ -1,6 +1,6 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.List;
 
@@ -11,13 +11,14 @@ public interface NewsView {
 
     void showAlertDialogDeleteChannel(String[] channelsArray);
 
-    void showError(String error);
+    void showErrorToast();
+
+    void showNotCahnnelToast();
 
     void showProgress();
 
     void hideProgress();
 
     void showMainConent(String guid);
-
 
 }

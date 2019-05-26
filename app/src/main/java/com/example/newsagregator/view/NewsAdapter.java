@@ -1,6 +1,6 @@
 package com.example.newsagregator.view;
 
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,9 +13,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder> {
     private List<NewsItem> listNewsItem;
     private ItemListener itemListener;
 
-    public NewsAdapter(ItemListener itemListener, List<NewsItem> listNewsItem) {
+    public NewsAdapter(ItemListener itemListener) {
         super();
         this.itemListener = itemListener;
+
+    }
+
+    public void setListNewsItem(List<NewsItem> listNewsItem){
         this.listNewsItem = listNewsItem;
     }
 

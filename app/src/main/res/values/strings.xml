@@ -12,5 +12,11 @@
     <string name="menu_add_channel">Добавить канал</string>
     <string name="menu_remove_channel">Удалить канал</string>
     <string name="menu_tools">Настройки</string>
+    <string name="chooseChannelTxt">Выберите канал</string>
+    <string name="deleteTxt">Удалить</string>
+    <string name="okText">OK</string>
+    <string name="enterChannelText">Введите адрес канала</string>
+    <string name="errorNotFoundChannels">У вас нет добавленных каналов</string>
+    <string name="errorInvalidAdress">Неправильный адрес запроса</string>
 
 </resources>

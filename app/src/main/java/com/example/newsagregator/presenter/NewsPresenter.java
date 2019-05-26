@@ -1,33 +1,50 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.model.domain.NewsPresenterListener;
-import com.example.newsagregator.model.domain.NewsUseCase;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.Channel.ChannelPresenterListener;
+import com.example.newsagregator.model.domain.News.NewsPresenterListener;
+import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
+import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
+import com.example.newsagregator.model.domain.Channel.SubscribeChannelUseCase;
+import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCase;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
+import com.example.newsagregator.model.domain.News.SubscribeUseCaseNews;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-public class NewsPresenter implements NewsPresenterListener {
+public class NewsPresenter implements ChannelPresenterListener, NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
+    private ChannelUseCase channelUseCase;
     private List<NewsItem> listNewsItem;
+    private List<ChannelItem> channelItemList;
     private String[] channelsArray;
+    private String channeSavelUrl;
 
-    public NewsPresenter( NewsUseCase newsUseCase) {
+    public NewsPresenter(NewsUseCase newsUseCase,
+                         ChannelUseCase channelUseCase,
+                         SubscribeUseCaseNews subscribeUseCaseNews,
+                         SubscribeChannelUseCase subscribeChannelUseCase) {
+
         this.newsUseCase = newsUseCase;
+        this.channelUseCase = channelUseCase;
+        subscribeChannelUseCase.subscribePresenterChannels(this);
+        subscribeUseCaseNews.subscribePresenterNews(this);
     }
 
-    public void onAttach(NewsView newsView){
+    public void onAttachView(NewsView newsView) {
         this.newsView = newsView;
-        if (newsView != null){
-            updateNews();
-        }
+        updateNews();
+    }
+
+    public void detachView() {
+        this.newsView = null;
     }
 
     public void updateNews() {
         newsView.showProgress();
-        newsUseCase.getData(this);
+        channelUseCase.getChannels();
     }
 
     public void setClickAddChannel() {
@@ -35,22 +52,25 @@ public class NewsPresenter implements NewsPresenterListener {
     }
 
     public void setClickDeleteChannel() {
-        newsUseCase.channelsList();
+        newsView.showAlertDialogDeleteChannel(channelsArray);
     }
 
-    public void setClickOkAddChannels(final String channelUrl) {
-        newsUseCase.saveChannel(channelUrl);
+    public void setClickOkAddChannels(final String channeSavelUrl) {
+
+        this.channeSavelUrl = channeSavelUrl;
+        channelUseCase.getChannels();
     }
 
-    public void setClickOkDeleteChannels(final boolean[] positionCheckboxArray) {
+    public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
         List<String> channelsToDeleteList = new ArrayList<>();
 
-        for (int i = 0; i < positionCheckboxArray.length; i++) {
-            if (positionCheckboxArray[i]) {
-                channelsToDeleteList.add(channelsArray[i]);
+
+        for (int i = 0; i < positionChannelToDeleteArray.length; i++) {
+            if (positionChannelToDeleteArray[i]) {
+                channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
             }
         }
-        newsUseCase.deleteChannels(channelsToDeleteList);
+        channelUseCase.deleteChannel(channelsToDeleteList);
     }
 
     public void setClickItemNews(int position) {
@@ -58,8 +78,35 @@ public class NewsPresenter implements NewsPresenterListener {
         newsView.showMainConent(guid);
     }
 
+    private void setChannelsArray(List<ChannelItem> channelItemListList) {
+        List<String> channelList = new ArrayList<>();
+
+        for (int i = 0; i < channelItemListList.size(); i++) {
+            channelList.add(channelItemListList.get(i).getChannelName());
+        }
+        channelsArray = channelList.toArray(new String[0]);
+    }
+
+    private void loadNews(final List<ChannelItem> channelItemListList) {
+
+        List<String> channelList = new ArrayList<>();
+
+        for (int i = 0; i < channelItemListList.size(); i++) {
+            channelList.add(channelItemListList.get(i).getChannelUrl());
+        }
+
+        if (channeSavelUrl != null) {
+            channelList.add(channeSavelUrl);
+            newsUseCase.getNews(channelList);
+
+        } else {
+            newsUseCase.getNews(channelList);
+        }
+    }
+
     @Override
-    public void setData(final List<NewsItem> listNewsItem) {
+    public void setNewsItemList(final List<NewsItem> listNewsItem) {
+        channeSavelUrl = null;
         this.listNewsItem = listNewsItem;
         Collections.reverse(listNewsItem);
         newsView.hideProgress();
@@ -67,13 +114,29 @@ public class NewsPresenter implements NewsPresenterListener {
     }
 
     @Override
-    public void setChannelsList(Set<String> channelListSet) {
-        channelsArray = channelListSet.toArray(new String[0]);
-        newsView.showAlertDialogDeleteChannel(channelsArray);
+    public void setError(Throwable exeption) {
+        newsView.showErrorToast();
     }
 
     @Override
-    public void setError(Throwable exeption) {
-        newsView.showError("Неправильный адрес запроса");
+    public void setChannelsItemList(List<ChannelItem> channelItemList) {
+
+        if (channelItemList.size() == 0 && channeSavelUrl == null) {
+            newsView.showNotCahnnelToast();
+            newsView.hideProgress();
+        } else if (channelItemList.size() == 0) {
+            loadNews(channelItemList);
+        } else {
+            this.channelItemList = channelItemList;
+            setChannelsArray(channelItemList);
+            loadNews(channelItemList);
+        }
+    }
+
+    @Override
+    public void ChannelsDeleteCompleted(Boolean onFinishDeleteChannels) {
+        if (onFinishDeleteChannels) {
+            channelUseCase.getChannels();
+        }
     }
 }

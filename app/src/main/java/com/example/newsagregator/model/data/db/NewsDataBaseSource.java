@@ -1,5 +1,5 @@
 package com.example.newsagregator.model.data.db;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 
 import java.util.List;
@@ -8,10 +8,10 @@ public interface NewsDataBaseSource {
 
     void loadNewsFromDataBase();
 
-    void setSubcriber(CallBackDb callBackDb);
+    void setSubcriber(NewsCallBackDb newsCallBackDb);
 
 
-    interface CallBackDb {
+    interface NewsCallBackDb {
 
         void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase);
 

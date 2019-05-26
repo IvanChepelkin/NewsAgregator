@@ -4,25 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/cardNewsItemMargins"
-    android:layout_marginTop="@dimen/cardNewsItemMargins"
-    android:layout_marginRight="@dimen/cardNewsItemMargins"
-    android:layout_marginBottom="@dimen/cardNewsItemMargins"
-    card_view:cardCornerRadius="@dimen/cardNewsItemCornerRadius"
-    card_view:cardElevation="@dimen/cardNewsItemElevation"
-    card_view:contentPadding="@dimen/cardNewsItemPadding">
+    android:layout_marginLeft="@dimen/card_news_item_margins"
+    android:layout_marginTop="@dimen/card_news_item_margins"
+    android:layout_marginRight="@dimen/card_news_item_margins"
+    android:layout_marginBottom="@dimen/card_news_item_margins"
+    card_view:cardCornerRadius="@dimen/card_news_item_corner_radius"
+    card_view:cardElevation="@dimen/card_news_item_elevation"
+    card_view:contentPadding="@dimen/card_news_item_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/newsChannelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/news_channel_name_text_size"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/datePublication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textSize="@dimen/date_news_text_size"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/newsItemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:textSize="@dimen/titleTextSize"
+            android:textSize="@dimen/title_text_size"
             android:textStyle="bold" />
 
         <TextView
@@ -30,14 +54,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:textSize="@dimen/contentTextSize"
+            android:textSize="@dimen/content_text_size"
             android:textStyle="italic" />
         <WebView
             android:id="@+id/newsItemGuide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="WebViewLayout">
-
         </WebView>
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -1,15 +1,13 @@
 package com.example.newsagregator.view;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.text.InputType;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -17,25 +15,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.webkit.WebView;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.domain.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
+import com.example.newsagregator.view.dialogs.AddChannelDialog;
+import com.example.newsagregator.view.dialogs.DeleteChannelDialog;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NewsView, SwipeRefreshLayout.OnRefreshListener, NewsAdapter.ItemListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        NewsView,
+        SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.ItemListener,
+        AddChannelDialog.ClickAddChannelDialog,
+        DeleteChannelDialog.ClickOkDeleteChannelDialog {
+    private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
+    private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
+    public static final String KEY_channelsArray = "channelsArray";
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
     private WebView webViewContent;
-
+    private NewsAdapter newsAdapter;
 
 
     @Override
@@ -44,8 +51,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initViews();
         ApplicationContextSingleton.setContext(this);
-        newsPresenter = Factory.createObjectNewsPresenter();
-        newsPresenter.onAttach(this);
+        attachPresenter();
+        newsAdapter = new NewsAdapter(this);
+        loadDataDeeplink();
+
+    }
+
+    private void loadDataDeeplink() {
+        Intent intent = getIntent();
+        if (intent != null && intent.getData() != null) {
+            newsPresenter.setClickOkAddChannels(intent.getData().toString());
+        }
     }
 
     private void initViews() {
@@ -64,6 +80,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void attachPresenter() {
+        newsPresenter = (NewsPresenter) getLastCustomNonConfigurationInstance();
+        if (newsPresenter == null) {
+            newsPresenter = Factory.createObjectNewsPresenter();
+        }
+        newsPresenter.onAttachView(this);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -76,7 +100,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -97,9 +120,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.news_list_channels) {
-
-        } else if (id == R.id.news_add_channel) {
+        if (id == R.id.news_add_channel) {
             newsPresenter.setClickAddChannel();
 
         } else if (id == R.id.news_delete_channel) {
@@ -114,61 +135,39 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showNews(List<NewsItem> listNewsItem) {
         recViewNews.setHasFixedSize(false);
-        NewsAdapter newsAdapter = new NewsAdapter(this,listNewsItem);
+        newsAdapter.setListNewsItem(listNewsItem);
         recViewNews.setAdapter(newsAdapter);
     }
 
     @Override
     public void showAlertDialogAddChannel() {
-        AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(this);
-        addChannelDialog.setTitle("Введите адрес канала"); //literals
 
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.free-lance.ru/rss/projects.xml");
-        addChannelDialog.setView(input);
-        addChannelDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newsPresenter.setClickOkAddChannels(input.getText().toString());
-            }
-        });
-        addChannelDialog.show();
+        AddChannelDialog addChannelDialog = new AddChannelDialog();
+        addChannelDialog.show(getSupportFragmentManager(), TAG_ADD_CHANNEL_DIALOG);
     }
 
     @Override
     public void showAlertDialogDeleteChannel(String[] channelsArray) {
 
-        final boolean[] positionCheckboxArray = new boolean[channelsArray.length];
-        for (int i = 0; i < positionCheckboxArray.length; i++) {
-            positionCheckboxArray[i] = false;
-        }
+        DeleteChannelDialog deleteChannelDialog = new DeleteChannelDialog();
+        Bundle data = new Bundle();
+        data.putStringArray(KEY_channelsArray, channelsArray);
+        deleteChannelDialog.setArguments(data);
+        deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
 
-        AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(this);
-        deleteChannelsDialog.setTitle("Выберите канал");
-
-        final EditText inputs = new EditText(this);
-        inputs.setInputType(InputType.TYPE_CLASS_TEXT);
-        deleteChannelsDialog.setView(inputs);
-        deleteChannelsDialog.setMultiChoiceItems(channelsArray, positionCheckboxArray, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                positionCheckboxArray[which] = true;
-            }
-        });
-        deleteChannelsDialog.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newsPresenter.setClickOkDeleteChannels(positionCheckboxArray);
-            }
-        });
-        deleteChannelsDialog.show();
     }
 
     @Override
-    public void showError(String error) {
+    public void showErrorToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Ошибка запроса", Toast.LENGTH_LONG);
+                R.string.errorInvalidAdress, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
+    public void showNotCahnnelToast() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                R.string.errorNotFoundChannels, Toast.LENGTH_LONG);
         toast.show();
     }
 
@@ -199,5 +198,28 @@ public class MainActivity extends AppCompatActivity
     public void onItemClick(int position, WebView webViewContent) {
         this.webViewContent = webViewContent;
         newsPresenter.setClickItemNews(position);
+    }
+
+    @Override
+    public void setClickOkAddChannel(String saveUrlChannel) {
+        newsPresenter.setClickOkAddChannels(saveUrlChannel);
+    }
+
+    @Override
+    public void setClickOkAddChannel(boolean[] positionChannelToDelete) {
+        newsPresenter.setClickOkDeleteChannels(positionChannelToDelete);
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return newsPresenter;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        newsPresenter.detachView();
+        ApplicationContextSingleton.setContext(null);
+
     }
 }

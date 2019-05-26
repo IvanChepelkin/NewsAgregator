@@ -26,7 +26,6 @@ public class OnFinishBroadcastReceiver extends BroadcastReceiver implements News
            Throwable exeption = (Throwable) extras.getSerializable(NewsIntentService.EXTRA_KEY_ERROR);
            callBackApi.onError(exeption);
        }
-
     }
 
     @Override
