@@ -21,14 +21,11 @@ public class HTTPConnections implements LoadDataHttp {
 
 
     @Override
-    public void getHttpData(CallBackHttp callBackHttp,final String urlChannel) {
+    public void getHttpData(CallBackHttp callBackHttp, final String urlChannel) {
         this.callBackHttp = callBackHttp;
         try {
             URL url = new URL(urlChannel);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-            // if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
             InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder sbuilder = new StringBuilder(1024);
@@ -39,15 +36,12 @@ public class HTTPConnections implements LoadDataHttp {
             httpURLConnection.disconnect();
             final JSONObject result = new JSONObject(sbuilder.toString());
             callBackHttp.onSuccess(result);
-            //}
 
         } catch (MalformedURLException e) {
             callBackHttp.onError(e);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             callBackHttp.onError(e);
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             callBackHttp.onError(e);
         }
     }

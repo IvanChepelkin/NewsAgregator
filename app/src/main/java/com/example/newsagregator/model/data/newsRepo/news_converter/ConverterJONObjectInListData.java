@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.data.newsRepo;
+package com.example.newsagregator.model.data.newsRepo.news_converter;
 
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 

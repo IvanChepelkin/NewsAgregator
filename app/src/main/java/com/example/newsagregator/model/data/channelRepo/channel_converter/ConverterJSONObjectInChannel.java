@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.data.channelRepo;
+package com.example.newsagregator.model.data.channelRepo.channel_converter;
 
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import org.json.JSONException;

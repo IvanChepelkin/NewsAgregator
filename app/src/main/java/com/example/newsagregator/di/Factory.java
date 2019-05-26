@@ -1,8 +1,8 @@
 package com.example.newsagregator.di;
 
 import com.example.newsagregator.model.data.channelRepo.ChannelRepositoryImpl;
-import com.example.newsagregator.model.data.newsRepo.ConverterJONObjectInListData;
-import com.example.newsagregator.model.data.channelRepo.ConverterJSONObjectInChannel;
+import com.example.newsagregator.model.data.newsRepo.news_converter.ConverterJONObjectInListData;
+import com.example.newsagregator.model.data.channelRepo.channel_converter.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.newsRepo.NewsRepositoryImpl;
 import com.example.newsagregator.model.data.db.ChanneloadDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.ChannelsDeleteDataBaseSourceImpl;

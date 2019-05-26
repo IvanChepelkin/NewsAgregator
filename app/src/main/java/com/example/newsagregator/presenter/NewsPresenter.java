@@ -64,6 +64,7 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
         List<String> channelsToDeleteList = new ArrayList<>();
 
+
         for (int i = 0; i < positionChannelToDeleteArray.length; i++) {
             if (positionChannelToDeleteArray[i]) {
                 channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
@@ -84,7 +85,6 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
             channelList.add(channelItemListList.get(i).getChannelName());
         }
         channelsArray = channelList.toArray(new String[0]);
-
     }
 
     private void loadNews(final List<ChannelItem> channelItemListList) {
@@ -102,11 +102,11 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
         } else {
             newsUseCase.getNews(channelList);
         }
-
     }
 
     @Override
     public void setNewsItemList(final List<NewsItem> listNewsItem) {
+        channeSavelUrl = null;
         this.listNewsItem = listNewsItem;
         Collections.reverse(listNewsItem);
         newsView.hideProgress();
