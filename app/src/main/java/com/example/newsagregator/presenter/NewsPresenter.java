@@ -1,5 +1,8 @@
 package com.example.newsagregator.presenter;
 
+import android.util.Log;
+import android.view.View;
+
 import com.example.newsagregator.model.domain.Channel.ChannelPresenterListener;
 import com.example.newsagregator.model.domain.News.NewsPresenterListener;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
@@ -13,6 +16,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+
 public class NewsPresenter implements ChannelPresenterListener, NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
@@ -21,6 +30,10 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     private List<ChannelItem> channelItemList;
     private String[] channelsArray;
     private String channeSavelUrl;
+
+
+    Disposable disposable;
+    CompositeDisposable instance = new CompositeDisposable();
 
     public NewsPresenter(NewsUseCase newsUseCase,
                          ChannelUseCase channelUseCase,
@@ -44,7 +57,22 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
 
     public void updateNews() {
         newsView.showProgress();
-        channelUseCase.getChannels();
+
+        Single<List<ChannelItem>> responce = channelUseCase.getChannels();
+
+        disposable = responce
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Consumer<List<ChannelItem>>() {
+                            @Override
+                            public void accept(List<ChannelItem> responseSuccess) {
+                                channelItemList = responseSuccess;
+                                System.out.println("Работатет!");
+
+                            }
+                        }
+                );
+        instance.add(disposable);
     }
 
     public void setClickAddChannel() {

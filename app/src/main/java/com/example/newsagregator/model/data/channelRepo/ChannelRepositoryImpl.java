@@ -9,6 +9,8 @@ import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public class ChannelRepositoryImpl implements ChannelRepository,
         ChannelLoadDataBaseSource.ChannelsLoadCallBackDb,
         ChannelsDeleteDataBaseSource.ChannelsDeleteCallBackDb {
@@ -47,13 +49,18 @@ public class ChannelRepositoryImpl implements ChannelRepository,
     }
 
     @Override
-    public void getChannels() {
-
-        channelLoadDataBaseSource = Factory.createObjectChannelSloadDataBaseSourceImpl();
-        channelLoadDataBaseSource.setSubcriber(this);
-        channelLoadDataBaseSource.loadChannelsFromDataBase();
-
+    public Single<List<ChannelItem>> getChannels() {
+        return channelLoadDataBaseSource.loadChannelsFromDataBase();
     }
+
+//    @Override
+//    public void getChannels() {
+//
+//        channelLoadDataBaseSource = Factory.createObjectChannelSloadDataBaseSourceImpl();
+//        channelLoadDataBaseSource.setSubcriber(this);
+//        channelLoadDataBaseSource.loadChannelsFromDataBase();
+//
+//    }
 
 
     @Override

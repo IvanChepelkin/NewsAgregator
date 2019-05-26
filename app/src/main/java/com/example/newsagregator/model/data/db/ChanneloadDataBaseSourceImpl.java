@@ -1,13 +1,13 @@
 package com.example.newsagregator.model.data.db;
+        import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
+        import java.util.List;
+        import java.util.concurrent.Callable;
 
-import android.os.AsyncTask;
+        import io.reactivex.Scheduler;
+        import io.reactivex.Single;
+        import io.reactivex.schedulers.Schedulers;
 
-import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
-import java.util.ArrayList;
-import java.util.List;
-
-public class ChanneloadDataBaseSourceImpl extends AsyncTask<Void, Void, List<ChannelItem>> implements ChannelLoadDataBaseSource {
+public class ChanneloadDataBaseSourceImpl implements ChannelLoadDataBaseSource {
 
     private DataBaseHelper dataBaseHelper;
     private ChannelsLoadCallBackDb channelsLoadCallBackDb;
@@ -16,30 +16,22 @@ public class ChanneloadDataBaseSourceImpl extends AsyncTask<Void, Void, List<Cha
         this.dataBaseHelper = dataBaseHelper;
     }
 
-    @Override
-    protected List<ChannelItem> doInBackground(Void... voids) {
-        dataBaseHelper = Factory.createObjectDataBaseHelper();
-        List<ChannelItem> channelItemList = new ArrayList<>();
-        channelItemList = dataBaseHelper.getChannelsFromDataBase();
-        return channelItemList;
-
-    }
-
-    @Override
-    protected void onPostExecute(List<ChannelItem> channelItemList) {
-        channelsLoadCallBackDb.ChannelsLoadCompletedFromDateBase(channelItemList);
-    }
-
-    @Override
-    public void loadChannelsFromDataBase() {
-        execute();
-    }
-
 
     @Override
     public void setSubcriber(ChannelsLoadCallBackDb channelsLoadCallBackDb) {
-        this.channelsLoadCallBackDb = channelsLoadCallBackDb;
 
     }
+
+    @Override
+    public Single<List<ChannelItem>> loadChannelsFromDataBase() {
+        return Single.fromCallable(new Callable<List<ChannelItem>>() {
+            @Override
+            public List<ChannelItem> call() {
+                return dataBaseHelper.getChannelsFromDataBase();
+            }
+        }).subscribeOn(Schedulers.io());
+
+    }
+
 
 }

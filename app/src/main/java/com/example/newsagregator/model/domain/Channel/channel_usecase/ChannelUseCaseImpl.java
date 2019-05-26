@@ -8,6 +8,8 @@ import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public class ChannelUseCaseImpl implements SubscribeChannelUseCase, ChannelUseCase, CallBackChannelRepo {
 
     private ChannelRepository channelRepository;
@@ -24,8 +26,8 @@ public class ChannelUseCaseImpl implements SubscribeChannelUseCase, ChannelUseCa
     }
 
     @Override
-    public void getChannels() {
-        channelRepository.getChannels();
+    public Single<List<ChannelItem>> getChannels() {
+        return channelRepository.getChannels();
     }
 
     @Override

@@ -4,11 +4,13 @@ import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public interface ChannelLoadDataBaseSource {
 
     void setSubcriber(ChannelsLoadCallBackDb channelsLoadCallBackDb);
 
-    void loadChannelsFromDataBase();
+    Single<List<ChannelItem>> loadChannelsFromDataBase();
 
     interface ChannelsLoadCallBackDb {
 
