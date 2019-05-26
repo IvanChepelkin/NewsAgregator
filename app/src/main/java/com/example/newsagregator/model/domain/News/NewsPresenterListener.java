@@ -1,6 +1,6 @@
 package com.example.newsagregator.model.domain.News;
 
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.List;
 

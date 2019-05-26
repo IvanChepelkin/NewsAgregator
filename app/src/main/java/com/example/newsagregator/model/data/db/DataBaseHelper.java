@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;

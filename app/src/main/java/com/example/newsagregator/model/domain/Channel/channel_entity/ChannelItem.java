@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.domain.Channel;
+package com.example.newsagregator.model.domain.Channel.channel_entity;
 
 public class ChannelItem {
     private String channelName;

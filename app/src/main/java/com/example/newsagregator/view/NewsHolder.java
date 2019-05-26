@@ -9,7 +9,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.newsagregator.R;
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 class NewsHolder extends RecyclerView.ViewHolder {
     private NewsItem newsItem;

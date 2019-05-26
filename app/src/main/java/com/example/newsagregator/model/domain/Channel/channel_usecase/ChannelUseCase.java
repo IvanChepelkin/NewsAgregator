@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.domain.Channel;
+package com.example.newsagregator.model.domain.Channel.channel_usecase;
 
 import java.util.List;
 

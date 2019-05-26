@@ -13,7 +13,7 @@ import com.example.newsagregator.model.data.db.NewsDataBaseSource;
 import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
 import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;

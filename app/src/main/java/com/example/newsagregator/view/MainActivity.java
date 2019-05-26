@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.example.newsagregator.R;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
 import com.example.newsagregator.view.dialogs.AddChannelDialog;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 
     private void loadDataDeeplink() {
         Intent intent = getIntent();
-        if(intent!=null && intent.getData()!=null){
+        if (intent != null && intent.getData() != null) {
             newsPresenter.setClickOkAddChannels(intent.getData().toString());
         }
     }

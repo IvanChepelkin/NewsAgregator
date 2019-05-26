@@ -1,6 +1,6 @@
 package com.example.newsagregator.model.data.newsRepo;
 
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;

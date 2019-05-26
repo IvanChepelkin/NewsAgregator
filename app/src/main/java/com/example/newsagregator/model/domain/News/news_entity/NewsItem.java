@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.domain.News;
+package com.example.newsagregator.model.domain.News.news_entity;
 
 public class NewsItem {
     private String datePublication;

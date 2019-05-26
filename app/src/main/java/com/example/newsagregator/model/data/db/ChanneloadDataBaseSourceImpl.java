@@ -3,7 +3,7 @@ package com.example.newsagregator.model.data.db;
 import android.os.AsyncTask;
 
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
+import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import java.util.ArrayList;
 import java.util.List;
 

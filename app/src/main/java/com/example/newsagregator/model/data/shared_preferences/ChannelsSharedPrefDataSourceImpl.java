@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Set;
 
 
-public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
+public class ChannelsSharedPrefDataSourceImpl implements ChannelsSharedPrefDataSource {
     private SharedPreferences channelListSheredPref;
     private Set<String> channelsList = new HashSet<>();
     private final String APP_PREFERENCES = "NEWS_CHANNELS";
     private final String CHANNEL_KEY = "NEWS_CHANNEL";
 
-    public NewsSharedPrefDataSourceImpl(Context context) {
+    public ChannelsSharedPrefDataSourceImpl(Context context) {
         channelListSheredPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Override
-    public void putChannelInList(String channelUrl) {
+    public void saveChannelInList(String channelUrl) {
         if (channelUrl != null) {
             channelsList = getChannelsUrlList();
             if (!channelsList.contains(channelUrl)) {
@@ -36,7 +36,7 @@ public class NewsSharedPrefDataSourceImpl implements NewsSharedPrefDataSource {
     }
 
     @Override
-    public void deleteChannel(final List<String> channelsToDeleteList) {
+    public void deleteChannelsList(final List<String> channelsToDeleteList) {
         channelsList = getChannelsUrlList();
         for (int i = 0; i < channelsToDeleteList.size(); i++) {
             channelsList.remove(channelsToDeleteList.get(i));

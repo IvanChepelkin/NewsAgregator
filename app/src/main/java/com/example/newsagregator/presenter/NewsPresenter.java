@@ -2,11 +2,11 @@ package com.example.newsagregator.presenter;
 
 import com.example.newsagregator.model.domain.Channel.ChannelPresenterListener;
 import com.example.newsagregator.model.domain.News.NewsPresenterListener;
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
-import com.example.newsagregator.model.domain.Channel.ChannelUseCase;
+import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
+import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
 import com.example.newsagregator.model.domain.Channel.SubscribeChannelUseCase;
-import com.example.newsagregator.model.domain.News.NewsUseCase;
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCase;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 import com.example.newsagregator.model.domain.News.SubscribeUseCaseNews;
 
 import java.util.ArrayList;

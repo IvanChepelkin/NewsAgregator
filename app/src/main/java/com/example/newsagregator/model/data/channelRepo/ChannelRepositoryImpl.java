@@ -5,7 +5,7 @@ import com.example.newsagregator.model.data.db.ChannelLoadDataBaseSource;
 import com.example.newsagregator.model.data.db.ChannelsDeleteDataBaseSource;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
 import com.example.newsagregator.model.domain.Channel.CallBackChannelRepo;
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
+import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class ChannelRepositoryImpl implements ChannelRepository,
 
     @Override
     public void saveChannel(final String channelUrl) {
-//        newsSharedPrefDataSource.putChannelInList(channelUrl);
+//        newsSharedPrefDataSource.saveChannelInList(channelUrl);
         //loadNewsFromRemote();
     }
 

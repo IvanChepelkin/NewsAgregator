@@ -3,7 +3,7 @@ package com.example.newsagregator.model.data.db;
 import android.os.AsyncTask;
 
 import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,15 +2,17 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="content_text_size">14sp</dimen>
+
+    <dimen name="card_news_item_margins">5dp</dimen>
+    <dimen name="card_news_item_corner_radius">5dp</dimen>
+    <dimen name="card_news_item_elevation">5dp</dimen>
+    <dimen name="card_news_item_padding">5dp</dimen>
+
+    <dimen name="date_news_text_size">10sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="titleTextSize">25sp</dimen>
-    <dimen name="contentTextSize">14sp</dimen>
-    <dimen name="cardNewsItemMargins">5dp</dimen>
-    <dimen name="cardNewsItemCornerRadius">5dp</dimen>
-    <dimen name="cardNewsItemElevation">5dp</dimen>
-    <dimen name="cardNewsItemPadding">5dp</dimen>
-    <dimen name="dateNewsTextSize">10sp</dimen>
-    <dimen name="newsChannelNameTextSize">10sp</dimen>
+    <dimen name="news_channel_name_text_size">10sp</dimen>
+    <dimen name="title_text_size">25sp</dimen>
 </resources>

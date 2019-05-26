@@ -1,6 +1,6 @@
 package com.example.newsagregator.model.data.channelRepo;
 
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
+import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 

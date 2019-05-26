@@ -8,8 +8,8 @@ import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.data.newsRepo.ConverterJONObjectInListData;
 import com.example.newsagregator.model.data.channelRepo.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
-import com.example.newsagregator.model.domain.Channel.ChannelItem;
-import com.example.newsagregator.model.domain.News.NewsItem;
+import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import org.json.JSONObject;
 

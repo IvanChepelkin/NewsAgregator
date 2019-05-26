@@ -10,9 +10,9 @@ import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.data.network.OnFinishBroadcastReceiver;
-import com.example.newsagregator.model.data.shared_preferences.NewsSharedPrefDataSourceImpl;
-import com.example.newsagregator.model.domain.Channel.ChannelUseCaseImpl;
-import com.example.newsagregator.model.domain.News.NewsUseCaseImpl;
+import com.example.newsagregator.model.data.shared_preferences.ChannelsSharedPrefDataSourceImpl;
+import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCaseImpl;
+import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCaseImpl;
 import com.example.newsagregator.presenter.NewsPresenter;
 
 public class Factory {
@@ -58,8 +58,8 @@ public class Factory {
     }
 
 
-    private static NewsSharedPrefDataSourceImpl createObjectNewsSharedPrefDataSourceImpl() {
-        return new NewsSharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
+    private static ChannelsSharedPrefDataSourceImpl createObjectNewsSharedPrefDataSourceImpl() {
+        return new ChannelsSharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
     }
 
     public static ConverterJONObjectInListData createObjectConverterJGONObjectInListData() {
