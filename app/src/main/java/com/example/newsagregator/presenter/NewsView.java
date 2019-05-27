@@ -15,6 +15,8 @@ public interface NewsView {
 
     void showNotCahnnelToast();
 
+    void showIsChannelToast();
+
     void showProgress();
 
     void hideProgress();

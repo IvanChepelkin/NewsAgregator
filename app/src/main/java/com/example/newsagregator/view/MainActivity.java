@@ -182,6 +182,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void showIsChannelToast() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                R.string.you_have_are_channel_text, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
     public void showProgress() {
         refreshLayout.setRefreshing(true);
 

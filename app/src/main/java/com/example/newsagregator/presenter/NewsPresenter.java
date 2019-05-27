@@ -88,7 +88,6 @@ public class NewsPresenter implements NewsPresenterListener {
 
     private void deleteChannels(List<String> channelsToDeleteList) {
 
-
         Completable responce = channelUseCase.deleteChannels(channelsToDeleteList);
         responce
                 .observeOn(AndroidSchedulers.mainThread())
@@ -122,7 +121,22 @@ public class NewsPresenter implements NewsPresenterListener {
     public void setClickOkAddChannels(final String channeSavelUrl) {
 
         this.channeSavelUrl = channeSavelUrl;
-        loadChannels();
+
+        if(channelItemList.size()>0){
+
+            for (ChannelItem channel : channelItemList) {
+                if (channel.getChannelUrl().equals(channeSavelUrl)) {
+                    newsView.showIsChannelToast();
+                    break;
+                }
+            }
+            loadChannels();
+        }else {
+            loadChannels();
+        }
+
+
+
     }
 
     public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
