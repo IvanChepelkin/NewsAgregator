@@ -65,6 +65,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null && intent.getData() != null) {
+            newsPresenter.setClickOkAddChannels(intent.getData().toString());
+        }
+    }
+
     private void initViews() {
         recViewNews = findViewById(R.id.newsRecyclerView);
         recViewNews.setLayoutManager(new LinearLayoutManager(this));
@@ -205,7 +213,6 @@ public class MainActivity extends AppCompatActivity
         webViewContent.getSettings().setJavaScriptEnabled(true);
         webViewContent.loadUrl(guid);
     }
-
 
 
     @Override

@@ -203,7 +203,7 @@ public class NewsPresenter implements NewsPresenterListener {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         for (NewsItem newsItem : listNewsItem) {
             try {
-                Date date = simpleDateFormat.parse(newsItem.getChannelName());
+                Date date = simpleDateFormat.parse(newsItem.getDatePublication());
                 mapNewsItem.put(date, newsItem);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -218,7 +218,9 @@ public class NewsPresenter implements NewsPresenterListener {
 
     @Override
     public void setError(Throwable exeption) {
+        channeSavelUrl = null;
         newsView.showErrorToast();
+        loadChannels();
     }
 
 }
