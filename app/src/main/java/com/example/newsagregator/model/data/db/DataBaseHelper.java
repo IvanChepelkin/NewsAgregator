@@ -134,11 +134,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         cursor.getString(3),
                         cursor.getString(4),
                         cursor.getString(5));
-
-//                Log.d("mLog", "ID = " + cursor.getString(1) +
-//                        ", name = " + cursor.getString(2) +
-//                        ", email = " + cursor.getString(3));
-
                 newsItemList.add(newsItem);
             } while (cursor.moveToNext());
         }

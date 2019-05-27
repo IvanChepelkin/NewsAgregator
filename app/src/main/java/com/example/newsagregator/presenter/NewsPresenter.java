@@ -9,9 +9,14 @@ import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCase;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 import com.example.newsagregator.model.domain.News.SubscribeUseCaseNews;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
@@ -25,7 +30,7 @@ public class NewsPresenter implements NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
-    private List<NewsItem> listNewsItem;
+    private List<NewsItem> listNewsItemSort;
     private List<ChannelItem> channelItemList;
     private String[] channelsArray;
     private String channeSavelUrl;
@@ -122,7 +127,7 @@ public class NewsPresenter implements NewsPresenterListener {
 
         this.channeSavelUrl = channeSavelUrl;
 
-        if(channelItemList.size()>0){
+        if (channelItemList != null && channelItemList.size() > 0) {
 
             for (ChannelItem channel : channelItemList) {
                 if (channel.getChannelUrl().equals(channeSavelUrl)) {
@@ -131,12 +136,9 @@ public class NewsPresenter implements NewsPresenterListener {
                 }
             }
             loadChannels();
-        }else {
+        } else {
             loadChannels();
         }
-
-
-
     }
 
     public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
@@ -156,7 +158,7 @@ public class NewsPresenter implements NewsPresenterListener {
 
 
     public void setClickItemNews(int position) {
-        String guid = listNewsItem.get(position).getGuide();
+        String guid = listNewsItemSort.get(position).getGuide();
         newsView.showMainConent(guid);
     }
 
@@ -187,12 +189,31 @@ public class NewsPresenter implements NewsPresenterListener {
     }
 
     @Override
-    public void setNewsItemList(final List<NewsItem> listNewsItem) {
+    public void setNewsItemList(List<NewsItem> listNewsItem) {
         channeSavelUrl = null;
-        this.listNewsItem = listNewsItem;
-        Collections.reverse(listNewsItem);
+        this.listNewsItemSort = sortNewsByDate(listNewsItem);
+        Collections.reverse(listNewsItemSort);
         newsView.hideProgress();
-        newsView.showNews(listNewsItem);
+        newsView.showNews(listNewsItemSort);
+
+    }
+
+    private List<NewsItem> sortNewsByDate(List<NewsItem> listNewsItem) {
+        Map<Date, NewsItem> mapNewsItem = new TreeMap<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        for (NewsItem newsItem : listNewsItem) {
+            try {
+                Date date = simpleDateFormat.parse(newsItem.getChannelName());
+                mapNewsItem.put(date, newsItem);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        List<NewsItem> sortNewsItemlist = new ArrayList<>();
+        for (Date date : mapNewsItem.keySet()) {
+            sortNewsItemlist.add(mapNewsItem.get(date));
+        }
+        return sortNewsItemlist;
     }
 
     @Override
