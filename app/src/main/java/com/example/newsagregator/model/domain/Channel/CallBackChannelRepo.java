@@ -6,7 +6,5 @@ import java.util.List;
 
 public interface CallBackChannelRepo {
 
-    void setChannelList(List<ChannelItem> channelListSet);
-
     void ChannelsDeleteCompleted(Boolean onFinishDeleteChannels);
 }

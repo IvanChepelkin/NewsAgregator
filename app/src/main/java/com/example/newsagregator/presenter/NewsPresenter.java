@@ -1,8 +1,5 @@
 package com.example.newsagregator.presenter;
 
-import android.util.Log;
-import android.view.View;
-
 import com.example.newsagregator.model.domain.Channel.ChannelPresenterListener;
 import com.example.newsagregator.model.domain.News.NewsPresenterListener;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
@@ -30,10 +27,8 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     private List<ChannelItem> channelItemList;
     private String[] channelsArray;
     private String channeSavelUrl;
-
-
-    Disposable disposable;
-    CompositeDisposable instance = new CompositeDisposable();
+    private Disposable disposable;
+    private CompositeDisposable instance;
 
     public NewsPresenter(NewsUseCase newsUseCase,
                          ChannelUseCase channelUseCase,
@@ -56,8 +51,13 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     }
 
     public void updateNews() {
-        newsView.showProgress();
+        loadChannels();
+    }
 
+    private void loadChannels() {
+
+        instance = new CompositeDisposable();
+        newsView.showProgress();
         Single<List<ChannelItem>> responce = channelUseCase.getChannels();
 
         disposable = responce
@@ -67,12 +67,26 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
                             @Override
                             public void accept(List<ChannelItem> responseSuccess) {
                                 channelItemList = responseSuccess;
-                                System.out.println("Работатет!");
 
+                                if (channelItemList.size() == 0 && channeSavelUrl == null) {
+                                    newsView.showNotCahnnelToast();
+                                    newsView.hideProgress();
+                                } else if (channelItemList.size() == 0) {
+                                    loadNews(channelItemList);
+                                } else {
+                                    setChannelsArray(channelItemList);
+                                    loadNews(channelItemList);
+                                }
+
+                                System.out.println("Работатет!");
                             }
                         }
                 );
         instance.add(disposable);
+    }
+
+    private void deleteChannels(List<String> channelsToDeleteList) {
+        channelUseCase.deleteChannels(channelsToDeleteList);
     }
 
     public void setClickAddChannel() {
@@ -86,20 +100,25 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     public void setClickOkAddChannels(final String channeSavelUrl) {
 
         this.channeSavelUrl = channeSavelUrl;
-        channelUseCase.getChannels();
+        loadChannels();
     }
 
     public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
         List<String> channelsToDeleteList = new ArrayList<>();
-
 
         for (int i = 0; i < positionChannelToDeleteArray.length; i++) {
             if (positionChannelToDeleteArray[i]) {
                 channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
             }
         }
-        channelUseCase.deleteChannel(channelsToDeleteList);
+
+        deleteChannels(channelsToDeleteList);
+
+
+
     }
+
+
 
     public void setClickItemNews(int position) {
         String guid = listNewsItem.get(position).getGuide();
@@ -164,7 +183,7 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     @Override
     public void ChannelsDeleteCompleted(Boolean onFinishDeleteChannels) {
         if (onFinishDeleteChannels) {
-            channelUseCase.getChannels();
+            loadChannels();
         }
     }
 }

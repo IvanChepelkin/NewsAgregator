@@ -7,6 +7,6 @@ import java.util.List;
 import io.reactivex.Single;
 
 public interface ChannelUseCase {
-    void deleteChannel(final List<String> channelsToDeleteList);
+    void deleteChannels(final List<String> channelsToDeleteList);
     Single<List<ChannelItem>> getChannels();
 }

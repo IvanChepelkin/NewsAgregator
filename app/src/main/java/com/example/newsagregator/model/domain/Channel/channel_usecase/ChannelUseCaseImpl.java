@@ -21,19 +21,13 @@ public class ChannelUseCaseImpl implements SubscribeChannelUseCase, ChannelUseCa
     }
 
     @Override
-    public void deleteChannel(List<String> channelsToDeleteList) {
+    public void deleteChannels(List<String> channelsToDeleteList) {
         channelRepository.deleteChannels(channelsToDeleteList);
     }
 
     @Override
     public Single<List<ChannelItem>> getChannels() {
         return channelRepository.getChannels();
-    }
-
-    @Override
-    public void setChannelList(List<ChannelItem> channelListSet) {
-        channelPresenterListener.setChannelsItemList(channelListSet);
-
     }
 
     @Override

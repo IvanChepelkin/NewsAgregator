@@ -12,7 +12,6 @@ import java.util.List;
 import io.reactivex.Single;
 
 public class ChannelRepositoryImpl implements ChannelRepository,
-        ChannelLoadDataBaseSource.ChannelsLoadCallBackDb,
         ChannelsDeleteDataBaseSource.ChannelsDeleteCallBackDb {
 
     private NewsRemoteDataSource newsRemoteDataSource;
@@ -62,11 +61,6 @@ public class ChannelRepositoryImpl implements ChannelRepository,
 //
 //    }
 
-
-    @Override
-    public void ChannelsLoadCompletedFromDateBase(List<ChannelItem> channelItemListFromDateBase) {
-        callBackChannelRepo.setChannelList(channelItemListFromDateBase);
-    }
 
 
     @Override
