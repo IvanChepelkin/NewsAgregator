@@ -4,10 +4,12 @@ import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public interface ChannelLoadDataBaseSource {
+public interface ChannelsDataBaseSource {
 
     Single<List<ChannelItem>> loadChannelsFromDataBase();
+    Completable deleteChannels(final List<String> channelsToDeleteList);
 
 }

@@ -1,10 +1,8 @@
 package com.example.newsagregator.presenter;
 
-import com.example.newsagregator.model.domain.Channel.ChannelPresenterListener;
 import com.example.newsagregator.model.domain.News.NewsPresenterListener;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
-import com.example.newsagregator.model.domain.Channel.SubscribeChannelUseCase;
 import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCase;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 import com.example.newsagregator.model.domain.News.SubscribeUseCaseNews;
@@ -13,13 +11,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public class NewsPresenter implements ChannelPresenterListener, NewsPresenterListener {
+public class NewsPresenter implements NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
@@ -32,12 +32,10 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
 
     public NewsPresenter(NewsUseCase newsUseCase,
                          ChannelUseCase channelUseCase,
-                         SubscribeUseCaseNews subscribeUseCaseNews,
-                         SubscribeChannelUseCase subscribeChannelUseCase) {
+                         SubscribeUseCaseNews subscribeUseCaseNews) {
 
         this.newsUseCase = newsUseCase;
         this.channelUseCase = channelUseCase;
-        subscribeChannelUseCase.subscribePresenterChannels(this);
         subscribeUseCaseNews.subscribePresenterNews(this);
     }
 
@@ -86,7 +84,27 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
     }
 
     private void deleteChannels(List<String> channelsToDeleteList) {
-        channelUseCase.deleteChannels(channelsToDeleteList);
+        //channelUseCase.deleteChannels(channelsToDeleteList);
+        Completable responce = channelUseCase.deleteChannels(channelsToDeleteList);
+        responce
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        loadChannels();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
     }
 
     public void setClickAddChannel() {
@@ -111,13 +129,8 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
                 channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
             }
         }
-
         deleteChannels(channelsToDeleteList);
-
-
-
     }
-
 
 
     public void setClickItemNews(int position) {
@@ -165,25 +178,25 @@ public class NewsPresenter implements ChannelPresenterListener, NewsPresenterLis
         newsView.showErrorToast();
     }
 
-    @Override
-    public void setChannelsItemList(List<ChannelItem> channelItemList) {
-
-        if (channelItemList.size() == 0 && channeSavelUrl == null) {
-            newsView.showNotCahnnelToast();
-            newsView.hideProgress();
-        } else if (channelItemList.size() == 0) {
-            loadNews(channelItemList);
-        } else {
-            this.channelItemList = channelItemList;
-            setChannelsArray(channelItemList);
-            loadNews(channelItemList);
-        }
-    }
-
-    @Override
-    public void ChannelsDeleteCompleted(Boolean onFinishDeleteChannels) {
-        if (onFinishDeleteChannels) {
-            loadChannels();
-        }
-    }
+//    @Override
+//    public void setChannelsItemList(List<ChannelItem> channelItemList) {
+//
+//        if (channelItemList.size() == 0 && channeSavelUrl == null) {
+//            newsView.showNotCahnnelToast();
+//            newsView.hideProgress();
+//        } else if (channelItemList.size() == 0) {
+//            loadNews(channelItemList);
+//        } else {
+//            this.channelItemList = channelItemList;
+//            setChannelsArray(channelItemList);
+//            loadNews(channelItemList);
+//        }
+//    }
+//
+//    @Override
+//    public void ChannelsDeleteCompleted(Boolean onFinishDeleteChannels) {
+//        if (onFinishDeleteChannels) {
+//            loadChannels();
+//        }
+//    }
 }

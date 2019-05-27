@@ -4,8 +4,7 @@ import com.example.newsagregator.model.data.channelRepo.ChannelRepositoryImpl;
 import com.example.newsagregator.model.data.newsRepo.news_converter.ConverterJONObjectInListData;
 import com.example.newsagregator.model.data.channelRepo.channel_converter.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.newsRepo.NewsRepositoryImpl;
-import com.example.newsagregator.model.data.db.ChanneloadDataBaseSourceImpl;
-import com.example.newsagregator.model.data.db.ChannelsDeleteDataBaseSourceImpl;
+import com.example.newsagregator.model.data.db.ChannelsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
@@ -25,8 +24,7 @@ public class Factory {
     public static NewsPresenter createObjectNewsPresenter() {
         return new NewsPresenter(Factory.createObjectNewsUseCaseImpl(),
                 Factory.createObjectChannelUseCaseImplImpl(),
-                Factory.createObjectNewsUseCaseImpl(),
-                Factory.createObjectChannelUseCaseImplImpl());
+                Factory.createObjectNewsUseCaseImpl());
     }
 
     public static HTTPConnections createObjectHTTPConnections() {
@@ -49,14 +47,9 @@ public class Factory {
         return new NewsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
-    public static ChanneloadDataBaseSourceImpl createObjectChannelSloadDataBaseSourceImpl() {
-        return new ChanneloadDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
+    public static ChannelsDataBaseSourceImpl createObjectChannelSloadDataBaseSourceImpl() {
+        return new ChannelsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
-
-    public static ChannelsDeleteDataBaseSourceImpl createObjectChannelsDeleteDataBaseSourceImpl() {
-        return new ChannelsDeleteDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
-    }
-
 
     private static ChannelsSharedPrefDataSourceImpl createObjectNewsSharedPrefDataSourceImpl() {
         return new ChannelsSharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
@@ -76,9 +69,8 @@ public class Factory {
     }
 
     private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {
-        return new ChannelRepositoryImpl(Factory.createObjectNewsBroadcastReceiverImpl(),
-                Factory.createObjectChannelSloadDataBaseSourceImpl(),
-                Factory.createObjectChannelsDeleteDataBaseSourceImpl());
+        return new ChannelRepositoryImpl(
+                Factory.createObjectChannelSloadDataBaseSourceImpl());
     }
 
     public static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
