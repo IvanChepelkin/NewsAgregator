@@ -21,4 +21,6 @@ public interface NewsView {
 
     void showMainConent(String guid);
 
+    void clearList();
+
 }

@@ -1,5 +1,7 @@
 package com.example.newsagregator.presenter;
 
+import android.util.Log;
+
 import com.example.newsagregator.model.domain.News.NewsPresenterListener;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
@@ -68,6 +70,7 @@ public class NewsPresenter implements NewsPresenterListener {
 
                                 if (channelItemList.size() == 0 && channeSavelUrl == null) {
                                     newsView.showNotCahnnelToast();
+                                    newsView.clearList();
                                     newsView.hideProgress();
                                 } else if (channelItemList.size() == 0) {
                                     loadNews(channelItemList);
@@ -84,7 +87,8 @@ public class NewsPresenter implements NewsPresenterListener {
     }
 
     private void deleteChannels(List<String> channelsToDeleteList) {
-        //channelUseCase.deleteChannels(channelsToDeleteList);
+
+
         Completable responce = channelUseCase.deleteChannels(channelsToDeleteList);
         responce
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,14 +101,14 @@ public class NewsPresenter implements NewsPresenterListener {
                     @Override
                     public void onComplete() {
                         loadChannels();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("Ошибка удаления", "error: " + e);
                     }
                 });
-
     }
 
     public void setClickAddChannel() {
@@ -122,14 +126,18 @@ public class NewsPresenter implements NewsPresenterListener {
     }
 
     public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
-        List<String> channelsToDeleteList = new ArrayList<>();
+        if (positionChannelToDeleteArray != null) {
+            List<String> channelsToDeleteList = new ArrayList<>();
 
-        for (int i = 0; i < positionChannelToDeleteArray.length; i++) {
-            if (positionChannelToDeleteArray[i]) {
-                channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
+            for (int i = 0; i < positionChannelToDeleteArray.length; i++) {
+                if (positionChannelToDeleteArray[i]) {
+                    channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
+                }
             }
+            deleteChannels(channelsToDeleteList);
+        } else {
+            newsView.showNotCahnnelToast();
         }
-        deleteChannels(channelsToDeleteList);
     }
 
 
@@ -178,25 +186,4 @@ public class NewsPresenter implements NewsPresenterListener {
         newsView.showErrorToast();
     }
 
-//    @Override
-//    public void setChannelsItemList(List<ChannelItem> channelItemList) {
-//
-//        if (channelItemList.size() == 0 && channeSavelUrl == null) {
-//            newsView.showNotCahnnelToast();
-//            newsView.hideProgress();
-//        } else if (channelItemList.size() == 0) {
-//            loadNews(channelItemList);
-//        } else {
-//            this.channelItemList = channelItemList;
-//            setChannelsArray(channelItemList);
-//            loadNews(channelItemList);
-//        }
-//    }
-//
-//    @Override
-//    public void ChannelsDeleteCompleted(Boolean onFinishDeleteChannels) {
-//        if (onFinishDeleteChannels) {
-//            loadChannels();
-//        }
-//    }
 }

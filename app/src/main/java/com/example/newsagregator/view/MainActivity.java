@@ -26,6 +26,7 @@ import com.example.newsagregator.presenter.NewsView;
 import com.example.newsagregator.view.dialogs.AddChannelDialog;
 import com.example.newsagregator.view.dialogs.DeleteChannelDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -140,6 +141,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void clearList() {
+        List<NewsItem> listNewsItem = new ArrayList<>();
+        listNewsItem.clear();
+        newsAdapter.setListNewsItem(listNewsItem);
+        newsAdapter.notifyDataSetChanged();
+        recViewNews.setAdapter(newsAdapter);
+    }
+
+    @Override
     public void showAlertDialogAddChannel() {
 
         AddChannelDialog addChannelDialog = new AddChannelDialog();
@@ -188,6 +198,8 @@ public class MainActivity extends AppCompatActivity
         webViewContent.getSettings().setJavaScriptEnabled(true);
         webViewContent.loadUrl(guid);
     }
+
+
 
     @Override
     public void onRefresh() {
