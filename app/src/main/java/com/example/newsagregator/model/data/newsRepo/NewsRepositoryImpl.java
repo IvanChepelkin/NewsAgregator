@@ -8,18 +8,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.newsagregator.di.ApplicationContextSingleton;
-import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.data.db.NewsDataBaseSource;
 import com.example.newsagregator.model.data.network.NewsIntentService;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
 import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
-import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, NewsDataBaseSource.NewsCallBackDb, NewsRepository {
+public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, NewsRepository {
 
     private NewsRemoteDataSource newsRemoteDataSource;
     private NewsDataBaseSource newsDateBaseNewsSource;
@@ -27,9 +25,10 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     private Context context;
     private String KEY_SERVICE = "channels";
 
-    public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource) {
+    public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,NewsDataBaseSource newsDataBaseSource) {
 
         this.newsRemoteDataSource = newsRemoteDataSource;
+        this.newsDateBaseNewsSource = newsDataBaseSource;
         this.context = ApplicationContextSingleton.getContext();
     }
 
@@ -44,12 +43,6 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     public void onError(Throwable exeption) {
         callBackNewsRepo.setError(exeption);
     }
-
-    @Override
-    public void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase) {
-        callBackNewsRepo.setNewsItemList(newsItemListFromDateBase);
-    }
-
 
     @Override
     public void subscribeNewsRepository(CallBackNewsRepo callBackNewsRepo) {
@@ -81,8 +74,6 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource.CallBackApi, New
     }
 
     private void loadNewsFromDataBase() {
-        newsDateBaseNewsSource = Factory.createObjectDataBaseNewsSourceImpl();
-        newsDateBaseNewsSource.setSubcriber(this);
         newsDateBaseNewsSource.loadNewsFromDataBase();
     }
 

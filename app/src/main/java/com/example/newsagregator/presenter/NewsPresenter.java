@@ -2,6 +2,7 @@ package com.example.newsagregator.presenter;
 
 import android.util.Log;
 
+import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.ChannelDeleteUseCase;
 import com.example.newsagregator.model.domain.News.NewsPresenterListener;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
@@ -30,6 +31,7 @@ public class NewsPresenter implements NewsPresenterListener {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
+    private ChannelDeleteUseCase channelDeleteUseCase;
     private List<NewsItem> listNewsItemSort;
     private List<ChannelItem> channelItemList;
     private String[] channelsArray;
@@ -39,10 +41,12 @@ public class NewsPresenter implements NewsPresenterListener {
 
     public NewsPresenter(NewsUseCase newsUseCase,
                          ChannelUseCase channelUseCase,
+                         ChannelDeleteUseCase channelDeleteUseCase,
                          SubscribeUseCaseNews subscribeUseCaseNews) {
 
         this.newsUseCase = newsUseCase;
         this.channelUseCase = channelUseCase;
+        this.channelDeleteUseCase = channelDeleteUseCase;
         subscribeUseCaseNews.subscribePresenterNews(this);
     }
 
@@ -93,7 +97,7 @@ public class NewsPresenter implements NewsPresenterListener {
 
     private void deleteChannels(List<String> channelsToDeleteList) {
 
-        Completable responce = channelUseCase.deleteChannels(channelsToDeleteList);
+        Completable responce = channelDeleteUseCase.deleteChannels(channelsToDeleteList);
         responce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -156,7 +160,6 @@ public class NewsPresenter implements NewsPresenterListener {
         }
     }
 
-
     public void setClickItemNews(int position) {
         String guid = listNewsItemSort.get(position).getGuide();
         newsView.showMainConent(guid);
@@ -206,7 +209,7 @@ public class NewsPresenter implements NewsPresenterListener {
                 Date date = simpleDateFormat.parse(newsItem.getDatePublication());
                 mapNewsItem.put(date, newsItem);
             } catch (ParseException e) {
-                e.printStackTrace();
+                Log.d("Неверный формат даты ", "error: " + e);
             }
         }
         List<NewsItem> sortNewsItemlist = new ArrayList<>();

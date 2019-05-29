@@ -2,7 +2,9 @@ package com.example.newsagregator.model.data.channelRepo;
 
 import com.example.newsagregator.model.data.db.ChannelsDataBaseSource;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
+
 import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -23,5 +25,4 @@ public class ChannelRepositoryImpl implements ChannelRepository {
     public Single<List<ChannelItem>> getChannels() {
         return channelsDataBaseSource.loadChannelsFromDataBase();
     }
-
 }
