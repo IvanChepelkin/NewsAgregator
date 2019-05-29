@@ -19,6 +19,8 @@ public class Factory {
 
     private static DataBaseHelper dataBaseSourceInstance;
 
+    private static NewsUseCaseImpl newsUseCaseInstance;
+
     public static NewsPresenter createObjectNewsPresenter() {
         return new NewsPresenter(Factory.createObjectNewsUseCaseImpl(),
                 Factory.createObjectChannelUseCaseImplImpl(),
@@ -45,7 +47,7 @@ public class Factory {
         return new NewsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
-    public static ChannelsDataBaseSourceImpl createObjectChannelSloadDataBaseSourceImpl() {
+    private static ChannelsDataBaseSourceImpl createObjectChannelSloadDataBaseSourceImpl() {
         return new ChannelsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
@@ -63,8 +65,7 @@ public class Factory {
 
     private static NewsRepositoryImpl createObjectNewsRepositoryImpl() {
         return new NewsRepositoryImpl(
-                Factory.createObjectNewsBroadcastReceiverImpl(),
-                Factory.createObjectDataBaseNewsSourceImpl());
+                Factory.createObjectNewsBroadcastReceiverImpl());
     }
 
     private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {
@@ -72,8 +73,11 @@ public class Factory {
                 Factory.createObjectChannelSloadDataBaseSourceImpl());
     }
 
-    private static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
-        return new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
+    public static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
+        if (newsUseCaseInstance == null) {
+            newsUseCaseInstance = new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
+        }
+        return newsUseCaseInstance;
     }
 
     private static ChannelUseCaseImpl createObjectChannelUseCaseImplImpl() {
