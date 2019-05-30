@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick(int position, WebView webViewContent) {
+    public void onItemClick(int position) {
         newsPresenter.setClickItemNews(position);
     }
 

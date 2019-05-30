@@ -41,6 +41,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder> {
     }
 
     public interface ItemListener {
-        void onItemClick(int id, WebView webViewContent);
+        void onItemClick(int id);
     }
 }

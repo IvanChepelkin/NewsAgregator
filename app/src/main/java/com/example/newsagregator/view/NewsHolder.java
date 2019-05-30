@@ -20,7 +20,6 @@ class NewsHolder extends RecyclerView.ViewHolder {
     private TextView textContent;
     private NewsAdapter.ItemListener itemListener;
     private int position;
-    private WebView webViewContent;
     private NewsHolder(@NonNull View itemView) {
         super(itemView);
         root = itemView;
@@ -28,12 +27,11 @@ class NewsHolder extends RecyclerView.ViewHolder {
         textDatePublication = itemView.findViewById(R.id.datePublication);
         textTitle = itemView.findViewById(R.id.newsItemTitle);
         textContent = itemView.findViewById(R.id.newsItemContent);
-        webViewContent = itemView.findViewById(R.id.newsItemGuide);
 
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemListener.onItemClick(position, webViewContent);
+                itemListener.onItemClick(position);
             }
         });
     }
