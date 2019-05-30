@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.newsagregator.R;
@@ -18,6 +19,7 @@ class NewsHolder extends RecyclerView.ViewHolder {
     private TextView textDatePublication;
     private TextView textTitle;
     private TextView textContent;
+    private Button sendGuide;
     private NewsAdapter.ItemListener itemListener;
     private int position;
     private NewsHolder(@NonNull View itemView) {
@@ -27,11 +29,19 @@ class NewsHolder extends RecyclerView.ViewHolder {
         textDatePublication = itemView.findViewById(R.id.datePublication);
         textTitle = itemView.findViewById(R.id.newsItemTitle);
         textContent = itemView.findViewById(R.id.newsItemContent);
+        sendGuide = itemView.findViewById(R.id.sendGuideButton);
 
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemListener.onItemClick(position);
+            }
+        });
+
+        sendGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemListener.onSendButtonCClick(position);
             }
         });
     }

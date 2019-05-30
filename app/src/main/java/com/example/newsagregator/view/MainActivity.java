@@ -1,11 +1,8 @@
 package com.example.newsagregator.view;
 
-import android.annotation.SuppressLint;
-import android.app.FragmentManager;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.example.newsagregator.R;
@@ -176,6 +172,7 @@ public class MainActivity extends AppCompatActivity
         deleteChannelDialog.setArguments(data);
         deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
     }
+
     @Override
     public void showMainConent(String guide) {
         MainContentDialog mainContentDialog = new MainContentDialog();
@@ -184,6 +181,22 @@ public class MainActivity extends AppCompatActivity
         mainContentDialog.setArguments(data);
         mainContentDialog.show(getSupportFragmentManager(), TAG_MAIN_CONTENT_DIALOG);
 
+    }
+
+    @Override
+    public void sendGuide(String guide) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");//задаем тип передаваемых данных
+        intent.putExtra(Intent.EXTRA_TEXT, guide);
+        String chooserTitle = getString(R.string.shareText);
+        Intent chosenIntent = Intent.createChooser(intent, chooserTitle);
+        try {
+            startActivity(chosenIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    R.string.noAppText, Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     @Override
@@ -229,6 +242,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onSendButtonCClick(int position) {
+        newsPresenter.setClickSendGuideButton(position);
+    }
+
+    @Override
     public void setClickOkAddChannel(String saveUrlChannel) {
         newsPresenter.setClickOkAddChannels(saveUrlChannel);
     }
@@ -250,4 +268,5 @@ public class MainActivity extends AppCompatActivity
         ApplicationContextSingleton.setContext(null);
 
     }
+
 }
