@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
         NewsAdapter.ItemListener,
         AddChannelDialog.ClickAddChannelDialog,
         DeleteChannelDialog.ClickOkDeleteChannelDialog {
+
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
     private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
     public static final String KEY_channelsArray = "channelsArray";
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recViewNews;
     private WebView webViewContent;
     private NewsAdapter newsAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +213,6 @@ public class MainActivity extends AppCompatActivity
         webViewContent.getSettings().setJavaScriptEnabled(true);
         webViewContent.loadUrl(guid);
     }
-
 
     @Override
     public void onRefresh() {
