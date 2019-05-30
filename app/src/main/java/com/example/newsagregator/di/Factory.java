@@ -1,6 +1,8 @@
 package com.example.newsagregator.di;
 
 import com.example.newsagregator.model.data.channelRepo.ChannelRepositoryImpl;
+import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
+import com.example.newsagregator.model.data.network.NewsRemoteDataSourceImpl;
 import com.example.newsagregator.model.data.newsRepo.news_converter.ConverterJONObjectInListData;
 import com.example.newsagregator.model.data.channelRepo.channel_converter.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.newsRepo.NewsRepositoryImpl;
@@ -8,7 +10,6 @@ import com.example.newsagregator.model.data.db.ChannelsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
-import com.example.newsagregator.model.data.network.OnFinishBroadcastReceiver;
 import com.example.newsagregator.model.data.shared_preferences.ChannelsSharedPrefDataSourceImpl;
 import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.ChannelDeleteUseCaseImpl;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCaseImpl;
@@ -30,15 +31,15 @@ public class Factory {
         return new HTTPConnections();
     }
 
+    private static NewsRemoteDataSourceImpl createObjectNewsRemoteDataSourceImpl() {
+        return new NewsRemoteDataSourceImpl(Factory.createObjectHTTPConnections());
+    }
+
     public static DataBaseHelper createObjectDataBaseHelper() {
         if (dataBaseSourceInstance == null) {
             dataBaseSourceInstance = new DataBaseHelper(ApplicationContextSingleton.getContext());
         }
         return dataBaseSourceInstance;
-    }
-
-    public static OnFinishBroadcastReceiver createObjectNewsBroadcastReceiverImpl() {
-        return new OnFinishBroadcastReceiver();
     }
 
     public static NewsDataBaseSourceImpl createObjectDataBaseNewsSourceImpl() {
@@ -63,7 +64,7 @@ public class Factory {
 
     private static NewsRepositoryImpl createObjectNewsRepositoryImpl() {
         return new NewsRepositoryImpl(
-                Factory.createObjectNewsBroadcastReceiverImpl(),
+                Factory.createObjectNewsRemoteDataSourceImpl(),
                 Factory.createObjectDataBaseNewsSourceImpl());
     }
 

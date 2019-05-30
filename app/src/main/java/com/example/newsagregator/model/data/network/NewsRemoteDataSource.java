@@ -1,13 +1,9 @@
 package com.example.newsagregator.model.data.network;
 
+import java.util.List;
+
 public interface NewsRemoteDataSource {
 
-    void setSubcriber(CallBackApi callBackApi);
+    void getNews(List<String> channelLis);
 
-    interface CallBackApi {
-
-        void onCompletedFromServer(final boolean onFinished);
-
-        void onError(Throwable t);
-    }
 }

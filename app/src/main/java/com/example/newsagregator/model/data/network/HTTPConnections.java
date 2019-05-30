@@ -14,15 +14,12 @@ import java.net.URL;
 
 
 public class HTTPConnections implements LoadDataHttp {
-    private CallBackHttp callBackHttp;
 
     public HTTPConnections() {
     }
 
-
     @Override
-    public void getHttpData(CallBackHttp callBackHttp, final String urlChannel) {
-        this.callBackHttp = callBackHttp;
+    public JSONObject getHttpData(final String urlChannel) {
         try {
             URL url = new URL(urlChannel);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -35,14 +32,16 @@ public class HTTPConnections implements LoadDataHttp {
             }
             httpURLConnection.disconnect();
             final JSONObject result = new JSONObject(sbuilder.toString());
-            callBackHttp.onSuccess(result);
+
+            return result;
 
         } catch (MalformedURLException e) {
-            callBackHttp.onError(e);
+            e.printStackTrace();
         } catch (IOException e) {
-            callBackHttp.onError(e);
+            e.printStackTrace();
         } catch (JSONException e) {
-            callBackHttp.onError(e);
+            e.printStackTrace();
         }
+        return null;
     }
 }
