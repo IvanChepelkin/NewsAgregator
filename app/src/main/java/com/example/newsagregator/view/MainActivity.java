@@ -28,6 +28,7 @@ import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
 import com.example.newsagregator.view.dialogs.AddChannelDialog;
 import com.example.newsagregator.view.dialogs.DeleteChannelDialog;
+import com.example.newsagregator.view.dialogs.MainContentDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
     private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
+    private static final String TAG_MAIN_CONTENT_DIALOG = "MainContentDialog";
     public static final String KEY_channelsArray = "channelsArray";
     public static final String KEY_News_guide = "newsGuide";
     private SwipeRefreshLayout refreshLayout;
@@ -162,19 +164,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showAlertDialogAddChannel() {
-
         AddChannelDialog addChannelDialog = new AddChannelDialog();
         addChannelDialog.show(getSupportFragmentManager(), TAG_ADD_CHANNEL_DIALOG);
     }
 
     @Override
     public void showAlertDialogDeleteChannel(String[] channelsArray) {
-
         DeleteChannelDialog deleteChannelDialog = new DeleteChannelDialog();
         Bundle data = new Bundle();
         data.putStringArray(KEY_channelsArray, channelsArray);
         deleteChannelDialog.setArguments(data);
         deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
+    }
+    @Override
+    public void showMainConent(String guide) {
+        MainContentDialog mainContentDialog = new MainContentDialog();
+        Bundle data = new Bundle();
+        data.putString(KEY_News_guide, guide);
+        mainContentDialog.setArguments(data);
+        mainContentDialog.show(getSupportFragmentManager(), TAG_MAIN_CONTENT_DIALOG);
 
     }
 
@@ -202,7 +210,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showProgress() {
         refreshLayout.setRefreshing(true);
-
     }
 
     @Override
@@ -210,18 +217,6 @@ public class MainActivity extends AppCompatActivity
         refreshLayout.setRefreshing(false);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    @Override
-    public void showMainConent(String guid) {
-        Fragment mainContentFragment = new MainContentFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        Bundle bundle = new Bundle();
-        bundle.putString(KEY_News_guide, guid);
-        mainContentFragment.setArguments(bundle);
-        transaction.add(R.id.container_fragments, mainContentFragment)
-                .commit();
-    }
 
     @Override
     public void onRefresh() {
