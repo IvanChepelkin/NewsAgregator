@@ -1,8 +1,11 @@
 package com.example.newsagregator.view;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,10 +43,10 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
     private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
     public static final String KEY_channelsArray = "channelsArray";
+    public static final String KEY_News_guide = "newsGuide";
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
-    private WebView webViewContent;
     private NewsAdapter newsAdapter;
 
     @Override
@@ -210,8 +213,14 @@ public class MainActivity extends AppCompatActivity
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void showMainConent(String guid) {
-        webViewContent.getSettings().setJavaScriptEnabled(true);
-        webViewContent.loadUrl(guid);
+        Fragment mainContentFragment = new MainContentFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_News_guide, guid);
+        mainContentFragment.setArguments(bundle);
+        transaction.add(R.id.container_fragments, mainContentFragment)
+                .commit();
     }
 
     @Override
@@ -221,7 +230,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(int position, WebView webViewContent) {
-        this.webViewContent = webViewContent;
         newsPresenter.setClickItemNews(position);
     }
 
