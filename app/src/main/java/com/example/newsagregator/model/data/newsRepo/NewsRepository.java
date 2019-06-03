@@ -1,13 +1,13 @@
 package com.example.newsagregator.model.data.newsRepo;
 
-import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public interface NewsRepository {
 
-    void subscribeNewsRepository(CallBackNewsRepo callBackNewsRepo);
-
-    void getNews(List<String> channelList);
+    Single<List<NewsItem>> getNews(List<String> channelLis);
 
 }

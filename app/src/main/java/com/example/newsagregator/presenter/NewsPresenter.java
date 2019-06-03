@@ -3,12 +3,10 @@ package com.example.newsagregator.presenter;
 import android.util.Log;
 
 import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.ChannelDeleteUseCase;
-import com.example.newsagregator.model.domain.News.NewsPresenterListener;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
 import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCase;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
-import com.example.newsagregator.model.domain.News.SubscribeUseCaseNews;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,27 +25,26 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public class NewsPresenter implements NewsPresenterListener {
+public class NewsPresenter  {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
+
     private ChannelDeleteUseCase channelDeleteUseCase;
     private List<NewsItem> listNewsItemSort;
     private List<ChannelItem> channelItemList;
     private String[] channelsArray;
     private String channeSavelUrl;
-    private Disposable disposable;
-    private CompositeDisposable instance;
+    private Disposable dispos;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public NewsPresenter(NewsUseCase newsUseCase,
                          ChannelUseCase channelUseCase,
-                         ChannelDeleteUseCase channelDeleteUseCase,
-                         SubscribeUseCaseNews subscribeUseCaseNews) {
+                         ChannelDeleteUseCase channelDeleteUseCase) {
 
         this.newsUseCase = newsUseCase;
         this.channelUseCase = channelUseCase;
         this.channelDeleteUseCase = channelDeleteUseCase;
-        subscribeUseCaseNews.subscribePresenterNews(this);
     }
 
     public void onAttachView(NewsView newsView) {
@@ -65,11 +62,10 @@ public class NewsPresenter implements NewsPresenterListener {
 
     private void loadChannels() {
 
-        instance = new CompositeDisposable();
         newsView.showProgress();
         Single<List<ChannelItem>> responce = channelUseCase.getChannels();
 
-        disposable = responce
+        dispos = responce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Consumer<List<ChannelItem>>() {
@@ -92,7 +88,8 @@ public class NewsPresenter implements NewsPresenterListener {
                             }
                         }
                 );
-        instance.add(disposable);
+        disposables.add(dispos);
+        disposables.dispose();
     }
 
     private void deleteChannels(List<String> channelsToDeleteList) {
@@ -174,12 +171,12 @@ public class NewsPresenter implements NewsPresenterListener {
         channelsArray = channelList.toArray(new String[0]);
     }
 
-    private void loadNews(final List<ChannelItem> channelItemListList) {
+    private void loadNews(final List<ChannelItem> channelItemList) {
 
         List<String> channelList = new ArrayList<>();
 
-        for (int i = 0; i < channelItemListList.size(); i++) {
-            channelList.add(channelItemListList.get(i).getChannelUrl());
+        for (int i = 0; i < channelItemList.size(); i++) {
+            channelList.add(channelItemList.get(i).getChannelUrl());
         }
 
         if (channeSavelUrl != null) {
@@ -191,15 +188,15 @@ public class NewsPresenter implements NewsPresenterListener {
         }
     }
 
-    @Override
-    public void setNewsItemList(List<NewsItem> listNewsItem) {
-        channeSavelUrl = null;
-        this.listNewsItemSort = sortNewsByDate(listNewsItem);
-        Collections.reverse(listNewsItemSort);
-        newsView.hideProgress();
-        newsView.showNews(listNewsItemSort);
-
-    }
+//    @Override
+//    public void setNewsItemList(List<NewsItem> listNewsItem) {
+//        channeSavelUrl = null;
+//        this.listNewsItemSort = sortNewsByDate(listNewsItem);
+//        Collections.reverse(listNewsItemSort);
+//        newsView.hideProgress();
+//        newsView.showNews(listNewsItemSort);
+//
+//    }
 
     private List<NewsItem> sortNewsByDate(List<NewsItem> listNewsItem) {
         Map<Date, NewsItem> mapNewsItem = new TreeMap<>();
@@ -219,11 +216,11 @@ public class NewsPresenter implements NewsPresenterListener {
         return sortNewsItemlist;
     }
 
-    @Override
-    public void setError(Throwable exeption) {
-        channeSavelUrl = null;
-        newsView.showErrorToast();
-        loadChannels();
-    }
+//    @Override
+//    public void setError(Throwable exeption) {
+//        channeSavelUrl = null;
+//        newsView.showErrorToast();
+//        loadChannels();
+//    }
 
 }

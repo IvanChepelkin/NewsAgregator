@@ -7,49 +7,37 @@ import android.net.NetworkInfo;
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.model.data.db.NewsDataBaseSource;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
-import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.List;
 import java.util.Objects;
+
+import io.reactivex.Single;
 
 public class NewsRepositoryImpl implements NewsRemoteDataSource, NewsRepository {
 
     private NewsRemoteDataSource newsRemoteDataSource;
     private NewsDataBaseSource newsDateBaseNewsSource;
-    private CallBackNewsRepo callBackNewsRepo;
     private Context context;
 
-    public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource,NewsDataBaseSource newsDataBaseSource) {
+    public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource, NewsDataBaseSource newsDataBaseSource) {
 
         this.newsRemoteDataSource = newsRemoteDataSource;
         this.newsDateBaseNewsSource = newsDataBaseSource;
         this.context = ApplicationContextSingleton.getContext();
     }
 
-
     @Override
-    public void subscribeNewsRepository(CallBackNewsRepo callBackNewsRepo) {
-        this.callBackNewsRepo = callBackNewsRepo;
-    }
+    public Single<List<NewsItem>> getNews(List<String> channelList) {
 
-    @Override
-    public void getNews(List<String> channelList) {
         if (isOnline()) {
-            loadNewsFromRemote(channelList);
-
+            return newsRemoteDataSource.getNews(channelList);
         } else {
-            loadNewsFromDataBase();
+            return newsDateBaseNewsSource.loadNewsFromDataBase();
         }
-    }
-
-    private void loadNewsFromRemote(final List<String> channelList) {
-
 
     }
 
-    private void loadNewsFromDataBase() {
-        newsDateBaseNewsSource.loadNewsFromDataBase();
-    }
 
     private boolean isOnline() {
         ConnectivityManager cm =

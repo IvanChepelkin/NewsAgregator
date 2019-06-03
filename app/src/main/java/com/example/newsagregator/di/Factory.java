@@ -1,7 +1,6 @@
 package com.example.newsagregator.di;
 
 import com.example.newsagregator.model.data.channelRepo.ChannelRepositoryImpl;
-import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
 import com.example.newsagregator.model.data.network.NewsRemoteDataSourceImpl;
 import com.example.newsagregator.model.data.newsRepo.news_converter.ConverterJONObjectInListData;
 import com.example.newsagregator.model.data.channelRepo.channel_converter.ConverterJSONObjectInChannel;
@@ -23,8 +22,7 @@ public class Factory {
     public static NewsPresenter createObjectNewsPresenter() {
         return new NewsPresenter(Factory.createObjectNewsUseCaseImpl(),
                 Factory.createObjectChannelUseCaseImplImpl(),
-                Factory.createObjectChannelChannelDeleteUseCaseImpl(),
-                Factory.createObjectNewsUseCaseImpl());
+                Factory.createObjectChannelChannelDeleteUseCaseImpl());
     }
 
     public static HTTPConnections createObjectHTTPConnections() {
