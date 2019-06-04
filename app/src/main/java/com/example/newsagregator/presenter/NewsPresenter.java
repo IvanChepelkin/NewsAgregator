@@ -114,6 +114,7 @@ public class NewsPresenter {
 
     public void setClickOkAddChannels(final String channeSavelUrl) {
 
+        newsView.showProgress();
         Single<ChannelItem> channelSaveResponce = channelSaveUseCase.saveChannels(channeSavelUrl);
         channelSaveResponce
                 .observeOn(AndroidSchedulers.mainThread())
@@ -130,6 +131,7 @@ public class NewsPresenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        newsView.hideProgress();
                         newsView.showErrorInvalidAddress();
                     }
                 });
