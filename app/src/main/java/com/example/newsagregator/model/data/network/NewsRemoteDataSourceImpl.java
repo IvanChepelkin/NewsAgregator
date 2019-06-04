@@ -20,6 +20,8 @@ public class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     private LoadDataHttp loadDataHttp;
     private ConverterJONObjectInListData converterJONObjectInListData;
     private ConverterJSONObjectInChannel converterJSONObjectInChannel;
+    private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
+    private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
 
     public NewsRemoteDataSourceImpl(LoadDataHttp loadDataHttp) {
         this.loadDataHttp = loadDataHttp;
@@ -34,7 +36,7 @@ public class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
             public List<NewsItem> call() throws Exception {
                 List<NewsItem> listNewsItem = new ArrayList<>();
                 for (String url : channelList) {
-                    JSONObject newsObject = loadDataHttp.getHttpData(url);
+                    JSONObject newsObject = loadDataHttp.getHttpData(RSS_to_GSON + url + API_KEY);
                     listNewsItem.addAll(converterJONObjectInListData.setListModelView(newsObject));
                 }
 

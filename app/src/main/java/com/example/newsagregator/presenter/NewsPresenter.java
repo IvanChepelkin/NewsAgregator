@@ -25,7 +25,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public class NewsPresenter  {
+public class NewsPresenter {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
@@ -35,7 +35,6 @@ public class NewsPresenter  {
     private List<ChannelItem> channelItemList;
     private String[] channelsArray;
     private String channeSavelUrl;
-    private Disposable dispos;
     private CompositeDisposable disposables = new CompositeDisposable();
 
     public NewsPresenter(NewsUseCase newsUseCase,
@@ -53,6 +52,7 @@ public class NewsPresenter  {
     }
 
     public void detachView() {
+        disposables.dispose();
         this.newsView = null;
     }
 
@@ -63,9 +63,10 @@ public class NewsPresenter  {
     private void loadChannels() {
 
         newsView.showProgress();
+
         Single<List<ChannelItem>> responce = channelUseCase.getChannels();
 
-        dispos = responce
+        Disposable disposChannel = responce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Consumer<List<ChannelItem>>() {
@@ -88,8 +89,7 @@ public class NewsPresenter  {
                             }
                         }
                 );
-        disposables.add(dispos);
-        disposables.dispose();
+        disposables.add(disposChannel);
     }
 
     private void deleteChannels(List<String> channelsToDeleteList) {
@@ -100,13 +100,12 @@ public class NewsPresenter  {
                 .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        disposables.add(d);
                     }
 
                     @Override
                     public void onComplete() {
                         loadChannels();
-
                     }
 
                     @Override
@@ -114,6 +113,43 @@ public class NewsPresenter  {
                         Log.d("Ошибка удаления", "error: " + e);
                     }
                 });
+
+    }
+
+    private void loadNews(final List<ChannelItem> channelItemList) {
+
+        List<String> channelList = new ArrayList<>();
+
+        for (int i = 0; i < channelItemList.size(); i++) {
+            channelList.add(channelItemList.get(i).getChannelUrl());
+        }
+
+        if (channeSavelUrl != null) {
+            channelList.add(channeSavelUrl);
+            getNews(channelList);
+
+        } else {
+            getNews(channelList);
+        }
+    }
+
+    private void getNews(List<String> channelList) {
+        Single<List<NewsItem>> responce = newsUseCase.getNews(channelList);
+
+        Disposable disposNews = responce
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<NewsItem>>() {
+                    @Override
+                    public void accept(List<NewsItem> listNewsItem) throws Exception {
+                        channeSavelUrl = null;
+                        listNewsItemSort = sortNewsByDate(listNewsItem);
+                        Collections.reverse(listNewsItemSort);
+                        newsView.hideProgress();
+                        newsView.showNews(listNewsItemSort);
+                    }
+                });
+        disposables.add(disposNews);
+
     }
 
     public void setClickAddChannel() {
@@ -171,22 +207,22 @@ public class NewsPresenter  {
         channelsArray = channelList.toArray(new String[0]);
     }
 
-    private void loadNews(final List<ChannelItem> channelItemList) {
-
-        List<String> channelList = new ArrayList<>();
-
-        for (int i = 0; i < channelItemList.size(); i++) {
-            channelList.add(channelItemList.get(i).getChannelUrl());
-        }
-
-        if (channeSavelUrl != null) {
-            channelList.add(channeSavelUrl);
-            newsUseCase.getNews(channelList);
-
-        } else {
-            newsUseCase.getNews(channelList);
-        }
-    }
+//    private void loadNews(final List<ChannelItem> channelItemList) {
+//
+//        List<String> channelList = new ArrayList<>();
+//
+//        for (int i = 0; i < channelItemList.size(); i++) {
+//            channelList.add(channelItemList.get(i).getChannelUrl());
+//        }
+//
+//        if (channeSavelUrl != null) {
+//            channelList.add(channeSavelUrl);
+//            newsUseCase.getNews(channelList);
+//
+//        } else {
+//            newsUseCase.getNews(channelList);
+//        }
+//    }
 
 //    @Override
 //    public void setNewsItemList(List<NewsItem> listNewsItem) {
