@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -136,20 +137,31 @@ public class NewsPresenter {
     private void getNews(List<String> channelList) {
         Single<List<NewsItem>> responce = newsUseCase.getNews(channelList);
 
-        Disposable disposNews = responce
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<NewsItem>>() {
+        responce.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<NewsItem>>() {
                     @Override
-                    public void accept(List<NewsItem> listNewsItem) throws Exception {
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<NewsItem> listNewsItem) {
                         channeSavelUrl = null;
                         listNewsItemSort = sortNewsByDate(listNewsItem);
                         Collections.reverse(listNewsItemSort);
                         newsView.hideProgress();
                         newsView.showNews(listNewsItemSort);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        channeSavelUrl = null;
+                        newsView.hideProgress();
+                        newsView.showErrorToast();
+                        //loadChannels();
                     }
                 });
-        disposables.add(disposNews);
-
     }
 
     public void setClickAddChannel() {
