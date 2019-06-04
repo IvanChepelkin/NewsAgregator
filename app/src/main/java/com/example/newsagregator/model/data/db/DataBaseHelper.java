@@ -68,7 +68,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
     }
 
-    public void addNewsInDataBase(List<NewsItem> newsItemList, String urlChannel) {
+    public void addNewsInDataBase(List<NewsItem> newsItemList) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         for (int i = 0; i < newsItemList.size(); i++) {
@@ -78,7 +78,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             values.put(TITLE, newsItemList.get(i).getTitle());
             values.put(GUIDE, newsItemList.get(i).getGuide());
             values.put(CONTENT, newsItemList.get(i).getContent());
-            values.put(CHANNEL_URL, urlChannel);
+            values.put(CHANNEL_URL, newsItemList.get(i).getUrl());
             db.insert(TABLE_NEWS_ITEMS, null, values);
         }
         db.close();
@@ -133,7 +133,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getString(3),
                         cursor.getString(4),
-                        cursor.getString(5));
+                        cursor.getString(5),
+                        cursor.getString(6));
                 newsItemList.add(newsItem);
             } while (cursor.moveToNext());
         }

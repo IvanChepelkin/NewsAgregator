@@ -19,5 +19,6 @@
     <string name="errorNotFoundChannels">У вас нет добавленных каналов</string>
     <string name="errorInvalidAdress">Неправильный адрес запроса</string>
     <string name="you_have_are_channel_text">У вас уже добавлен такой канал</string>
+    <string name="errorRequest">Ошибка запроса</string>
 
 </resources>

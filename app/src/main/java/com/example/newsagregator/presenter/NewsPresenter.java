@@ -1,9 +1,11 @@
 package com.example.newsagregator.presenter;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.ChannelDeleteUseCase;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
+import com.example.newsagregator.model.domain.Channel.channel_save_usecase.ChannelSaveUseCase;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
 import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCase;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
@@ -30,6 +32,7 @@ public class NewsPresenter {
     private NewsView newsView;
     private NewsUseCase newsUseCase;
     private ChannelUseCase channelUseCase;
+    private ChannelSaveUseCase channelSaveUseCase;
 
     private ChannelDeleteUseCase channelDeleteUseCase;
     private List<NewsItem> listNewsItemSort;
@@ -40,11 +43,13 @@ public class NewsPresenter {
 
     public NewsPresenter(NewsUseCase newsUseCase,
                          ChannelUseCase channelUseCase,
-                         ChannelDeleteUseCase channelDeleteUseCase) {
+                         ChannelDeleteUseCase channelDeleteUseCase,
+                         ChannelSaveUseCase channelSaveUseCase) {
 
         this.newsUseCase = newsUseCase;
         this.channelUseCase = channelUseCase;
         this.channelDeleteUseCase = channelDeleteUseCase;
+        this.channelSaveUseCase = channelSaveUseCase;
     }
 
     public void onAttachView(NewsView newsView) {
@@ -70,23 +75,18 @@ public class NewsPresenter {
         Disposable disposChannel = responce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        new Consumer<List<ChannelItem>>() {
-                            @Override
-                            public void accept(List<ChannelItem> responseSuccess) {
-                                channelItemList = responseSuccess;
+                        responseSuccess -> {
+                            channelItemList = responseSuccess;
 
-                                if (channelItemList.size() == 0 && channeSavelUrl == null) {
-                                    newsView.showNotCahnnelToast();
-                                    newsView.clearList();
-                                    newsView.hideProgress();
-                                } else if (channelItemList.size() == 0) {
-                                    loadNews(channelItemList);
-                                } else {
-                                    setChannelsArray(channelItemList);
-                                    loadNews(channelItemList);
-                                }
-
-                                System.out.println("Работатет!");
+                            if (channelItemList.size() == 0 && channeSavelUrl == null) {
+                                newsView.showErrorNotCahnnelToast();
+                                newsView.clearList();
+                                newsView.hideProgress();
+                            } else if (channelItemList.size() == 0) {
+                                loadNews(channelItemList);
+                            } else {
+                                setChannelsArray(channelItemList);
+                                loadNews(channelItemList);
                             }
                         }
                 );
@@ -114,7 +114,6 @@ public class NewsPresenter {
                         Log.d("Ошибка удаления", "error: " + e);
                     }
                 });
-
     }
 
     private void loadNews(final List<ChannelItem> channelItemList) {
@@ -135,6 +134,7 @@ public class NewsPresenter {
     }
 
     private void getNews(List<String> channelList) {
+
         Single<List<NewsItem>> responce = newsUseCase.getNews(channelList);
 
         responce.observeOn(AndroidSchedulers.mainThread())
@@ -159,7 +159,6 @@ public class NewsPresenter {
                         channeSavelUrl = null;
                         newsView.hideProgress();
                         newsView.showErrorToast();
-                        //loadChannels();
                     }
                 });
     }
@@ -180,7 +179,7 @@ public class NewsPresenter {
 
             for (ChannelItem channel : channelItemList) {
                 if (channel.getChannelUrl().equals(channeSavelUrl)) {
-                    newsView.showIsChannelToast();
+                    newsView.showErrorIsChannelToast();
                     break;
                 }
             }
@@ -191,6 +190,7 @@ public class NewsPresenter {
     }
 
     public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
+
         if (positionChannelToDeleteArray != null) {
             List<String> channelsToDeleteList = new ArrayList<>();
 
@@ -201,7 +201,7 @@ public class NewsPresenter {
             }
             deleteChannels(channelsToDeleteList);
         } else {
-            newsView.showNotCahnnelToast();
+            newsView.showErrorNotCahnnelToast();
         }
     }
 
@@ -219,35 +219,9 @@ public class NewsPresenter {
         channelsArray = channelList.toArray(new String[0]);
     }
 
-//    private void loadNews(final List<ChannelItem> channelItemList) {
-//
-//        List<String> channelList = new ArrayList<>();
-//
-//        for (int i = 0; i < channelItemList.size(); i++) {
-//            channelList.add(channelItemList.get(i).getChannelUrl());
-//        }
-//
-//        if (channeSavelUrl != null) {
-//            channelList.add(channeSavelUrl);
-//            newsUseCase.getNews(channelList);
-//
-//        } else {
-//            newsUseCase.getNews(channelList);
-//        }
-//    }
-
-//    @Override
-//    public void setNewsItemList(List<NewsItem> listNewsItem) {
-//        channeSavelUrl = null;
-//        this.listNewsItemSort = sortNewsByDate(listNewsItem);
-//        Collections.reverse(listNewsItemSort);
-//        newsView.hideProgress();
-//        newsView.showNews(listNewsItemSort);
-//
-//    }
-
     private List<NewsItem> sortNewsByDate(List<NewsItem> listNewsItem) {
         Map<Date, NewsItem> mapNewsItem = new TreeMap<>();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         for (NewsItem newsItem : listNewsItem) {
             try {
@@ -263,12 +237,4 @@ public class NewsPresenter {
         }
         return sortNewsItemlist;
     }
-
-//    @Override
-//    public void setError(Throwable exeption) {
-//        channeSavelUrl = null;
-//        newsView.showErrorToast();
-//        loadChannels();
-//    }
-
 }

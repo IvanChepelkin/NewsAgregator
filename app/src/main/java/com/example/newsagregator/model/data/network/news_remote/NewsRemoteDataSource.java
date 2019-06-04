@@ -1,4 +1,4 @@
-package com.example.newsagregator.model.data.network;
+package com.example.newsagregator.model.data.network.news_remote;
 
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 

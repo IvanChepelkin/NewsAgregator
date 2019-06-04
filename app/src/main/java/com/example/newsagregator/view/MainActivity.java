@@ -178,19 +178,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showErrorToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
+                R.string.errorRequest, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
+    public void showErrorInvalidAddress() {
+        Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.errorInvalidAdress, Toast.LENGTH_LONG);
         toast.show();
     }
 
     @Override
-    public void showNotCahnnelToast() {
+    public void showErrorNotCahnnelToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.errorNotFoundChannels, Toast.LENGTH_LONG);
         toast.show();
     }
 
     @Override
-    public void showIsChannelToast() {
+    public void showErrorIsChannelToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.you_have_are_channel_text, Toast.LENGTH_LONG);
         toast.show();

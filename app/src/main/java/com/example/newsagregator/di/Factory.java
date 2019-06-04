@@ -1,7 +1,8 @@
 package com.example.newsagregator.di;
 
 import com.example.newsagregator.model.data.channelRepo.ChannelRepositoryImpl;
-import com.example.newsagregator.model.data.network.NewsRemoteDataSourceImpl;
+import com.example.newsagregator.model.data.network.channel_remote.ChannelRemoteDataSourceImpl;
+import com.example.newsagregator.model.data.network.news_remote.NewsRemoteDataSourceImpl;
 import com.example.newsagregator.model.data.newsRepo.news_converter.ConverterJONObjectInListData;
 import com.example.newsagregator.model.data.channelRepo.channel_converter.ConverterJSONObjectInChannel;
 import com.example.newsagregator.model.data.newsRepo.NewsRepositoryImpl;
@@ -11,6 +12,7 @@ import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.data.shared_preferences.ChannelsSharedPrefDataSourceImpl;
 import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.ChannelDeleteUseCaseImpl;
+import com.example.newsagregator.model.domain.Channel.channel_save_usecase.ChannelSaveUseCaseImpl;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCaseImpl;
 import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCaseImpl;
 import com.example.newsagregator.presenter.NewsPresenter;
@@ -22,7 +24,8 @@ public class Factory {
     public static NewsPresenter createObjectNewsPresenter() {
         return new NewsPresenter(Factory.createObjectNewsUseCaseImpl(),
                 Factory.createObjectChannelUseCaseImplImpl(),
-                Factory.createObjectChannelChannelDeleteUseCaseImpl());
+                Factory.createObjectChannelDeleteUseCaseImpl(),
+                Factory.createObjectChannelSaveUseCaseImp());
     }
 
     public static HTTPConnections createObjectHTTPConnections() {
@@ -31,6 +34,11 @@ public class Factory {
 
     private static NewsRemoteDataSourceImpl createObjectNewsRemoteDataSourceImpl() {
         return new NewsRemoteDataSourceImpl(Factory.createObjectHTTPConnections());
+    }
+
+    private static ChannelRemoteDataSourceImpl createObjectNewsChannelRemoteDataSourceImpl() {
+        return new ChannelRemoteDataSourceImpl(Factory.createObjectHTTPConnections(),
+                Factory.createObjectConverterJSONObjectInChannel());
     }
 
     public static DataBaseHelper createObjectDataBaseHelper() {
@@ -68,7 +76,8 @@ public class Factory {
 
     private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {
         return new ChannelRepositoryImpl(
-                Factory.createObjectChannelSloadDataBaseSourceImpl());
+                Factory.createObjectChannelSloadDataBaseSourceImpl(),
+                Factory.createObjectNewsChannelRemoteDataSourceImpl());
     }
 
     private static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
@@ -79,7 +88,11 @@ public class Factory {
         return new ChannelUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
     }
 
-    private static ChannelDeleteUseCaseImpl createObjectChannelChannelDeleteUseCaseImpl() {
+    private static ChannelDeleteUseCaseImpl createObjectChannelDeleteUseCaseImpl() {
         return new ChannelDeleteUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
+    }
+
+    private static ChannelSaveUseCaseImpl createObjectChannelSaveUseCaseImp() {
+        return new ChannelSaveUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
     }
 }

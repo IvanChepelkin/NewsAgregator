@@ -14,7 +14,6 @@ public class NewsUseCaseImpl implements NewsUseCase {
         this.newsRepository = newsRepository;
     }
 
-
     @Override
     public Single<List<NewsItem>> getNews(List<String> channelList) {
         return newsRepository.getNews(channelList);

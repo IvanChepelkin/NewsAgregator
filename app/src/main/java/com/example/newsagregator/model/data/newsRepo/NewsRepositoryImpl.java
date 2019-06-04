@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 
 import com.example.newsagregator.di.ApplicationContextSingleton;
 import com.example.newsagregator.model.data.db.NewsDataBaseSource;
-import com.example.newsagregator.model.data.network.NewsRemoteDataSource;
+import com.example.newsagregator.model.data.network.news_remote.NewsRemoteDataSource;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.List;
@@ -31,13 +31,12 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource, NewsRepository 
     public Single<List<NewsItem>> getNews(List<String> channelList) {
 
         if (isOnline()) {
-            return newsRemoteDataSource.getNews(channelList);
+          return  newsRemoteDataSource.getNews(channelList)
+                  .doOnSuccess(newsItemList -> newsDateBaseNewsSource.saveNewsInDataBase(newsItemList));
         } else {
             return newsDateBaseNewsSource.loadNewsFromDataBase();
         }
-
     }
-
 
     private boolean isOnline() {
         ConnectivityManager cm =
@@ -48,5 +47,4 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource, NewsRepository 
         }
         return false;
     }
-
 }
