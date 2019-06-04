@@ -8,6 +8,7 @@ import android.os.Bundle;
 import java.util.Objects;
 
 public class OnFinishBroadcastReceiver extends BroadcastReceiver implements NewsRemoteDataSource {
+
     CallBackApi callBackApi;
 
     public OnFinishBroadcastReceiver() {

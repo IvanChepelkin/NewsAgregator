@@ -15,10 +15,16 @@ public interface NewsView {
 
     void showNotCahnnelToast();
 
+    void showIsChannelToast();
+
     void showProgress();
 
     void hideProgress();
 
     void showMainConent(String guid);
+
+    void sendGuide(String guid);
+
+    void clearList();
 
 }

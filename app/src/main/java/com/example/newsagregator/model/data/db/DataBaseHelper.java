@@ -7,13 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -137,11 +134,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         cursor.getString(3),
                         cursor.getString(4),
                         cursor.getString(5));
-
-//                Log.d("mLog", "ID = " + cursor.getString(1) +
-//                        ", name = " + cursor.getString(2) +
-//                        ", email = " + cursor.getString(3));
-
                 newsItemList.add(newsItem);
             } while (cursor.moveToNext());
         }

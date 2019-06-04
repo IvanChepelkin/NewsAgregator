@@ -39,10 +39,6 @@ public class DeleteChannelDialog extends DialogFragment {
 
         AlertDialog.Builder deleteChannelsDialog = new AlertDialog.Builder(getActivity());
         deleteChannelsDialog.setTitle(R.string.chooseChannelTxt);
-
-        final EditText inputs = new EditText(getActivity());
-        inputs.setInputType(InputType.TYPE_CLASS_TEXT);
-        deleteChannelsDialog.setView(inputs);
         deleteChannelsDialog.setMultiChoiceItems(channelsArray, positionChannelToDelete, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {

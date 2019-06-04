@@ -1,3 +1,4 @@
+
 package com.example.newsagregator.model.data.newsRepo;
 
 import com.example.newsagregator.model.domain.News.CallBackNewsRepo;
