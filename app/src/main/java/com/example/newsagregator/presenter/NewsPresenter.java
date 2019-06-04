@@ -26,7 +26,6 @@ import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class NewsPresenter {
     private NewsView newsView;
@@ -38,7 +37,6 @@ public class NewsPresenter {
     private List<NewsItem> listNewsItemSort;
     private List<ChannelItem> channelItemList;
     private String[] channelsArray;
-    private String channeSavelUrl;
     private CompositeDisposable disposables = new CompositeDisposable();
 
     public NewsPresenter(NewsUseCase newsUseCase,
@@ -78,12 +76,10 @@ public class NewsPresenter {
                         responseSuccess -> {
                             channelItemList = responseSuccess;
 
-                            if (channelItemList.size() == 0 && channeSavelUrl == null) {
+                            if (channelItemList.size() == 0) {
                                 newsView.showErrorNotCahnnelToast();
                                 newsView.clearList();
                                 newsView.hideProgress();
-                            } else if (channelItemList.size() == 0) {
-                                loadNews(channelItemList);
                             } else {
                                 setChannelsArray(channelItemList);
                                 loadNews(channelItemList);
@@ -116,6 +112,29 @@ public class NewsPresenter {
                 });
     }
 
+    public void setClickOkAddChannels(final String channeSavelUrl) {
+
+        Single<ChannelItem> channelSaveResponce = channelSaveUseCase.saveChannels(channeSavelUrl);
+        channelSaveResponce
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<ChannelItem>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(ChannelItem channelItem) {
+                        loadChannels();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        newsView.showErrorInvalidAddress();
+                    }
+                });
+    }
+
     private void loadNews(final List<ChannelItem> channelItemList) {
 
         List<String> channelList = new ArrayList<>();
@@ -124,20 +143,11 @@ public class NewsPresenter {
             channelList.add(channelItemList.get(i).getChannelUrl());
         }
 
-        if (channeSavelUrl != null) {
-            channelList.add(channeSavelUrl);
-            getNews(channelList);
-
-        } else {
-            getNews(channelList);
-        }
-    }
-
-    private void getNews(List<String> channelList) {
 
         Single<List<NewsItem>> responce = newsUseCase.getNews(channelList);
 
-        responce.observeOn(AndroidSchedulers.mainThread())
+        responce
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<NewsItem>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -146,21 +156,19 @@ public class NewsPresenter {
 
                     @Override
                     public void onSuccess(List<NewsItem> listNewsItem) {
-                        channeSavelUrl = null;
                         listNewsItemSort = sortNewsByDate(listNewsItem);
                         Collections.reverse(listNewsItemSort);
                         newsView.hideProgress();
                         newsView.showNews(listNewsItemSort);
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        channeSavelUrl = null;
                         newsView.hideProgress();
                         newsView.showErrorToast();
                     }
                 });
+
     }
 
     public void setClickAddChannel() {
@@ -169,24 +177,6 @@ public class NewsPresenter {
 
     public void setClickDeleteChannel() {
         newsView.showAlertDialogDeleteChannel(channelsArray);
-    }
-
-    public void setClickOkAddChannels(final String channeSavelUrl) {
-
-        this.channeSavelUrl = channeSavelUrl;
-
-        if (channelItemList != null && channelItemList.size() > 0) {
-
-            for (ChannelItem channel : channelItemList) {
-                if (channel.getChannelUrl().equals(channeSavelUrl)) {
-                    newsView.showErrorIsChannelToast();
-                    break;
-                }
-            }
-            loadChannels();
-        } else {
-            loadChannels();
-        }
     }
 
     public void setClickOkDeleteChannels(final boolean[] positionChannelToDeleteArray) {
