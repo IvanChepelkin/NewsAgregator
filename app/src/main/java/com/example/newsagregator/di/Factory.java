@@ -21,8 +21,6 @@ public class Factory {
 
     private static DataBaseHelper dataBaseSourceInstance;
 
-    private static NewsUseCaseImpl newsUseCaseInstance;
-
     public static NewsPresenter createObjectNewsPresenter() {
         return new NewsPresenter(Factory.createObjectNewsUseCaseImpl(),
                 Factory.createObjectChannelUseCaseImplImpl(),
@@ -30,7 +28,7 @@ public class Factory {
                 Factory.createObjectChannelSaveUseCaseImp());
     }
 
-    public static HTTPConnections createObjectHTTPConnections() {
+    private static HTTPConnections createObjectHTTPConnections() {
         return new HTTPConnections();
     }
 
@@ -44,14 +42,14 @@ public class Factory {
                 Factory.createObjectConverterJSONObjectInChannel());
     }
 
-    public static DataBaseHelper createObjectDataBaseHelper() {
+    private static DataBaseHelper createObjectDataBaseHelper() {
         if (dataBaseSourceInstance == null) {
             dataBaseSourceInstance = new DataBaseHelper(ApplicationContextSingleton.getContext());
         }
         return dataBaseSourceInstance;
     }
 
-    public static NewsDataBaseSourceImpl createObjectDataBaseNewsSourceImpl() {
+    private static NewsDataBaseSourceImpl createObjectDataBaseNewsSourceImpl() {
         return new NewsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
@@ -63,20 +61,18 @@ public class Factory {
         return new ChannelsSharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
     }
 
-    public static ConverterJONObjectInListData createObjectConverterJGONObjectInListData() {
+    private static ConverterJONObjectInListData createObjectConverterJGONObjectInListData() {
         return new ConverterJONObjectInListData();
     }
 
-    public static ConverterJSONObjectInChannel createObjectConverterJSONObjectInChannel() {
+    private static ConverterJSONObjectInChannel createObjectConverterJSONObjectInChannel() {
         return new ConverterJSONObjectInChannel();
     }
 
     private static NewsRepositoryImpl createObjectNewsRepositoryImpl() {
         return new NewsRepositoryImpl(
-
                 Factory.createObjectNewsRemoteDataSourceImpl(),
                 Factory.createObjectDataBaseNewsSourceImpl());
-
     }
 
     private static ChannelRepositoryImpl createObjectChannelRepositoryImpl() {
@@ -85,11 +81,8 @@ public class Factory {
                 Factory.createObjectNewsChannelRemoteDataSourceImpl());
     }
 
-    public static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
-        if (newsUseCaseInstance == null) {
-            newsUseCaseInstance = new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
-        }
-        return newsUseCaseInstance;
+    private static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
+        return new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
     }
 
     private static ChannelUseCaseImpl createObjectChannelUseCaseImplImpl() {
