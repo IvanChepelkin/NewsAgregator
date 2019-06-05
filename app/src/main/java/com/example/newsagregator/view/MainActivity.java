@@ -40,9 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
     private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
-    private static final String TAG_MAIN_CONTENT_DIALOG = "MainContentDialog";
     public static final String KEY_channelsArray = "channelsArray";
-    public static final String KEY_News_guide = "newsGuide";
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
