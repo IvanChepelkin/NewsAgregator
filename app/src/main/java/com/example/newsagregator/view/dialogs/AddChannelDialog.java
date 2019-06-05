@@ -26,7 +26,8 @@ public class AddChannelDialog extends DialogFragment {
         AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(getActivity());
         final EditText input = new EditText(getActivity());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.sports.ru/rss/rubric.xml?s=208");
+        input.setText("https://www.fl.ru/rss/all.xml?subcategory=103&category=8");
+
         addChannelDialog.setView(input);
         addChannelDialog
                 .setMessage(R.string.enterChannelText)

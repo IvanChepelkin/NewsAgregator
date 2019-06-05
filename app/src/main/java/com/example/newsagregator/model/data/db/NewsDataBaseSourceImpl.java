@@ -8,6 +8,9 @@ import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
+
 public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>> implements NewsDataBaseSource {
     private DataBaseHelper dataBaseHelper;
     private NewsCallBackDb newsCallBackDb;
@@ -17,26 +20,15 @@ public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>
     }
 
     @Override
-    protected List<NewsItem> doInBackground(Void... voids) {
-        dataBaseHelper = Factory.createObjectDataBaseHelper();
-        List<NewsItem> newsItemList = new ArrayList<>();
-        newsItemList = dataBaseHelper.getNewsFromDataBase();
-        return newsItemList;
+
+    public Single<List<NewsItem>> loadNewsFromDataBase() {
+        return Single.fromCallable(() -> dataBaseHelper.getNewsFromDataBase())
+                .subscribeOn(Schedulers.io());
     }
 
     @Override
-    protected void onPostExecute(final List<NewsItem> newsItemList) {
-        newsCallBackDb.onCompletedFromDateBase(newsItemList);
-    }
+    public void saveNewsInDataBase(final List<NewsItem> newsItemList) {
+        dataBaseHelper.addNewsInDataBase(newsItemList);
 
-    @Override
-    public void loadNewsFromDataBase() {
-        execute();
-    }
-
-
-    @Override
-    public void setSubcriber(NewsCallBackDb newsCallBackDb) {
-        this.newsCallBackDb = newsCallBackDb;
     }
 }

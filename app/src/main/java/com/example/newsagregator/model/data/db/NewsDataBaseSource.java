@@ -1,6 +1,6 @@
 package com.example.newsagregator.model.data.db;
-import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.List;
 
@@ -15,5 +15,6 @@ public interface NewsDataBaseSource {
 
         void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase);
 
-    }
+    void saveNewsInDataBase(List<NewsItem> newsItemList);
+
 }

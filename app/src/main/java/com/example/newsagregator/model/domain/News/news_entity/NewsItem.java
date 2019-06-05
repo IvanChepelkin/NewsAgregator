@@ -6,13 +6,16 @@ public class NewsItem {
     private String title;
     private String guide;
     private String content;
+    private String url;
 
-    public NewsItem(String channelName, String datePublication, String title, String guide, String content) {
+    public NewsItem(String channelName, String datePublication, String title, String guide, String content, String url) {
         this.channelName = channelName;
         this.datePublication = datePublication;
         this.title = title;
         this.guide = guide;
         this.content = content;
+        this.url = url;
+
     }
 
     public String getDatePublication() {
@@ -33,5 +36,9 @@ public class NewsItem {
 
     public String getContent() {
         return content;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

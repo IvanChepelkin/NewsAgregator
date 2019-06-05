@@ -13,9 +13,11 @@ public interface NewsView {
 
     void showErrorToast();
 
-    void showNotCahnnelToast();
+    void showErrorInvalidAddress();
 
-    void showIsChannelToast();
+    void showErrorNotCahnnelToast();
+
+    void showErrorIsChannelToast();
 
     void showProgress();
 

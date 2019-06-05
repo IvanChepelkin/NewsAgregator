@@ -11,5 +11,6 @@ public interface ChannelsDataBaseSource {
 
     Single<List<ChannelItem>> loadChannelsFromDataBase();
     Completable deleteChannels(final List<String> channelsToDeleteList);
+    void saveChannel(final ChannelItem newChannelItem);
 
 }

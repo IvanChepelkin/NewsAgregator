@@ -4,12 +4,6 @@ import org.json.JSONObject;
 
 public interface LoadDataHttp {
 
-    void getHttpData(CallBackHttp callBackHttp, String urlChannel);
+    JSONObject getHttpData( String urlChannel);
 
-    interface CallBackHttp {
-
-        void onSuccess(JSONObject newsItemList);
-
-        void onError(Throwable ex);
-    }
 }

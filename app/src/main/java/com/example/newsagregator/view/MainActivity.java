@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity
         data.putStringArray(KEY_channelsArray, channelsArray);
         deleteChannelDialog.setArguments(data);
         deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
+
     }
 
     @Override
@@ -202,19 +203,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showErrorToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
+                R.string.errorRequest, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
+    public void showErrorInvalidAddress() {
+        Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.errorInvalidAdress, Toast.LENGTH_LONG);
         toast.show();
     }
 
     @Override
-    public void showNotCahnnelToast() {
+    public void showErrorNotCahnnelToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.errorNotFoundChannels, Toast.LENGTH_LONG);
         toast.show();
     }
 
     @Override
-    public void showIsChannelToast() {
+    public void showErrorIsChannelToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.you_have_are_channel_text, Toast.LENGTH_LONG);
         toast.show();
@@ -266,7 +274,6 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         newsPresenter.detachView();
         ApplicationContextSingleton.setContext(null);
-
     }
 
 }

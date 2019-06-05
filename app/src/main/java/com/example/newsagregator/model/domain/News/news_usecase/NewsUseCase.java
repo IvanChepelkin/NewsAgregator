@@ -1,7 +1,11 @@
 package com.example.newsagregator.model.domain.News.news_usecase;
 
+import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
+
 import java.util.List;
 
+import io.reactivex.Single;
+
 public interface NewsUseCase {
-    void getNews(List<String> channelList);
+    Single<List<NewsItem>> getNews(List<String> channelList);
 }

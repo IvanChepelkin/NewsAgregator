@@ -28,7 +28,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".model.data.network.NewsIntentService" />
     </application>
 
 </manifest>

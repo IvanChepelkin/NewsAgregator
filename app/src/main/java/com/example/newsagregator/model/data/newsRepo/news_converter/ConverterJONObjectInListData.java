@@ -25,7 +25,8 @@ public class ConverterJONObjectInListData {
                         jsonItems.getJSONObject(i).getString("pubDate"),
                         jsonItems.getJSONObject(i).getString("title"),
                         jsonItems.getJSONObject(i).getString("link"),
-                        jsonItems.getJSONObject(i).getString("description")));
+                        jsonItems.getJSONObject(i).getString("description"),
+                        jsonFeed.getString("url")));
             }
 
         } catch (JSONException e) {
