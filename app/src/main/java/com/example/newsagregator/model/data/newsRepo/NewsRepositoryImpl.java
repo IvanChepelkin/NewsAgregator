@@ -35,10 +35,10 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource, NewsRepository 
 
     public Single<List<NewsItem>> getNews(List<String> channelList) {
 
-
         if (isOnline()) {
           return  newsRemoteDataSource.getNews(channelList)
-                  .doOnSuccess(newsItemList -> newsDateBaseSource.saveNewsInDataBase(newsItemList));
+                  .doOnSuccess(newsItemList -> newsDateBaseSource.saveNewsInDataBase(newsItemList))
+                  .flatMap(newsItemList -> newsDateBaseSource.loadNewsFromDataBase());
         } else {
             return newsDateBaseSource.loadNewsFromDataBase();
         }
