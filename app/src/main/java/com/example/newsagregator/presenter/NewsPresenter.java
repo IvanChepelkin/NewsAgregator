@@ -184,14 +184,21 @@ public class NewsPresenter {
     }
 
     public void setClickOkAddChannels(final String channeSavelUrl) {
+
+        boolean isChannel = false;
         if (channeslItemList != null && channeslItemList.size() != 0) {
             for (ChannelItem channel : channeslItemList) {
                 if (channel.getChannelUrl().equals(channeSavelUrl)) {
                     newsView.showErrorIsChannelToast();
+                    isChannel = true;
+                    break;
                 }
             }
         }
-        saveChannel(channeSavelUrl);
+        if (!isChannel) {
+            saveChannel(channeSavelUrl);
+        }
+
     }
 
     public void setClickDeleteChannel() {
