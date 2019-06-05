@@ -159,20 +159,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showAlertDialogAddChannel() {
-
         AddChannelDialog addChannelDialog = new AddChannelDialog();
         addChannelDialog.show(getSupportFragmentManager(), TAG_ADD_CHANNEL_DIALOG);
     }
 
     @Override
     public void showAlertDialogDeleteChannel(String[] channelsArray) {
-
         DeleteChannelDialog deleteChannelDialog = new DeleteChannelDialog();
         Bundle data = new Bundle();
         data.putStringArray(KEY_channelsArray, channelsArray);
         deleteChannelDialog.setArguments(data);
         deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
-
     }
 
     @Override
@@ -206,7 +203,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showProgress() {
         refreshLayout.setRefreshing(true);
-
     }
 
     @Override
@@ -253,6 +249,5 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         newsPresenter.detachView();
         ApplicationContextSingleton.setContext(null);
-
     }
 }

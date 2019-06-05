@@ -56,7 +56,7 @@ public class NewsPresenter {
     }
 
     public void detachView() {
-        disposables.dispose();
+        disposables.clear();
         this.newsView = null;
     }
 
@@ -112,8 +112,7 @@ public class NewsPresenter {
                 });
     }
 
-    public void setClickOkAddChannels(final String channeSavelUrl) {
-
+    private void saveChannel(final String channeSavelUrl) {
         newsView.showProgress();
         Single<ChannelItem> channelSaveResponce = channelSaveUseCase.saveChannels(channeSavelUrl);
         channelSaveResponce
@@ -145,7 +144,6 @@ public class NewsPresenter {
             channelList.add(channelItemList.get(i).getChannelUrl());
         }
 
-
         Single<List<NewsItem>> responce = newsUseCase.getNews(channelList);
 
         responce
@@ -170,11 +168,14 @@ public class NewsPresenter {
                         newsView.showErrorToast();
                     }
                 });
-
     }
 
     public void setClickAddChannel() {
         newsView.showAlertDialogAddChannel();
+    }
+
+    public void setClickOkAddChannels(final String channeSavelUrl) {
+        saveChannel(channeSavelUrl);
     }
 
     public void setClickDeleteChannel() {
