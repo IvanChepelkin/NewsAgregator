@@ -164,6 +164,7 @@ public class NewsPresenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         newsView.hideProgress();
                         newsView.showErrorToast();
                     }

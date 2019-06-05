@@ -23,9 +23,9 @@ public class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-    public NewsRemoteDataSourceImpl(LoadDataHttp loadDataHttp) {
+    public NewsRemoteDataSourceImpl(LoadDataHttp loadDataHttp,ConverterJONObjectInListData converterJONObjectInListData ) {
         this.loadDataHttp = loadDataHttp;
-        this.converterJONObjectInListData = Factory.createObjectConverterJGONObjectInListData();
+        this.converterJONObjectInListData = converterJONObjectInListData;
     }
 
     @Override

@@ -35,7 +35,8 @@ public class Factory {
     }
 
     private static NewsRemoteDataSourceImpl createObjectNewsRemoteDataSourceImpl() {
-        return new NewsRemoteDataSourceImpl(Factory.createObjectHTTPConnections());
+        return new NewsRemoteDataSourceImpl(Factory.createObjectHTTPConnections()
+                ,Factory.createObjectConverterJGONObjectInListData());
     }
 
     private static ChannelRemoteDataSourceImpl createObjectNewsChannelRemoteDataSourceImpl() {

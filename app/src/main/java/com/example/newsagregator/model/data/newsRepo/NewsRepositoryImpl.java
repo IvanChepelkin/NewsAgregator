@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.newsagregator.di.ApplicationContextSingleton;
-import com.example.newsagregator.di.Factory;
 import com.example.newsagregator.model.data.db.NewsDataBaseSource;
 
 import com.example.newsagregator.model.data.network.news_remote.NewsRemoteDataSource;
@@ -21,13 +20,14 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource, NewsRepository 
 
 
     private NewsRemoteDataSource newsRemoteDataSource;
-    private NewsDataBaseSource newsDateBaseNewsSource;
+    private NewsDataBaseSource newsDateBaseSource;
     private Context context;
 
 
     public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource, NewsDataBaseSource newsDataBaseSource) {
 
         this.newsRemoteDataSource = newsRemoteDataSource;
+        this.newsDateBaseSource = newsDataBaseSource;
         this.context = ApplicationContextSingleton.getContext();
     }
 
@@ -38,9 +38,9 @@ public class NewsRepositoryImpl implements NewsRemoteDataSource, NewsRepository 
 
         if (isOnline()) {
           return  newsRemoteDataSource.getNews(channelList)
-                  .doOnSuccess(newsItemList -> newsDateBaseNewsSource.saveNewsInDataBase(newsItemList));
+                  .doOnSuccess(newsItemList -> newsDateBaseSource.saveNewsInDataBase(newsItemList));
         } else {
-            return newsDateBaseNewsSource.loadNewsFromDataBase();
+            return newsDateBaseSource.loadNewsFromDataBase();
         }
     }
 
