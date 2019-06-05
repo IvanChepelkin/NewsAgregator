@@ -56,7 +56,9 @@ public class NewsPresenter {
     }
 
     public void detachView() {
-        disposables.dispose();
+        if(disposables.isDisposed()){
+            disposables.dispose();
+        }
         this.newsView = null;
     }
 
@@ -154,7 +156,6 @@ public class NewsPresenter {
         }
 
         Single<List<NewsItem>> responce = getNewsUseCase.getNews(channelList);
-
         responce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<NewsItem>>() {
@@ -198,7 +199,6 @@ public class NewsPresenter {
         if (!isChannel) {
             saveChannel(channeSavelUrl);
         }
-
     }
 
     public void setClickDeleteChannel() {
@@ -226,12 +226,10 @@ public class NewsPresenter {
         newsView.showMainConent(guide);
     }
 
-
     public void setClickSendGuideButton(int position) {
         String guide = listNewsItemSort.get(position).getGuide();
         newsView.sendGuide(guide);
     }
-
 
     private void setChannelsArray(List<ChannelItem> channelItemListList) {
         List<String> channelList = new ArrayList<>();
