@@ -4,6 +4,6 @@ import java.util.List;
 
 import io.reactivex.Completable;
 
-public interface ChannelDeleteUseCase {
+public interface DeleteChannelUseCase {
     Completable deleteChannels(final List<String> channelsToDeleteList);
 }

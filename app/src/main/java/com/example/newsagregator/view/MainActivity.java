@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(this, Uri.parse(guide));
-}
+    }
 
     @Override
     public void sendGuide(String guide) {
@@ -226,6 +226,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void showErrorChannelTodelete() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                R.string.errorToDeleteChannel, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
     public void showProgress() {
         refreshLayout.setRefreshing(true);
     }
@@ -268,9 +275,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         newsPresenter.detachView();
         ApplicationContextSingleton.setContext(null);
+        super.onDestroy();
     }
 
 }

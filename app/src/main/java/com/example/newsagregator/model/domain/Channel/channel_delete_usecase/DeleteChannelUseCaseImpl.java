@@ -6,10 +6,10 @@ import java.util.List;
 
 import io.reactivex.Completable;
 
-public class ChannelDeleteUseCaseImpl implements ChannelDeleteUseCase {
+public class DeleteChannelUseCaseImpl implements DeleteChannelUseCase {
     private ChannelRepository channelRepository;
 
-    public ChannelDeleteUseCaseImpl(ChannelRepository channelRepository) {
+    public DeleteChannelUseCaseImpl(ChannelRepository channelRepository) {
         this.channelRepository = channelRepository;
     }
 

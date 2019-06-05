@@ -3,11 +3,11 @@ package com.example.newsagregator.presenter;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.ChannelDeleteUseCase;
+import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.DeleteChannelUseCase;
 import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem;
-import com.example.newsagregator.model.domain.Channel.channel_save_usecase.ChannelSaveUseCase;
-import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCase;
-import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCase;
+import com.example.newsagregator.model.domain.Channel.channel_save_usecase.SaveChannelUseCase;
+import com.example.newsagregator.model.domain.Channel.channel_usecase.GetChannelUseCase;
+import com.example.newsagregator.model.domain.News.news_usecase.GetNewsUseCase;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.text.ParseException;
@@ -29,25 +29,25 @@ import io.reactivex.disposables.Disposable;
 
 public class NewsPresenter {
     private NewsView newsView;
-    private NewsUseCase newsUseCase;
-    private ChannelUseCase channelUseCase;
-    private ChannelSaveUseCase channelSaveUseCase;
+    private GetNewsUseCase getNewsUseCase;
+    private GetChannelUseCase getChannelUseCase;
+    private SaveChannelUseCase saveChannelUseCase;
 
-    private ChannelDeleteUseCase channelDeleteUseCase;
+    private DeleteChannelUseCase deleteChannelUseCase;
     private List<NewsItem> listNewsItemSort;
-    private List<ChannelItem> channelItemList;
+    private List<ChannelItem> channeslItemList;
     private String[] channelsArray;
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    public NewsPresenter(NewsUseCase newsUseCase,
-                         ChannelUseCase channelUseCase,
-                         ChannelDeleteUseCase channelDeleteUseCase,
-                         ChannelSaveUseCase channelSaveUseCase) {
+    public NewsPresenter(GetNewsUseCase getNewsUseCase,
+                         GetChannelUseCase getChannelUseCase,
+                         DeleteChannelUseCase deleteChannelUseCase,
+                         SaveChannelUseCase saveChannelUseCase) {
 
-        this.newsUseCase = newsUseCase;
-        this.channelUseCase = channelUseCase;
-        this.channelDeleteUseCase = channelDeleteUseCase;
-        this.channelSaveUseCase = channelSaveUseCase;
+        this.getNewsUseCase = getNewsUseCase;
+        this.getChannelUseCase = getChannelUseCase;
+        this.deleteChannelUseCase = deleteChannelUseCase;
+        this.saveChannelUseCase = saveChannelUseCase;
     }
 
     public void onAttachView(NewsView newsView) {
@@ -56,7 +56,7 @@ public class NewsPresenter {
     }
 
     public void detachView() {
-        disposables.clear();
+        disposables.dispose();
         this.newsView = null;
     }
 
@@ -68,30 +68,39 @@ public class NewsPresenter {
 
         newsView.showProgress();
 
-        Single<List<ChannelItem>> responce = channelUseCase.getChannels();
-
-        Disposable disposChannel = responce
+        Single<List<ChannelItem>> responce = getChannelUseCase.getChannels();
+        responce
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        responseSuccess -> {
-                            channelItemList = responseSuccess;
+                .subscribe(new SingleObserver<List<ChannelItem>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
 
-                            if (channelItemList.size() == 0) {
-                                newsView.showErrorNotCahnnelToast();
-                                newsView.clearList();
-                                newsView.hideProgress();
-                            } else {
-                                setChannelsArray(channelItemList);
-                                loadNews(channelItemList);
-                            }
+                    @Override
+                    public void onSuccess(List<ChannelItem> channelItemList) {
+                        channeslItemList = channelItemList;
+                        if (channelItemList.size() == 0) {
+                            newsView.showErrorNotCahnnelToast();
+                            newsView.clearList();
+                            newsView.hideProgress();
+                        } else {
+                            setChannelsArray(channelItemList);
+                            loadNews(channelItemList);
                         }
-                );
-        disposables.add(disposChannel);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        newsView.hideProgress();
+                        newsView.showErrorToast();
+                    }
+                });
     }
 
     private void deleteChannels(List<String> channelsToDeleteList) {
 
-        Completable responce = channelDeleteUseCase.deleteChannels(channelsToDeleteList);
+        Completable responce = deleteChannelUseCase.deleteChannels(channelsToDeleteList);
         responce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -107,14 +116,14 @@ public class NewsPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("Ошибка удаления", "error: " + e);
+                        newsView.showErrorChannelTodelete();
                     }
                 });
     }
 
     private void saveChannel(final String channeSavelUrl) {
         newsView.showProgress();
-        Single<ChannelItem> channelSaveResponce = channelSaveUseCase.saveChannels(channeSavelUrl);
+        Single<ChannelItem> channelSaveResponce = saveChannelUseCase.saveChannel(channeSavelUrl);
         channelSaveResponce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<ChannelItem>() {
@@ -144,7 +153,7 @@ public class NewsPresenter {
             channelList.add(channelItemList.get(i).getChannelUrl());
         }
 
-        Single<List<NewsItem>> responce = newsUseCase.getNews(channelList);
+        Single<List<NewsItem>> responce = getNewsUseCase.getNews(channelList);
 
         responce
                 .observeOn(AndroidSchedulers.mainThread())
@@ -164,7 +173,6 @@ public class NewsPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
                         newsView.hideProgress();
                         newsView.showErrorToast();
                     }
@@ -176,6 +184,13 @@ public class NewsPresenter {
     }
 
     public void setClickOkAddChannels(final String channeSavelUrl) {
+        if (channeslItemList != null && channeslItemList.size() != 0) {
+            for (ChannelItem channel : channeslItemList) {
+                if (channel.getChannelUrl().equals(channeSavelUrl)) {
+                    newsView.showErrorIsChannelToast();
+                }
+            }
+        }
         saveChannel(channeSavelUrl);
     }
 
@@ -190,7 +205,7 @@ public class NewsPresenter {
 
             for (int i = 0; i < positionChannelToDeleteArray.length; i++) {
                 if (positionChannelToDeleteArray[i]) {
-                    channelsToDeleteList.add(channelItemList.get(i).getChannelUrl());
+                    channelsToDeleteList.add(channeslItemList.get(i).getChannelUrl());
                 }
             }
             deleteChannels(channelsToDeleteList);
@@ -200,7 +215,7 @@ public class NewsPresenter {
     }
 
     public void setClickItemNews(int position) {
-        String guide= listNewsItemSort.get(position).getGuide();
+        String guide = listNewsItemSort.get(position).getGuide();
         newsView.showMainConent(guide);
     }
 

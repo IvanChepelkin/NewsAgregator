@@ -22,7 +22,7 @@ public class ChannelRemoteDataSourceImpl implements ChannelRemoteDataSource {
     }
 
     @Override
-    public Single<ChannelItem> saveChannels(String channelToSaveList) {
+    public Single<ChannelItem> saveChannel(String channelToSaveList) {
         return Single.fromCallable(() -> {
             JSONObject newsObject = loadDataHttp.getHttpData(RSS_to_GSON + channelToSaveList + API_KEY);
             ChannelItem newChannelItem = converterJSONObjectInChannel.setChannel(newsObject);

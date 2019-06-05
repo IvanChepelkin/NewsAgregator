@@ -7,10 +7,10 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public class NewsUseCaseImpl implements NewsUseCase {
+public class GetGetNewsUseCaseImpl implements GetNewsUseCase {
     private NewsRepository newsRepository;
 
-    public NewsUseCaseImpl(NewsRepository newsRepository) {
+    public GetGetNewsUseCaseImpl(NewsRepository newsRepository) {
         this.newsRepository = newsRepository;
     }
 

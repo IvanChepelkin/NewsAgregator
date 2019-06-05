@@ -11,10 +11,10 @@ import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnections;
 import com.example.newsagregator.model.data.shared_preferences.ChannelsSharedPrefDataSourceImpl;
-import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.ChannelDeleteUseCaseImpl;
-import com.example.newsagregator.model.domain.Channel.channel_save_usecase.ChannelSaveUseCaseImpl;
-import com.example.newsagregator.model.domain.Channel.channel_usecase.ChannelUseCaseImpl;
-import com.example.newsagregator.model.domain.News.news_usecase.NewsUseCaseImpl;
+import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.DeleteChannelUseCaseImpl;
+import com.example.newsagregator.model.domain.Channel.channel_save_usecase.SaveChannelUseCaseImpl;
+import com.example.newsagregator.model.domain.Channel.channel_usecase.GetGetChannelUseCaseImpl;
+import com.example.newsagregator.model.domain.News.news_usecase.GetGetNewsUseCaseImpl;
 import com.example.newsagregator.presenter.NewsPresenter;
 
 public class Factory {
@@ -81,19 +81,19 @@ public class Factory {
                 Factory.createObjectNewsChannelRemoteDataSourceImpl());
     }
 
-    private static NewsUseCaseImpl createObjectNewsUseCaseImpl() {
-        return new NewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
+    private static GetGetNewsUseCaseImpl createObjectNewsUseCaseImpl() {
+        return new GetGetNewsUseCaseImpl(Factory.createObjectNewsRepositoryImpl());
     }
 
-    private static ChannelUseCaseImpl createObjectChannelUseCaseImplImpl() {
-        return new ChannelUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
+    private static GetGetChannelUseCaseImpl createObjectChannelUseCaseImplImpl() {
+        return new GetGetChannelUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
     }
 
-    private static ChannelDeleteUseCaseImpl createObjectChannelDeleteUseCaseImpl() {
-        return new ChannelDeleteUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
+    private static DeleteChannelUseCaseImpl createObjectChannelDeleteUseCaseImpl() {
+        return new DeleteChannelUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
     }
 
-    private static ChannelSaveUseCaseImpl createObjectChannelSaveUseCaseImp() {
-        return new ChannelSaveUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
+    private static SaveChannelUseCaseImpl createObjectChannelSaveUseCaseImp() {
+        return new SaveChannelUseCaseImpl(Factory.createObjectChannelRepositoryImpl());
     }
 }

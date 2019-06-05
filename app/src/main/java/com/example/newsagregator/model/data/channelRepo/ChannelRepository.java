@@ -11,7 +11,7 @@ public interface ChannelRepository {
 
     Completable deleteChannels(final List<String> channelsToDeleteList);
 
-    Single<ChannelItem> saveChannels(final String channelToSave);
+    Single<ChannelItem> saveChannel(final String channelToSave);
 
     Single<List<ChannelItem>> getChannels();
 }

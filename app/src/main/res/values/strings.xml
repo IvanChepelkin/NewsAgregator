@@ -21,5 +21,6 @@
     <string name="noAppText">Не найдено ни одного приложения</string>
     <string name="shareText">Поделиmься</string>
     <string name="errorRequest">Ошибка запроса</string>
+    <string name="errorToDeleteChannel">Ошибка удаления</string>
 
 </resources>

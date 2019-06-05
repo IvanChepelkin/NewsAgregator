@@ -19,6 +19,8 @@ public interface NewsView {
 
     void showErrorIsChannelToast();
 
+    void showErrorChannelTodelete();
+
     void showProgress();
 
     void hideProgress();

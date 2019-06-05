@@ -4,6 +4,6 @@ import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem
 import java.util.List;
 import io.reactivex.Single;
 
-public interface ChannelUseCase {
+public interface GetChannelUseCase {
     Single<List<ChannelItem>> getChannels();
 }

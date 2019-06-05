@@ -6,6 +6,6 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public interface NewsUseCase {
+public interface GetNewsUseCase {
     Single<List<NewsItem>> getNews(List<String> channelList);
 }

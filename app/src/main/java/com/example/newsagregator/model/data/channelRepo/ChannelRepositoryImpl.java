@@ -25,8 +25,8 @@ public class ChannelRepositoryImpl implements ChannelRepository {
     }
 
     @Override
-    public Single<ChannelItem> saveChannels(String channelToSave) {
-        return channelRemoteDataSource.saveChannels(channelToSave)
+    public Single<ChannelItem> saveChannel(String channelToSave) {
+        return channelRemoteDataSource.saveChannel(channelToSave)
                 .doOnSuccess(ChannelItem -> channelsDataBaseSource.saveChannel(ChannelItem));
     }
 

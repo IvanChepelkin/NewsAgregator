@@ -7,11 +7,11 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public class ChannelUseCaseImpl implements ChannelUseCase {
+public class GetGetChannelUseCaseImpl implements GetChannelUseCase {
 
     private ChannelRepository channelRepository;
 
-    public ChannelUseCaseImpl(ChannelRepository channelRepository) {
+    public GetGetChannelUseCaseImpl(ChannelRepository channelRepository) {
         this.channelRepository = channelRepository;
     }
     @Override

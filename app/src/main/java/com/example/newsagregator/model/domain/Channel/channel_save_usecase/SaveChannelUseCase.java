@@ -5,6 +5,6 @@ import com.example.newsagregator.model.domain.Channel.channel_entity.ChannelItem
 
 import io.reactivex.Single;
 
-public interface ChannelSaveUseCase {
-    Single <ChannelItem> saveChannels(final String channelToSave);
+public interface SaveChannelUseCase {
+    Single <ChannelItem> saveChannel(final String channelToSave);
 }
