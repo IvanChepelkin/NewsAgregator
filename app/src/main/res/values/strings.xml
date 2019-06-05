@@ -7,7 +7,6 @@
     <string name="nav_header_subtitle">https://github.com/IvanChepelkin/NewsAgregator</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_all_channels">Мои каналы</string>
     <string name="menu_add_channel">Добавить канал</string>
     <string name="menu_remove_channel">Удалить канал</string>
@@ -19,6 +18,7 @@
     <string name="errorNotFoundChannels">У вас нет добавленных каналов</string>
     <string name="errorInvalidAdress">Неправильный адрес запроса</string>
     <string name="you_have_are_channel_text">У вас уже добавлен такой канал</string>
-    <string name="errorRequest">Ошибка запроса</string>
+    <string name="shareText">Поделиmься</string>
+    <string name="noAppText">Не найдено ни одного приложения</string>
 
 </resources>

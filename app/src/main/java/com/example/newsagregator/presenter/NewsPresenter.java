@@ -199,9 +199,16 @@ public class NewsPresenter {
     }
 
     public void setClickItemNews(int position) {
-        String guid = listNewsItemSort.get(position).getGuide();
-        newsView.showMainConent(guid);
+        String guide= listNewsItemSort.get(position).getGuide();
+        newsView.showMainConent(guide);
     }
+
+
+    public void setClickSendGuideButton(int position) {
+        String guide = listNewsItemSort.get(position).getGuide();
+        newsView.sendGuide(guide);
+    }
+
 
     private void setChannelsArray(List<ChannelItem> channelItemListList) {
         List<String> channelList = new ArrayList<>();

@@ -1,6 +1,6 @@
 package com.example.newsagregator.view;
 
-import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.example.newsagregator.R;
@@ -25,6 +24,7 @@ import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
 import com.example.newsagregator.view.dialogs.AddChannelDialog;
 import com.example.newsagregator.view.dialogs.DeleteChannelDialog;
+import com.example.newsagregator.view.dialogs.MainContentDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +36,16 @@ public class MainActivity extends AppCompatActivity
         NewsAdapter.ItemListener,
         AddChannelDialog.ClickAddChannelDialog,
         DeleteChannelDialog.ClickOkDeleteChannelDialog {
+
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
     private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
+    private static final String TAG_MAIN_CONTENT_DIALOG = "MainContentDialog";
     public static final String KEY_channelsArray = "channelsArray";
+    public static final String KEY_News_guide = "newsGuide";
     private SwipeRefreshLayout refreshLayout;
     private NewsPresenter newsPresenter;
     private RecyclerView recViewNews;
-    private WebView webViewContent;
     private NewsAdapter newsAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +171,33 @@ public class MainActivity extends AppCompatActivity
         data.putStringArray(KEY_channelsArray, channelsArray);
         deleteChannelDialog.setArguments(data);
         deleteChannelDialog.show(getSupportFragmentManager(), TAG_DELETE_CHANNEL_DIALOG);
+
+    }
+
+    @Override
+    public void showMainConent(String guide) {
+        MainContentDialog mainContentDialog = new MainContentDialog();
+        Bundle data = new Bundle();
+        data.putString(KEY_News_guide, guide);
+        mainContentDialog.setArguments(data);
+        mainContentDialog.show(getSupportFragmentManager(), TAG_MAIN_CONTENT_DIALOG);
+
+    }
+
+    @Override
+    public void sendGuide(String guide) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");//задаем тип передаваемых данных
+        intent.putExtra(Intent.EXTRA_TEXT, guide);
+        String chooserTitle = getString(R.string.shareText);
+        Intent chosenIntent = Intent.createChooser(intent, chooserTitle);
+        try {
+            startActivity(chosenIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    R.string.noAppText, Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     @Override
@@ -210,13 +238,6 @@ public class MainActivity extends AppCompatActivity
         refreshLayout.setRefreshing(false);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    @Override
-    public void showMainConent(String guid) {
-        webViewContent.getSettings().setJavaScriptEnabled(true);
-        webViewContent.loadUrl(guid);
-    }
-
 
     @Override
     public void onRefresh() {
@@ -224,9 +245,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick(int position, WebView webViewContent) {
-        this.webViewContent = webViewContent;
+    public void onItemClick(int position) {
         newsPresenter.setClickItemNews(position);
+    }
+
+    @Override
+    public void onSendButtonCClick(int position) {
+        newsPresenter.setClickSendGuideButton(position);
     }
 
     @Override
@@ -250,4 +275,5 @@ public class MainActivity extends AppCompatActivity
         newsPresenter.detachView();
         ApplicationContextSingleton.setContext(null);
     }
+
 }
