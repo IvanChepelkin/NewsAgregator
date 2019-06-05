@@ -2,7 +2,9 @@ package com.example.newsagregator.view;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +26,6 @@ import com.example.newsagregator.presenter.NewsPresenter;
 import com.example.newsagregator.presenter.NewsView;
 import com.example.newsagregator.view.dialogs.AddChannelDialog;
 import com.example.newsagregator.view.dialogs.DeleteChannelDialog;
-import com.example.newsagregator.view.dialogs.MainContentDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,13 +177,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showMainConent(String guide) {
-        MainContentDialog mainContentDialog = new MainContentDialog();
-        Bundle data = new Bundle();
-        data.putString(KEY_News_guide, guide);
-        mainContentDialog.setArguments(data);
-        mainContentDialog.show(getSupportFragmentManager(), TAG_MAIN_CONTENT_DIALOG);
 
-    }
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(guide));
+}
 
     @Override
     public void sendGuide(String guide) {
