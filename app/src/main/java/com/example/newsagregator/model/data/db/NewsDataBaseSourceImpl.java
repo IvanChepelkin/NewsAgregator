@@ -11,16 +11,14 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-public class NewsDataBaseSourceImpl extends AsyncTask<Void, Void, List<NewsItem>> implements NewsDataBaseSource {
+public class NewsDataBaseSourceImpl implements NewsDataBaseSource {
     private DataBaseHelper dataBaseHelper;
-    private NewsCallBackDb newsCallBackDb;
 
     public NewsDataBaseSourceImpl(DataBaseHelper dataBaseHelper) {
         this.dataBaseHelper = dataBaseHelper;
     }
 
     @Override
-
     public Single<List<NewsItem>> loadNewsFromDataBase() {
         return Single.fromCallable(() -> dataBaseHelper.getNewsFromDataBase())
                 .subscribeOn(Schedulers.io());

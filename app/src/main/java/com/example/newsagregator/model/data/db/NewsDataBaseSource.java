@@ -4,17 +4,13 @@ import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public interface NewsDataBaseSource {
 
-    void loadNewsFromDataBase();
+    Single<List<NewsItem>> loadNewsFromDataBase();
 
-    void setSubcriber(NewsCallBackDb newsCallBackDb);
+    void saveNewsInDataBase(final List<NewsItem> newsItemList);
 
-
-    interface NewsCallBackDb {
-
-        void onCompletedFromDateBase(List<NewsItem> newsItemListFromDateBase);
-
-    void saveNewsInDataBase(List<NewsItem> newsItemList);
 
 }

@@ -36,7 +36,6 @@ public class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
                 JSONObject newsObject = loadDataHttp.getHttpData(RSS_to_GSON + url + API_KEY);
                 listNewsItem.addAll(converterJONObjectInListData.setListModelView(newsObject));
             }
-
             return listNewsItem;
         }).subscribeOn(Schedulers.io());
     }
