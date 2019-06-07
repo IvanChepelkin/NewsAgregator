@@ -1,9 +1,6 @@
 package com.example.newsagregator.model.data.network.news_remote;
 
-import com.example.newsagregator.di.Factory;
-import com.example.newsagregator.model.data.channelRepo.channel_converter.ConverterJSONObjectInChannel;
-import com.example.newsagregator.model.data.network.LoadDataHttp;
-import com.example.newsagregator.model.data.network.news_remote.NewsRemoteDataSource;
+import com.example.newsagregator.model.data.network.HttpConnect;
 import com.example.newsagregator.model.data.newsRepo.news_converter.ConverterJONObjectInListData;
 import com.example.newsagregator.model.domain.News.news_entity.NewsItem;
 
@@ -18,14 +15,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
 
-    private LoadDataHttp loadDataHttp;
-    private ConverterJONObjectInListData converterJONObjectInListData;
+    private HttpConnect httpConnect;
+    private ConverterJONObjectInListData converterJONObjectInListNews;
     private final String API_KEY = "&api_key=ktqj6tz7a5tpcb3u5yqie1rxtvqyk0vb1t75fys9";
     private final String RSS_to_GSON = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-    public NewsRemoteDataSourceImpl(LoadDataHttp loadDataHttp,ConverterJONObjectInListData converterJONObjectInListData ) {
-        this.loadDataHttp = loadDataHttp;
-        this.converterJONObjectInListData = converterJONObjectInListData;
+    public NewsRemoteDataSourceImpl(HttpConnect httpConnect, ConverterJONObjectInListData converterJONObjectInListNews) {
+        this.httpConnect = httpConnect;
+        this.converterJONObjectInListNews = converterJONObjectInListNews;
     }
 
     @Override
@@ -33,8 +30,8 @@ public class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
         return Single.fromCallable(() -> {
             List<NewsItem> listNewsItem = new ArrayList<>();
             for (String url : channelList) {
-                JSONObject newsObject = loadDataHttp.getHttpData(RSS_to_GSON + url + API_KEY);
-                listNewsItem.addAll(converterJONObjectInListData.setListModelView(newsObject));
+                JSONObject newsObject = httpConnect.getJsonObjectNews(RSS_to_GSON + url + API_KEY);
+                listNewsItem.addAll(converterJONObjectInListNews.convertGsonInNewsEntity(newsObject));
             }
             return listNewsItem;
         }).subscribeOn(Schedulers.io());

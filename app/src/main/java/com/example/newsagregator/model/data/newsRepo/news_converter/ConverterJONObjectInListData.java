@@ -13,7 +13,7 @@ public class ConverterJONObjectInListData {
     public ConverterJONObjectInListData() {
     }
 
-    public List<NewsItem> setListModelView(JSONObject jsonObjectNews) {
+    public List<NewsItem> convertGsonInNewsEntity(JSONObject jsonObjectNews) {
         List<NewsItem> listNewsItem = new ArrayList<>();
 
         try {

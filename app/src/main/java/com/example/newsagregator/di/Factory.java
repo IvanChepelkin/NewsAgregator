@@ -9,7 +9,7 @@ import com.example.newsagregator.model.data.newsRepo.NewsRepositoryImpl;
 import com.example.newsagregator.model.data.db.ChannelsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
-import com.example.newsagregator.model.data.network.HTTPConnections;
+import com.example.newsagregator.model.data.network.HTTPConnectImpl;
 import com.example.newsagregator.model.data.shared_preferences.ChannelsSharedPrefDataSourceImpl;
 import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.DeleteChannelUseCaseImpl;
 import com.example.newsagregator.model.domain.Channel.channel_save_usecase.SaveChannelUseCaseImpl;
@@ -28,8 +28,8 @@ public class Factory {
                 Factory.createObjectChannelSaveUseCaseImp());
     }
 
-    private static HTTPConnections createObjectHTTPConnections() {
-        return new HTTPConnections();
+    private static HTTPConnectImpl createObjectHTTPConnections() {
+        return new HTTPConnectImpl();
     }
 
     private static NewsRemoteDataSourceImpl createObjectNewsRemoteDataSourceImpl() {

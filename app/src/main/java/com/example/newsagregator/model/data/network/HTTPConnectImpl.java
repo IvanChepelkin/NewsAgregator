@@ -13,13 +13,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class HTTPConnections implements LoadDataHttp {
+public class HTTPConnectImpl implements HttpConnect {
 
-    public HTTPConnections() {
+    public HTTPConnectImpl() {
     }
 
     @Override
-    public JSONObject getHttpData(final String urlChannel) {
+    public JSONObject getJsonObjectNews(final String urlChannel) {
         try {
             URL url = new URL(urlChannel);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

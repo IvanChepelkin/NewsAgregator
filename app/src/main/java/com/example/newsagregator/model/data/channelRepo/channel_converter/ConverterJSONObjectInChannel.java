@@ -11,7 +11,7 @@ public class ConverterJSONObjectInChannel {
     public ConverterJSONObjectInChannel() {
     }
 
-    public ChannelItem setChannel(JSONObject jsonObjectNews) {
+    public ChannelItem convertGsonObjectInChannelEntity(JSONObject jsonObjectNews) {
 
         try {
             JSONObject jsonObject = jsonObjectNews.getJSONObject("feed");

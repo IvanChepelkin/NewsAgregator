@@ -2,8 +2,8 @@ package com.example.newsagregator.model.data.network;
 
 import org.json.JSONObject;
 
-public interface LoadDataHttp {
+public interface HttpConnect {
 
-    JSONObject getHttpData( String urlChannel);
+    JSONObject getJsonObjectNews(String urlChannel);
 
 }
