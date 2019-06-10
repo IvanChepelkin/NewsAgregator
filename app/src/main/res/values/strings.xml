@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">NewsAgregator</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Agregator News</string>
+    <string name="nav_header_subtitle">https://github.com/IvanChepelkin/NewsAgregator</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_all_channels">Мои каналы</string>
+    <string name="menu_add_channel">Добавить канал</string>
+    <string name="menu_remove_channel">Удалить канал</string>
+    <string name="menu_tools">Настройки</string>
+    <string name="chooseChannelTxt">Выберите канал</string>
+    <string name="deleteTxt">Удалить</string>
+    <string name="okText">OK</string>
+    <string name="enterChannelText">Введите адрес канала</string>
+    <string name="errorNotFoundChannels">У вас нет добавленных каналов</string>
+    <string name="errorInvalidAdress">Неправильный адрес запроса</string>
+    <string name="you_have_are_channel_text">У вас уже добавлен такой канал</string>
+    <string name="noAppText">Не найдено ни одного приложения</string>
+    <string name="shareText">Поделиmься</string>
+    <string name="errorRequest">Ошибка запроса</string>
+    <string name="errorToDeleteChannel">Ошибка удаления</string>
+
 </resources>
