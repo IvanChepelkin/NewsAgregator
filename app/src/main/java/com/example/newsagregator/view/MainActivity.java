@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity
         SwipeRefreshLayout.OnRefreshListener,
         NewsAdapter.ItemListener,
         AddChannelDialog.ClickAddChannelDialog,
-        DeleteChannelDialog.ClickOkDeleteChannelDialog {
+        DeleteChannelDialog.ClickOkDeleteChannelDialog,
+        SaveLastEntryOnAddDialog
+{
 
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
     private static final String TAG_DELETE_CHANNEL_DIALOG = "DeleteChannelDialog";
@@ -280,4 +282,8 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
     }
 
+    @Override
+    public void saveUrlOnOnAddDialog(String url) {
+
+    }
 }

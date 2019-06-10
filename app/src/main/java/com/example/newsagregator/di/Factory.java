@@ -10,7 +10,7 @@ import com.example.newsagregator.model.data.db.ChannelsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.db.DataBaseHelper;
 import com.example.newsagregator.model.data.db.NewsDataBaseSourceImpl;
 import com.example.newsagregator.model.data.network.HTTPConnectImpl;
-import com.example.newsagregator.model.data.shared_preferences.ChannelsSharedPrefDataSourceImpl;
+import com.example.newsagregator.model.data.shared_preferences.SharedPrefDataSourceImpl;
 import com.example.newsagregator.model.domain.Channel.channel_delete_usecase.DeleteChannelUseCaseImpl;
 import com.example.newsagregator.model.domain.Channel.channel_save_usecase.SaveChannelUseCaseImpl;
 import com.example.newsagregator.model.domain.Channel.channel_usecase.GetGetChannelUseCaseImpl;
@@ -57,8 +57,8 @@ public class Factory {
         return new ChannelsDataBaseSourceImpl(Factory.createObjectDataBaseHelper());
     }
 
-    private static ChannelsSharedPrefDataSourceImpl createObjectNewsSharedPrefDataSourceImpl() {
-        return new ChannelsSharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
+    private static SharedPrefDataSourceImpl createObjectSharedPrefDataSourceImpl() {
+        return new SharedPrefDataSourceImpl(ApplicationContextSingleton.getContext());
     }
 
     private static ConverterJONObjectInListData createObjectConverterJGONObjectInListData() {

@@ -126,6 +126,7 @@ public class NewsPresenter {
     private void saveChannel(final String channeSavelUrl) {
         newsView.showProgress();
         Single<ChannelItem> channelSaveResponce = saveChannelUseCase.saveChannel(channeSavelUrl);
+
         channelSaveResponce
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<ChannelItem>() {
@@ -233,7 +234,6 @@ public class NewsPresenter {
 
     private void setChannelsArray(List<ChannelItem> channelItemListList) {
         List<String> channelList = new ArrayList<>();
-
         for (int i = 0; i < channelItemListList.size(); i++) {
             channelList.add(channelItemListList.get(i).getChannelName());
         }

@@ -15,37 +15,31 @@ import com.example.newsagregator.R;
 
 public class AddChannelDialog extends DialogFragment {
     private ClickAddChannelDialog clickAddChannelDialog;
+    final EditText input = new EditText(getActivity());
 
     public interface ClickAddChannelDialog {
         void setClickOkAddChannel(String saveUrlChannel);
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(getActivity());
-        final EditText input = new EditText(getActivity());
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText("http://www.free-lance.ru/rss/projects.xml");
-
-        addChannelDialog.setView(input);
-        addChannelDialog
-                .setMessage(R.string.enterChannelText)
-                .setPositiveButton(R.string.okText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        clickAddChannelDialog.setClickOkAddChannel(input.getText().toString());
-                    }
-                });
-        return addChannelDialog.create();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         clickAddChannelDialog = (ClickAddChannelDialog) getActivity();
-
     }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText("http://www.free-lance.ru/rss/projects.xml");
+        addChannelDialog.setView(input);
+        addChannelDialog
+                .setMessage(R.string.enterChannelText)
+                .setPositiveButton(R.string.okText, (dialog, which) -> clickAddChannelDialog.setClickOkAddChannel(input.getText().toString()));
+        return addChannelDialog.create();
+    }
+
 }
 
 

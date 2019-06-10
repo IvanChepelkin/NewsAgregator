@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 
-public class ChannelsSharedPrefDataSourceImpl implements ChannelsSharedPrefDataSource {
+public class SharedPrefDataSourceImpl implements ChannelsSharedPrefDataSource {
     private SharedPreferences channelListSheredPref;
     private Set<String> channelsList = new HashSet<>();
     private final String APP_PREFERENCES = "NEWS_CHANNELS";
     private final String CHANNEL_KEY = "NEWS_CHANNEL";
 
-    public ChannelsSharedPrefDataSourceImpl(Context context) {
+    public SharedPrefDataSourceImpl(Context context) {
         channelListSheredPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
