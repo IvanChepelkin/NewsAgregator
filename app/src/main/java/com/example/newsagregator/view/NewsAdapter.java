@@ -16,7 +16,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder> {
     public NewsAdapter(ItemListener itemListener) {
         super();
         this.itemListener = itemListener;
-
     }
 
     public void setListNewsItem(List<NewsItem> listNewsItem){
@@ -44,5 +43,4 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder> {
         void onItemClick(int position);
         void onSendButtonCClick(int position);
     }
-
 }

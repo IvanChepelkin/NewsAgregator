@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,19 +30,9 @@ class NewsHolder extends RecyclerView.ViewHolder {
         textContent = itemView.findViewById(R.id.newsItemContent);
         sendGuide = itemView.findViewById(R.id.sendGuideButton);
 
-        root.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemListener.onItemClick(position);
-            }
-        });
+        root.setOnClickListener(v -> itemListener.onItemClick(position));
 
-        sendGuide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemListener.onSendButtonCClick(position);
-            }
-        });
+        sendGuide.setOnClickListener(v -> itemListener.onSendButtonCClick(position));
     }
 
     void bind(NewsItem newsItem, NewsAdapter.ItemListener itemListener, int position) {
@@ -54,8 +43,6 @@ class NewsHolder extends RecyclerView.ViewHolder {
         textDatePublication.setText(newsItem.getDatePublication());
         textTitle.setText(newsItem.getTitle());
         textContent.setText(newsItem.getContent());
-
-
     }
 
     static NewsHolder create(LayoutInflater inflater, ViewGroup parent) {

@@ -18,11 +18,9 @@ import io.reactivex.Single;
 
 public class NewsRepositoryImpl implements NewsRemoteDataSource, NewsRepository {
 
-
     private NewsRemoteDataSource newsRemoteDataSource;
     private NewsDataBaseSource newsDateBaseSource;
     private Context context;
-
 
     public NewsRepositoryImpl(NewsRemoteDataSource newsRemoteDataSource, NewsDataBaseSource newsDataBaseSource) {
 

@@ -15,7 +15,6 @@ import com.example.newsagregator.R;
 
 public class AddChannelDialog extends DialogFragment {
     private ClickAddChannelDialog clickAddChannelDialog;
-    final EditText input = new EditText(getActivity());
 
     public interface ClickAddChannelDialog {
         void setClickOkAddChannel(String saveUrlChannel);
@@ -31,6 +30,7 @@ public class AddChannelDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder addChannelDialog = new AlertDialog.Builder(getActivity());
+        final EditText input = new EditText(getActivity());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setText("http://www.free-lance.ru/rss/projects.xml");
         addChannelDialog.setView(input);

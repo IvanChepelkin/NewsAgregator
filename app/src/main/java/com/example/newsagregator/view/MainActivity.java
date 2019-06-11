@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity
         SwipeRefreshLayout.OnRefreshListener,
         NewsAdapter.ItemListener,
         AddChannelDialog.ClickAddChannelDialog,
-        DeleteChannelDialog.ClickOkDeleteChannelDialog,
-        SaveLastEntryOnAddDialog
+        DeleteChannelDialog.ClickOkDeleteChannelDialog
 {
 
     private static final String TAG_ADD_CHANNEL_DIALOG = "AddChannelDialog";
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         attachPresenter();
         newsAdapter = new NewsAdapter(this);
         loadDataDeeplink();
-
     }
 
     private void loadDataDeeplink() {
@@ -280,10 +278,5 @@ public class MainActivity extends AppCompatActivity
         newsPresenter.detachView();
         ApplicationContextSingleton.setContext(null);
         super.onDestroy();
-    }
-
-    @Override
-    public void saveUrlOnOnAddDialog(String url) {
-
     }
 }
