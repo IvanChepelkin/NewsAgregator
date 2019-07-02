@@ -28,6 +28,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".view.auth_screen.Authentication" >
+
+        </activity>
+
     </application>
 
 </manifest>
