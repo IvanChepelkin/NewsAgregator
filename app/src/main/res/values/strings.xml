@@ -22,5 +22,6 @@
     <string name="shareText">Поделиmься</string>
     <string name="errorRequest">Ошибка запроса</string>
     <string name="errorToDeleteChannel">Ошибка удаления</string>
+    <string name="get_out_profile_string">Выйти из профиля</string>
 
 </resources>

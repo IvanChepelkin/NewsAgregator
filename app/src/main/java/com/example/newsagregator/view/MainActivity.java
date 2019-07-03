@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,6 +30,9 @@ import com.example.newsagregator.view.dialogs.AddChannelDialog;
 import com.example.newsagregator.view.dialogs.DeleteChannelDialog;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -57,11 +61,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ApplicationContextSingleton.setContext(this);
         initProviders();
-        showSignInOptions();
-
-
+        attachPresenter();
+        loadDataDeeplink();
     }
 
     private void loadDataDeeplink() {
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity
         recViewNews.setLayoutManager(new LinearLayoutManager(this));
         refreshLayout = findViewById(R.id.refresh);
         refreshLayout.setOnRefreshListener(this);
+        newsAdapter = new NewsAdapter(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -141,6 +145,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.news_delete_channel) {
             newsPresenter.setClickDeleteChannel();
         }
+        else  if (id == R.id.get_out_profile){
+            newsPresenter.setClickAuthenticationSignOut();
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -161,6 +168,17 @@ public class MainActivity extends AppCompatActivity
         newsAdapter.setListNewsItem(listNewsItem);
         newsAdapter.notifyDataSetChanged();
         recViewNews.setAdapter(newsAdapter);
+    }
+
+    @Override
+    public boolean isAuthUser() {
+
+        boolean isAuth = false;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            isAuth = true;
+        }
+        return isAuth;
     }
 
     @Override
@@ -287,23 +305,41 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
-    private void showSignInOptions() {
-        FirebaseUser userr = FirebaseAuth.getInstance().getCurrentUser();
-        if (userr == null) {
-            startActivityForResult(
-                    AuthUI.getInstance().createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .build(), MY_REQUEST_CODE
-            );
-        }
-        else {
-            initViews();
-            ApplicationContextSingleton.setContext(this);
-            attachPresenter();
-            newsAdapter = new NewsAdapter(this);
-            loadDataDeeplink();
-        }
+    @Override
+    public void showSignInOptions() {
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .build(), MY_REQUEST_CODE
+        );
+    }
 
+    @Override
+    public void showErrorAuthentication(String error) {
+        Toast.makeText(this, "" + error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void AuthenticationSignOut() {
+        AuthUI.getInstance()
+                .signOut(MainActivity.this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        showSignInOptions();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    @Override
+    public void initActivityLayoutAndViews() {
+        setContentView(R.layout.activity_main);
+        initViews();
     }
 
     @Override
@@ -312,11 +348,11 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == MY_REQUEST_CODE) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Toast.makeText(this, "" + user.getEmail(), Toast.LENGTH_SHORT).show();
-
+                newsPresenter.authenticationIssuccessful();
+//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                Toast.makeText(this, "" + user.getEmail(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "" + response.getError().getMessage(), Toast.LENGTH_SHORT).show();
+                newsPresenter.authenticationIsFailure(response.getError().getMessage());
             }
         }
     }
