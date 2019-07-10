@@ -52,14 +52,37 @@ public class NewsPresenter {
 
     public void onAttachView(NewsView newsView) {
         this.newsView = newsView;
-        updateNews();
+        checkAuth();
     }
 
+
     public void detachView() {
-        if(disposables.isDisposed()){
+        if (disposables.isDisposed()) {
             disposables.dispose();
         }
         this.newsView = null;
+    }
+
+    private void checkAuth() {
+        if (newsView.isAuthUser()) {
+            newsView.initActivityLayoutAndViews();
+            updateNews();
+        } else {
+            newsView.showSignInOptions();
+        }
+    }
+
+    public void authenticationIssuccessful(){
+        newsView.initActivityLayoutAndViews();
+        updateNews();
+    }
+
+    public void authenticationIsFailure(String error){
+        newsView.showErrorAuthentication(error);
+    }
+
+    public void setClickAuthenticationSignOut(){
+        newsView.AuthenticationSignOut();
     }
 
     public void updateNews() {

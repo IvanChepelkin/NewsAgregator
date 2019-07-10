@@ -31,4 +31,14 @@ public interface NewsView {
 
     void clearList();
 
+    boolean isAuthUser();
+
+    void showSignInOptions();
+
+    void initActivityLayoutAndViews();
+
+    void showErrorAuthentication(String error);
+
+    void AuthenticationSignOut();
+
 }
