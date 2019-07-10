@@ -349,8 +349,6 @@ public class MainActivity extends AppCompatActivity
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 newsPresenter.authenticationIssuccessful();
-//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                Toast.makeText(this, "" + user.getEmail(), Toast.LENGTH_SHORT).show();
             } else {
                 newsPresenter.authenticationIsFailure(response.getError().getMessage());
             }
