@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NewsAgregator</string>
+    <string name="chooseChannelTxt">Сhoose channel</string>
+    <string name="deleteTxt">Delete</string>
+    <string name="enterChannelText">Enter channel adress</string>
+    <string name="errorInvalidAdress">" Invalid request address"</string>
+    <string name="errorNotFoundChannels">You have no channels added</string>
+    <string name="errorRequest">Request failed</string>
+    <string name="errorToDeleteChannel">Delete failed</string>
+    <string name="get_out_profile_string">" Logout"</string>
+    <string name="menu_add_channel">Add channel</string>
+    <string name="menu_all_channels">My channels</string>
+    <string name="menu_remove_channel">Delete channel</string>
+    <string name="menu_tools">Preferences</string>
+    <string name="noAppText">No applications found</string>
+    <string name="shareText">Share</string>
+    <string name="you_have_are_channel_text">You have already added such a channel.</string>
+</resources>

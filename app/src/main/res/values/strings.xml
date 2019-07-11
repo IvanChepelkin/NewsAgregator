@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">NewsAgregator</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Agregator News</string>
-    <string name="nav_header_subtitle">https://github.com/IvanChepelkin/NewsAgregator</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="title_activity_main2" translatable="false">Main2Activity</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Agregator News</string>
+    <string name="nav_header_subtitle" translatable="false">https://github.com/IvanChepelkin/NewsAgregator</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="menu_all_channels">Мои каналы</string>
     <string name="menu_add_channel">Добавить канал</string>
@@ -13,7 +13,7 @@
     <string name="menu_tools">Настройки</string>
     <string name="chooseChannelTxt">Выберите канал</string>
     <string name="deleteTxt">Удалить</string>
-    <string name="okText">OK</string>
+    <string name="okText" translatable="false">OK</string>
     <string name="enterChannelText">Введите адрес канала</string>
     <string name="errorNotFoundChannels">У вас нет добавленных каналов</string>
     <string name="errorInvalidAdress">Неправильный адрес запроса</string>
